@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "983336273281",
+    "firebase_url": "https://house-cleaning-55b73-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "house-cleaning-55b73",
+    "storage_bucket": "house-cleaning-55b73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983336273281:android:8bac04cfedefcd09e35480",
+        "android_client_info": {
+          "package_name": "com.example.house_cleaning_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983336273281-a68ip6aj4kfkh5gfbh4ldsvhi4dnrein.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG_1FpprNeIOzici3dJQoe-Zrk_C4Hn_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983336273281-a68ip6aj4kfkh5gfbh4ldsvhi4dnrein.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

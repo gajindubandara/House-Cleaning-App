@@ -1,13 +1,18 @@
 <resources>
-    <string name="app_name">House-Cleaning-App</string>
+    <string name="app_name">House Cleaning</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">House Cleaning</string>
+    <string name="nav_header_subtitle">housecleaning@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_home">House Cleaning</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_register">Register</string>
+    <string name="menu_profile">My profile</string>
+    <string name="menu_myposts">My posts</string>
+    <string name="menu_exit">Exit</string>
 </resources>
