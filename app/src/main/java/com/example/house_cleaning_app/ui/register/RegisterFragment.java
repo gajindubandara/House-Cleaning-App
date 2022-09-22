@@ -1,4 +1,4 @@
-package com.example.house_cleaning_app.ui.reg;
+package com.example.house_cleaning_app.ui.register;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,15 +25,13 @@ import com.example.house_cleaning_app.data.passwordHash;
 import com.example.house_cleaning_app.model.User;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
 
-import java.io.Console;
-
 public class RegisterFragment extends Fragment {
 
     private RegisterViewModel mViewModel;
     private RadioButton radioButton;
     TextView txtxLog;
     RadioButton rbtnCon, rbtnCus;
-    EditText txtName,txtAddress,txtLocation,txtEmail,txtNum,txtPw,txtCpw;
+    EditText txtName,txtAddress,txtEmail,txtNum,txtPw,txtCpw;
     RadioGroup rg;
     Button btnRegister;
 
@@ -50,11 +48,10 @@ public class RegisterFragment extends Fragment {
        txtxLog =view.findViewById(R.id.txtLog);
        rbtnCon= view.findViewById(R.id.rbtnCon);
        rbtnCus= view.findViewById(R.id.rbtnCus);
-       txtName = view.findViewById(R.id.txtName);
-       txtAddress = view.findViewById(R.id.txtAddress);
-       txtLocation = view.findViewById(R.id.txtLocation);
-       txtEmail = view.findViewById(R.id.txtEmail);
-       txtNum = view.findViewById(R.id.txtNum);
+       txtName = view.findViewById(R.id.txtDate);
+       txtAddress = view.findViewById(R.id.Loc);
+       txtEmail = view.findViewById(R.id.txtNoOfRooms);
+       txtNum = view.findViewById(R.id.txtNoOfBathrooms);
        txtPw = view.findViewById(R.id.txtPw);
        txtCpw = view.findViewById(R.id.txtCpw);
        rbtnCon = view.findViewById(R.id.rbtnCon);
@@ -65,6 +62,8 @@ public class RegisterFragment extends Fragment {
        rg = view.findViewById(R.id.rg);
 
         UserDB udb=new UserDB();
+
+
        btnRegister.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -78,13 +77,12 @@ public class RegisterFragment extends Fragment {
                        int id = 00;
                        String name = txtName.getText().toString();
                        String address = txtAddress.getText().toString();
-                       String location = txtLocation.getText().toString();
                        String email = txtEmail.getText().toString();
                        String num = txtNum.getText().toString();
                        String hashPW = passwordHash.getMd5(txtPw.getText().toString());
                        String type = radioButton.getText().toString();
 
-                       User user=new User(id,type,name,address,location,email,num,hashPW);
+                       User user=new User(id,type,name,address,email,num,hashPW);
 
                        int result=udb.addUser(user);
 
@@ -133,10 +131,6 @@ public class RegisterFragment extends Fragment {
         }
         if (txtAddress.getText().toString().equals("")) {
             Toast.makeText(getActivity().getApplicationContext(),"Address cannot be blank",Toast.LENGTH_LONG).show();
-            return false;
-        }
-        if (txtLocation.getText().toString().equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(),"Location cannot be blank",Toast.LENGTH_LONG).show();
             return false;
         }
         if (txtEmail.getText().toString().equals("")) {

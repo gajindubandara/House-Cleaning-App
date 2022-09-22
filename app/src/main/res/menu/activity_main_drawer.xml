@@ -21,13 +21,19 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_profile" />
         <item
+            android:id="@+id/nav_add"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_addpost" />
+        <item
             android:id="@+id/nav_myPosts"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_myposts" />
+
         <item
             android:id="@+id/nav_exit"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_exit" />
+
 
     </group>
 </menu>

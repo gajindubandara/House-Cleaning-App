@@ -2,15 +2,14 @@ package com.example.house_cleaning_app;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 
 import com.example.house_cleaning_app.ui.home.HomeFragment;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
 import com.example.house_cleaning_app.ui.myPosts.MyPostsFragment;
+import com.example.house_cleaning_app.ui.newPost.AddpostFragment;
 import com.example.house_cleaning_app.ui.profile.ProfileFragment;
-import com.example.house_cleaning_app.ui.reg.RegisterFragment;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.house_cleaning_app.ui.register.RegisterFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_login,R.id.nav_register)
+                R.id.nav_home,R.id.nav_login,R.id.nav_register,R.id.nav_myPosts,R.id.nav_profile)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -80,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(menuID ==R.id.nav_myPosts){
                      MyPostsFragment fragment =new MyPostsFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
+                else if(menuID ==R.id.nav_add){
+                    AddpostFragment fragment =new AddpostFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
                 else if (menuID==R.id.nav_exit){

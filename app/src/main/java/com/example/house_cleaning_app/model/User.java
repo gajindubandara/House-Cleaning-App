@@ -6,7 +6,6 @@ public class User {
     private String type;
     private String name;
     private String address;
-    private String location;
     private String email;
     private String number;
     private String password;
@@ -16,12 +15,11 @@ public class User {
     public User() {
     }
 
-    public User(int userID, String type, String name, String address, String location, String email, String number, String password) {
+    public User(int userID, String type, String name, String address, String email, String number, String password) {
         this.userID = userID;
         this.type = type;
         this.name = name;
         this.address = address;
-        this.location = location;
         this.email = email;
         this.number = number;
         this.password = password;
@@ -57,14 +55,6 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getEmail() {

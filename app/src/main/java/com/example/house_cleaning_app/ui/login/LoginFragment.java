@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.house_cleaning_app.R;
-import com.example.house_cleaning_app.ui.reg.RegisterFragment;
+import com.example.house_cleaning_app.ui.register.RegisterFragment;
 
 public class LoginFragment extends Fragment {
 

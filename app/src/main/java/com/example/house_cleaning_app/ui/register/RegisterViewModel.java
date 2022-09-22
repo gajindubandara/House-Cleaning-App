@@ -1,4 +1,4 @@
-package com.example.house_cleaning_app.ui.reg;
+package com.example.house_cleaning_app.ui.register;
 
 import androidx.lifecycle.ViewModel;
 

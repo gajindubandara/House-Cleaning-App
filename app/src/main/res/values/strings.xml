@@ -14,5 +14,21 @@
     <string name="menu_register">Register</string>
     <string name="menu_profile">My profile</string>
     <string name="menu_myposts">My posts</string>
+    <string name="menu_addpost">New Post</string>
     <string name="menu_exit">Exit</string>
+    <string name="api_key">AIzaSyCBGsKIfJT2qrmHre9yNlRxQY2zlyr_EXw</string>
+
+    <string-array name="languages">
+        <item>C</item>
+        <item>C++</item>
+        <item>Java</item>
+        <item>JavaScript</item>
+        <item>VisualBasic</item>
+    </string-array>
+    <string name="title_activity_maps">MapsActivity</string>
+
+    <!--    <resources>-->
+    <!--        <string name="app">dropDownMenuExample</string>-->
+
+    <!--    </resources>-->
 </resources>

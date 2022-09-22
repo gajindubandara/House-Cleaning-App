@@ -24,22 +24,27 @@
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/nav_register"
-        android:name="com.example.house_cleaning_app.ui.reg.RegisterFragment"
+        android:name="com.example.house_cleaning_app.ui.register.RegisterFragment"
         android:label="@string/menu_register"
         tools:layout="@layout/fragment_register" />
     <fragment
-        android:id="@+id/logFragment"
+        android:id="@+id/nav_login"
         android:name="com.example.house_cleaning_app.ui.login.LoginFragment"
         android:label="@string/menu_login"
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.house_cleaning_app.ui.profile.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="My Profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/nav_myPosts"
         android:name="com.example.house_cleaning_app.ui.myPosts.MyPostsFragment"
-        android:label="fragment_my_posts"
+        android:label="My Posts"
         tools:layout="@layout/fragment_my_posts" />
+    <fragment
+        android:id="@+id/nav_add"
+        android:name="com.example.house_cleaning_app.ui.newPost.AddpostFragment"
+        android:label="@string/menu_addpost"
+        tools:layout="@layout/fragment_addpost" />
 </navigation>
