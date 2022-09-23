@@ -2,7 +2,7 @@ package com.example.house_cleaning_app.model;
 
 public class User {
 
-    private int userID;
+    private String NIC;
     private String type;
     private String name;
     private String address;
@@ -15,8 +15,8 @@ public class User {
     public User() {
     }
 
-    public User(int userID, String type, String name, String address, String email, String number, String password) {
-        this.userID = userID;
+    public User(String NIC, String type, String name, String address, String email, String number, String password) {
+        this.NIC = NIC;
         this.type = type;
         this.name = name;
         this.address = address;
@@ -25,12 +25,12 @@ public class User {
         this.password = password;
     }
 
-    public int getUserID() {
-        return userID;
+    public String getUserNIC() {
+        return NIC;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserNIC(String NIC) {
+        this.NIC = NIC;
     }
 
     public String getType() {

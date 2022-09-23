@@ -27,6 +27,7 @@ public class JobDB implements IJob{
             return 1;
         }
         catch(Exception ex){
+
             return 0;
         }
     }

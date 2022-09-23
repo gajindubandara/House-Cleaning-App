@@ -24,16 +24,20 @@ import com.example.house_cleaning_app.data.UserDB;
 import com.example.house_cleaning_app.data.passwordHash;
 import com.example.house_cleaning_app.model.User;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterFragment extends Fragment {
 
     private RegisterViewModel mViewModel;
     private RadioButton radioButton;
-    TextView txtxLog;
+    TextView txtLog;
     RadioButton rbtnCon, rbtnCus;
-    EditText txtName,txtAddress,txtEmail,txtNum,txtPw,txtCpw;
+    EditText txtNIC,txtName,txtAddress,txtEmail,txtNum,txtPw,txtCpw;
     RadioGroup rg;
     Button btnRegister;
+    DatabaseReference referance;
+    FirebaseDatabase rootNode;
 
 
 
@@ -45,17 +49,17 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_register, container, false);
-       txtxLog =view.findViewById(R.id.txtLog);
+       txtLog =view.findViewById(R.id.txtLog);
        rbtnCon= view.findViewById(R.id.rbtnCon);
        rbtnCus= view.findViewById(R.id.rbtnCus);
-       txtName = view.findViewById(R.id.txtDate);
-       txtAddress = view.findViewById(R.id.Loc);
-       txtEmail = view.findViewById(R.id.txtNoOfRooms);
-       txtNum = view.findViewById(R.id.txtNoOfBathrooms);
+       txtNIC = view.findViewById(R.id.txtNIC);
+       txtName = view.findViewById(R.id.Name);
+       txtAddress = view.findViewById(R.id.Address);
+       txtEmail = view.findViewById(R.id.Email);
+       txtNum = view.findViewById(R.id.Num);
        txtPw = view.findViewById(R.id.txtPw);
        txtCpw = view.findViewById(R.id.txtCpw);
-       rbtnCon = view.findViewById(R.id.rbtnCon);
-       rbtnCus = view.findViewById(R.id.rbtnCus);
+
        btnRegister = view.findViewById(R.id.btnRegister);
        rbtnCus.setChecked(true);
 
@@ -68,13 +72,14 @@ public class RegisterFragment extends Fragment {
            @Override
            public void onClick(View v) {
 
+                boolean check =false;
                int selectedId = rg.getCheckedRadioButtonId();
                radioButton = view.findViewById(selectedId);
 
                 //Validation
                if (checkValid()){
                    if(txtPw.getText().toString().equals(txtCpw.getText().toString())){
-                       int id = 00;
+                       String nic = txtNIC.getText().toString();
                        String name = txtName.getText().toString();
                        String address = txtAddress.getText().toString();
                        String email = txtEmail.getText().toString();
@@ -82,27 +87,34 @@ public class RegisterFragment extends Fragment {
                        String hashPW = passwordHash.getMd5(txtPw.getText().toString());
                        String type = radioButton.getText().toString();
 
-                       User user=new User(id,type,name,address,email,num,hashPW);
+                       User user=new User(nic,type,name,address,email,num,hashPW);
 
-                       int result=udb.addUser(user);
+                       //saving data to DB
+                       try{
+                           rootNode = FirebaseDatabase.getInstance();
+                           referance=rootNode.getReference("User");
+                           referance.child(user.getUserNIC()).setValue(user);
+                           check=true;
+                       }
+                       catch(Exception ex){
+                         throw ex;
+                       }
 
-                       if (result == 1) {
+                       if (check) {
                            Toast.makeText(getActivity().getApplicationContext(),"New record added",Toast.LENGTH_LONG).show();
                        }
                        else{
                            Toast.makeText(getActivity().getApplicationContext(),"New record not added",Toast.LENGTH_LONG).show();
                        }
-
                    }
                    else{
                        Toast.makeText(getActivity().getApplicationContext(),"Passwords dose not match",Toast.LENGTH_LONG).show();
                    }
-
                }
            }
        });
 
-       txtxLog.setOnClickListener(new View.OnClickListener() {
+       txtLog.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
@@ -125,6 +137,10 @@ public class RegisterFragment extends Fragment {
 
 
     private boolean checkValid() {
+        if (txtNIC.getText().toString().equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(),"NIC cannot be blank",Toast.LENGTH_LONG).show();
+            return false;
+        }
         if (txtName.getText().toString().equals("")) {
             Toast.makeText(getActivity().getApplicationContext(),"Name cannot be blank",Toast.LENGTH_LONG).show();
             return false;

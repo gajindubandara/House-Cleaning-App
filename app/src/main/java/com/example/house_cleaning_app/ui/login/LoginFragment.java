@@ -18,13 +18,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.house_cleaning_app.R;
+import com.example.house_cleaning_app.data.passwordHash;
 import com.example.house_cleaning_app.ui.register.RegisterFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginFragment extends Fragment {
 
     private LoginViewModel mViewModel;
     TextView txtReg;
-    EditText txtEmail,txtPw;
+    EditText txtNIC,txtPw;
     Button btnLog;
 
     public static LoginFragment newInstance() {
@@ -37,7 +44,7 @@ public class LoginFragment extends Fragment {
          View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         txtReg = view.findViewById(R.id.txtLog);
-        txtEmail =view.findViewById(R.id.txtLogEmail);
+        txtNIC =view.findViewById(R.id.txtLogNic);
         txtPw=view.findViewById(R.id.txtLogPw);
         btnLog =view.findViewById(R.id.btnLogin);
 
@@ -48,7 +55,42 @@ public class LoginFragment extends Fragment {
                 //Validation
                 if (checkValid()){
 
-                    Toast.makeText(getActivity().getApplicationContext(),"DONE",Toast.LENGTH_LONG).show();
+                    final String enteredNIC = txtNIC.getText().toString();
+                    final String enteredPW = passwordHash.getMd5(txtPw.getText().toString());;
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+                    Query checkUser = reference.orderByChild("userNIC").equalTo(enteredNIC);
+
+                    checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+
+                                String passwordFromDB =snapshot.child(enteredNIC).child("password").getValue(String.class);
+
+                                if(passwordFromDB.equals(enteredPW)){
+                                    LoginCheck.NIC = enteredNIC;
+                                    Toast.makeText(getActivity().getApplicationContext(),"password correct",Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Toast.makeText(getActivity().getApplicationContext(),"Wrong password",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            else{
+
+                                Toast.makeText(getActivity().getApplicationContext(),"Wrong NIC or password",Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+
+//                    Toast.makeText(getActivity().getApplicationContext(),"DONE",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -73,7 +115,7 @@ public class LoginFragment extends Fragment {
         // TODO: Use the ViewModel
     }
     private boolean checkValid() {
-        if (txtEmail.getText().toString().equals("")) {
+        if (txtNIC.getText().toString().equals("")) {
             Toast.makeText(getActivity().getApplicationContext(),"Email cannot be blank",Toast.LENGTH_LONG).show();
             return false;
         }

@@ -7,11 +7,11 @@ import java.util.ArrayList;
 public interface IUser {
     int addUser(User user);
 
-    int deleteUser(int id);
+    int deleteUser(String nic);
 
     int updateUser(User user);
 
-    User getUser(int id);
+    User getUser(String nic);
 
     ArrayList<User> getAll();
 
