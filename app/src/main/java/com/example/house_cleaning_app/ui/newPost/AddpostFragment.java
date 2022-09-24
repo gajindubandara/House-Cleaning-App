@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,8 +36,25 @@ import android.widget.Toast;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.data.JobDB;
 import com.example.house_cleaning_app.model.Job;
+import com.example.house_cleaning_app.ui.login.LoginCheck;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -52,6 +70,17 @@ public class AddpostFragment extends Fragment {
     Bitmap pic;
     boolean BrPicCheck= false;
     boolean RPicCheck= false;
+    DatabaseReference referance;
+    FirebaseDatabase rootNode;
+    private Uri imgRoomUri;
+    private Uri imgBathroomUri;
+    private StorageTask uploadTask;
+    String key;
+    StorageReference storageReference;
+    String imageRefR =" ";
+    String imageRefBr =" ";
+
+
 
     public static AddpostFragment newInstance() {
         return new AddpostFragment();
@@ -113,18 +142,30 @@ public class AddpostFragment extends Fragment {
             @Override
             public void onActivityResult(ActivityResult result) {
                 Intent intent = result.getData();
+//                imgRoomUri = intent.getData();
                 pic =(Bitmap) intent.getExtras().get("data");
                 imgR.setImageBitmap(pic);
                 RPicCheck= true;
+                imgR.setImageBitmap(pic);
+
+                Bitmap imgRoomBitmap =(Bitmap) intent.getExtras().get("data");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                imgRoomBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+                String  path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(),imgRoomBitmap,"val",null);
+                imgRoomUri =Uri.parse(path);
+
             }
         });
+
+
+
 
         ActivityResultLauncher galleryLauncher1 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
                 Intent intent = result.getData();
-                Uri selectedimage = intent.getData();
-                imgR.setImageURI(selectedimage);
+                imgRoomUri = intent.getData();
+                imgR.setImageURI(imgRoomUri);
                 pic = ((BitmapDrawable)imgR.getDrawable()).getBitmap();
                 RPicCheck= true;
             }
@@ -159,18 +200,27 @@ public class AddpostFragment extends Fragment {
             @Override
             public void onActivityResult(ActivityResult result) {
                 Intent intent = result.getData();
+//                imgBathroomUri = intent.getData();
                 pic =(Bitmap) intent.getExtras().get("data");
                 imgBR.setImageBitmap(pic);
                 BrPicCheck= true;
+
+                Bitmap imgRoomBitmap =(Bitmap) intent.getExtras().get("data");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                imgRoomBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+                String  path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(),imgRoomBitmap,"val",null);
+                imgBathroomUri =Uri.parse(path);
             }
         });
+
 
         ActivityResultLauncher galleryLauncher2 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
                 Intent intent = result.getData();
-                Uri selectedimage = intent.getData();
-                imgBR.setImageURI(selectedimage);
+                imgBathroomUri = intent.getData();
+//                Uri selectedimage = intent.getData();
+                imgBR.setImageURI(imgBathroomUri);
                 pic = ((BitmapDrawable)imgBR.getDrawable()).getBitmap();
                 BrPicCheck= true;
             }
@@ -230,20 +280,25 @@ public class AddpostFragment extends Fragment {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rootNode = FirebaseDatabase.getInstance();
+                referance=rootNode.getReference("Job");
 
 
                 //Validation
                 if (checkValid()){
 
-                        int id = 00;
+                        int id = 1;
                         String date = editDate.getText().toString();
                         String loc = "http://www.google.com/maps/place/"+editLoc.getText().toString();
                         String nor = editNoOfR.getText().toString();
                         String roomFloor = roomF.getSelectedItem().toString();
                         String bathroomFloor = bathroomF.getSelectedItem().toString();
                         String nobr = editNoOfBr.getText().toString();
-                        String image ="";
-                        String user = "ben";
+                        String user = LoginCheck.getNIC();
+//                        String user = "1";
+                        String status ="open";
+
+
 
 
                         int RSqFt = Integer.valueOf(editRSqFt.getText().toString());
@@ -277,21 +332,118 @@ public class AddpostFragment extends Fragment {
                         //Calculate total price
                         String price =String.valueOf(priceForBathrooms+priceForRooms);
 
+//                    //checking the job number
+//                    try {
+//                        referance = FirebaseDatabase.getInstance().getReference("jobNo");
+//                        Query checkNo = referance.orderByChild("no");
+//                        checkNo.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                if(snapshot.exists()){
+//                                    lastJobNo =snapshot.child("no").getValue(int.class);
+//                                }
+//                            }
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {}
+//                        });
+//                    } catch (Exception ex) {
+//                        throw ex;
+//                    }
+
+
+
+
+                    //Storing the job data
+                    try{
+//                         newJobNo = lastJobNo +1;
                         //creating object
-                        Job job=new Job(id,loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,image);
+                        Job job=new Job(loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, imageRefR,imageRefBr);
 
-                        //sending to databqse
-                        int result=jdb.addJob(job);
+                        //Sending data to the database
+                        rootNode = FirebaseDatabase.getInstance();
+                        referance = rootNode.getReference("Job");
+                        referance.push().setValue(job);
+                    }catch(Exception ex)
+                    {
+                        throw ex;
+                    }
 
-                        if (result == 1) {
-                            Toast.makeText(getActivity().getApplicationContext(),"New post added",Toast.LENGTH_LONG).show();
+
+
+
+                    //getting the key
+                    rootNode = FirebaseDatabase.getInstance();
+                    referance = rootNode.getReference("Job");
+                    referance.limitToLast(1).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s)
+                        {
+                            if (dataSnapshot.exists())
+                            {
+                               key = dataSnapshot.getKey();
+                               // uploading image
+                                try {
+                                    storageReference = FirebaseStorage.getInstance().getReference();
+                                    if (imgRoomUri != null && imgBathroomUri != null) {
+                                        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                                        progressDialog.setTitle("Positing...");
+                                        progressDialog.show();
+                                        StorageReference rRef = storageReference.child("images/" + key +"/Room"+ imgRoomUri.getLastPathSegment());
+                                        StorageReference brRef = storageReference.child("images/" + key +"/Bathroom"+imgBathroomUri.getLastPathSegment());
+                                        uploadTask = rRef.putFile(imgRoomUri);
+                                        uploadTask = brRef.putFile(imgBathroomUri);
+                                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                StorageMetadata snapshotMetadata = taskSnapshot.getMetadata();
+                                                Task<Uri> downloadUrlR = rRef.getDownloadUrl();
+                                                Task<Uri> downloadUrlBR = brRef.getDownloadUrl();
+
+                                                downloadUrlR.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        imageRefR = uri.toString();
+                                                        referance = rootNode.getReference("Job");
+                                                        referance.child(key).child("imageR").setValue(imageRefR);
+                                                        progressDialog.dismiss();
+                                                    }
+                                                });
+                                                downloadUrlBR.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        imageRefBr = uri.toString();
+                                                        referance = rootNode.getReference("Job");
+                                                        referance.child(key).child("imageBr").setValue(imageRefBr);
+                                                        progressDialog.dismiss();
+//                                                        referance = FirebaseDatabase.getInstance().getReference("jobNo");
+//                                                        referance.child("no").setValue(newJobNo);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                }catch(Exception ex){
+                                    throw ex;
+                                }
+                            }
                         }
-                        else{
-                            Toast.makeText(getActivity().getApplicationContext(),"New post not added",Toast.LENGTH_LONG).show();
-                        }
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) { }
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) { }
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @androidx.annotation.Nullable String previousChilddemo) { }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) { }
+                    });
 
+//                    if (check) {
+//                        Toast.makeText(getActivity().getApplicationContext(), "New post added" +key, Toast.LENGTH_LONG).show();
+//                    } else {
+//                        Toast.makeText(getActivity().getApplicationContext(), "New post not added", Toast.LENGTH_LONG).show();
+//                    }
+                    }
                 }
-            }
         });
        return view;
     }

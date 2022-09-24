@@ -1,0 +1,110 @@
+    .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//
+////                                        Task<Uri> downloadUri =ref.getDownloadUrl();
+////                                        myUri = downloadUri.toString();
+//
+//                                        Toast.makeText(getActivity().getApplicationContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                                    @Override
+//                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                                        double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+//                                                .getTotalByteCount());
+////                                        progressDialog.setMessage("Uploaded "+(int)progress+"%");
+//                                    }
+//                                });
+//                    }
+
+//                    if (imageRoomUri!=null){
+//                        final StorageReference fileRef =storageProfilePicRef.child(user+".jpg");
+//                        uploadTask =fileRef.putFile(imageRoomUri);
+//                        uploadTask.continueWithTask(new Continuation() {
+//                            @Override
+//                            public Object then(@NonNull Task task) throws Exception {
+//                                if(!task.isSuccessful()){
+//                                    throw task.getException();
+//                                }
+//                                return fileRef.getDownloadUrl();
+//                            }
+//                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Uri> task) {
+//                                if(task.isSuccessful()){
+//                                    Uri downloadUri =task.getResult();
+//                                    myUri = downloadUri.toString();
+//                                }
+//                            }
+//                        });
+//                    }
+
+
+
+
+
+//            private void uploadProfileImage() {
+////                final ProgressDialog progressDialog =new ProgressDialog();
+////                progressDialog.setTitle("Set your image");
+////                progressDialog.setMessage("Please wait setting. gur data");
+//
+//                if (imgR!=null){
+//                    final StorageReference fileRef =storageProfilePicRef.child(mAuth.getCurrentUser().getUid()+".jpg");
+//                    uploadTask =fileRef.putFile(imageUri);
+//                    uploadTask.continueWithTask(new Continuation() {
+//                        @Override
+//                        public Object then(@NonNull Task task) throws Exception {
+//                            if(!task.isSuccessful()){
+//                                throw task.getException();
+//                            }
+//                            return fileRef.getDownloadUrl();
+//                        }
+//                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Uri> task) {
+//                            if(task.isSuccessful()){
+//
+//                                Uri downloadUri =task.getResult();
+//                                myUri = downloadUri.toString();
+//
+////                                HashMap<String,Object> usermap =new HashMap<>();
+////                                usermap.put("image",myUri);
+////                                referance.child(mAuth.getCurrentUser().getUid().updateChildren(usermap));
+//////                                progressDialog.dismiss();
+//                            }
+//                        }
+//                    });
+//                }
+//
+//
+//            }
+
+
+
+
+
+
+//                    if(imgRoomUri != null) {
+//                        StorageReference ref = storageReference.child("images/" +user+ imgRoomUri.getLastPathSegment());
+//                        uploadTask = ref.putFile(imgRoomUri);
+//
+//                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                            @Override
+//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                                StorageMetadata snapshotMetadata = taskSnapshot.getMetadata();
+//                                Task<Uri> downloadUrl = ref.getDownloadUrl();
+//
+//                                downloadUrl.addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                    @Override
+//                                    public void onSuccess(Uri uri) {
+//                                        imageRefR = uri.toString();
+//                                        referance = rootNode.getReference("img");
+//                                        referance.child(user).setValue(imageRefR);
+//
+////                                        Toast.makeText(getActivity().getApplicationContext(), "Done ", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                            }
+//                        });
+//                    }

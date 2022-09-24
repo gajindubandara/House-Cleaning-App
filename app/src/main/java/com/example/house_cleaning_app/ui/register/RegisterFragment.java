@@ -36,7 +36,7 @@ public class RegisterFragment extends Fragment {
     EditText txtNIC,txtName,txtAddress,txtEmail,txtNum,txtPw,txtCpw;
     RadioGroup rg;
     Button btnRegister;
-    DatabaseReference referance;
+    DatabaseReference ref;
     FirebaseDatabase rootNode;
 
 
@@ -92,8 +92,8 @@ public class RegisterFragment extends Fragment {
                        //saving data to DB
                        try{
                            rootNode = FirebaseDatabase.getInstance();
-                           referance=rootNode.getReference("User");
-                           referance.child(user.getUserNIC()).setValue(user);
+                           ref =rootNode.getReference("User");
+                           ref.child(user.getUserNIC()).setValue(user);
                            check=true;
                        }
                        catch(Exception ex){

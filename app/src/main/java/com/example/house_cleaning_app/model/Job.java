@@ -1,7 +1,6 @@
 package com.example.house_cleaning_app.model;
 
-public class Job {
-    private int jobID;
+public class Job<status> {
     private String Location;
     private String date;
     private String noOfRooms;
@@ -10,15 +9,15 @@ public class Job {
     private String bFloorType;
     private String price;
     private String user;
-//    private byte[] imgR;
-//    private byte[] imgBr;
-    public String image;
+    private String status;
+    private String imageR;
+    private String imageBr;
+
 
     public Job() {
     }
 
-    public Job(int jobID, String location, String date, String noOfRooms, String floorType, String noOfBathrooms, String bFloorType, String price, String user,String image) {
-        this.jobID = jobID;
+    public Job( String location, String date, String noOfRooms, String floorType, String noOfBathrooms, String bFloorType, String price, String user,String status,String imageR,String imageBr) {
         Location = location;
         this.date = date;
         this.noOfRooms = noOfRooms;
@@ -27,17 +26,9 @@ public class Job {
         this.bFloorType = bFloorType;
         this.price = price;
         this.user = user;
-//        this.imgR = imgR;
-//        this.imgBr = imgBr;
-        this.image = image;
-    }
-
-    public int getJobID() {
-        return jobID;
-    }
-
-    public void setJobID(int jobID) {
-        this.jobID = jobID;
+        this.status = status;
+        this.imageR = imageR;
+        this.imageBr = imageBr;
     }
 
     public String getLocation() {
@@ -104,19 +95,27 @@ public class Job {
         this.user = user;
     }
 
-//    public byte[] getImgR() {
-//        return imgR;
-//    }
-//
-//    public void setImgR(byte[] imgR) {
-//        this.imgR = imgR;
-//    }
-//
-//    public byte[] getImgBr() {
-//        return imgBr;
-//    }
-//
-//    public void setImgBr(byte[] imgBr) {
-//        this.imgBr = imgBr;
-//    }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getImageR() {
+        return imageR;
+    }
+
+    public void setImageR(String imageR) {
+        this.imageR = imageR;
+    }
+
+    public String getImageBr() {
+        return imageBr;
+    }
+
+    public void setImageBr(String imageBr) {
+        this.imageBr = imageBr;
+    }
 }
