@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.house_cleaning_app.R;
+import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.data.UserDB;
 import com.example.house_cleaning_app.data.passwordHash;
 import com.example.house_cleaning_app.model.User;
@@ -72,6 +73,8 @@ public class RegisterFragment extends Fragment {
            @Override
            public void onClick(View v) {
 
+
+
                 boolean check =false;
                int selectedId = rg.getCheckedRadioButtonId();
                radioButton = view.findViewById(selectedId);
@@ -95,17 +98,40 @@ public class RegisterFragment extends Fragment {
                            ref =rootNode.getReference("User");
                            ref.child(user.getUserNIC()).setValue(user);
                            check=true;
+
+                           //Set shared pref for register
+                           SharedPreference preference=new SharedPreference();
+                           preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
+
+                           //Move to login frag
+                           LoginFragment fragment = new LoginFragment();
+                           FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                           trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                           trans.addToBackStack(null);
+                           trans.commit();
+
+                           Toast.makeText(getActivity().getApplicationContext(),"Account Created Successfully!",Toast.LENGTH_LONG).show();
+
+
                        }
                        catch(Exception ex){
-                         throw ex;
+
                        }
 
-                       if (check) {
-                           Toast.makeText(getActivity().getApplicationContext(),"New record added",Toast.LENGTH_LONG).show();
-                       }
-                       else{
-                           Toast.makeText(getActivity().getApplicationContext(),"New record not added",Toast.LENGTH_LONG).show();
-                       }
+
+
+//                       try {
+//
+//                       } catch (InterruptedException e) {
+//                           e.printStackTrace();
+//                       }
+
+//                       if (check) {
+//                           Toast.makeText(getActivity().getApplicationContext(),"New record added",Toast.LENGTH_LONG).show();
+//                       }
+//                       else{
+//                           Toast.makeText(getActivity().getApplicationContext(),"New record not added",Toast.LENGTH_LONG).show();
+//                       }
                    }
                    else{
                        Toast.makeText(getActivity().getApplicationContext(),"Passwords dose not match",Toast.LENGTH_LONG).show();

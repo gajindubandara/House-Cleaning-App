@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.house_cleaning_app.R;
+import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.data.passwordHash;
+import com.example.house_cleaning_app.ui.myPosts.MyPostsFragment;
 import com.example.house_cleaning_app.ui.register.RegisterFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -67,10 +69,28 @@ public class LoginFragment extends Fragment {
                             if(snapshot.exists()){
 
                                 String passwordFromDB =snapshot.child(enteredNIC).child("password").getValue(String.class);
+                                String userTypeFromDB =snapshot.child(enteredNIC).child("type").getValue(String.class);
 
                                 if(passwordFromDB.equals(enteredPW)){
                                     LoginCheck.NIC = enteredNIC;
-                                    Toast.makeText(getActivity().getApplicationContext(),"password correct",Toast.LENGTH_LONG).show();
+
+                                    SharedPreference preference=new SharedPreference();
+                                    preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
+                                    preference.SaveBool(view.getContext(),true,SharedPreference.LOGIN_STATUS);
+//                                   preference.SaveString(view.getContext(),userTypeFromDB,SharedPreference.USER_TYPE);
+                                    preference.SaveString(view.getContext(),enteredNIC,SharedPreference.USER_NIC);
+
+
+                                    //Move to home frag
+                                    FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                                    MyPostsFragment fragment = new MyPostsFragment();
+                                    trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                    trans.addToBackStack(null);
+                                    trans.commit();
+                                    Toast.makeText(getActivity().getApplicationContext(),"Login Successful!",Toast.LENGTH_LONG).show();
+
+
+
                                 }
                                 else{
                                     Toast.makeText(getActivity().getApplicationContext(),"Wrong password",Toast.LENGTH_LONG).show();

@@ -1,7 +1,5 @@
 package com.example.house_cleaning_app.ui.profile;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -15,13 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.house_cleaning_app.R;
-import com.example.house_cleaning_app.data.UserDB;
-import com.example.house_cleaning_app.model.User;
+import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.ui.login.LoginCheck;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,50 +56,56 @@ public class ProfileFragment extends Fragment {
 
         btnUpdate = view.findViewById(R.id.btnUpdate);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
-        Query checkUser = reference.orderByChild("userNIC").equalTo(LoginCheck.getNIC());
+        try{
+//            SharedPreference preference=new SharedPreference();
+            String  userNIC =  LoginCheck.getNIC();
 
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+            Query checkUser = reference.orderByChild("userNIC").equalTo(userNIC);
 
-                    String passwordFromDB =snapshot.child(LoginCheck.getNIC()).child("password").getValue(String.class);
-                    String nameFromDB =snapshot.child(LoginCheck.getNIC()).child("name").getValue(String.class);
-                    String addressFromDB =snapshot.child(LoginCheck.getNIC()).child("address").getValue(String.class);
-                    String emailFromDB =snapshot.child(LoginCheck.getNIC()).child("email").getValue(String.class);
-                    String typeFromDB =snapshot.child(LoginCheck.getNIC()).child("type").getValue(String.class);
-                    String numberFromDB =snapshot.child(LoginCheck.getNIC()).child("number").getValue(String.class);
+            checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+
+                        String passwordFromDB =snapshot.child(LoginCheck.getNIC()).child("password").getValue(String.class);
+                        String nameFromDB =snapshot.child(LoginCheck.getNIC()).child("name").getValue(String.class);
+                        String addressFromDB =snapshot.child(LoginCheck.getNIC()).child("address").getValue(String.class);
+                        String emailFromDB =snapshot.child(LoginCheck.getNIC()).child("email").getValue(String.class);
+                        String typeFromDB =snapshot.child(LoginCheck.getNIC()).child("type").getValue(String.class);
+                        String numberFromDB =snapshot.child(LoginCheck.getNIC()).child("number").getValue(String.class);
 
 
-                    txtNIC.setText(LoginCheck.getNIC());
-                    txtNIC.setEnabled(false);
-                    txtName.setText(nameFromDB);
-                    txtAddress.setText(addressFromDB);
-                    txtEmail.setText(emailFromDB);
-                    txtNum.setText(numberFromDB);
-                    txtPw.setText(passwordFromDB);
-                    txtCpw.setText(passwordFromDB);
-                    txtName.setText(nameFromDB);
+                        txtNIC.setText(LoginCheck.getNIC());
+                        txtNIC.setEnabled(false);
+                        txtName.setText(nameFromDB);
+                        txtAddress.setText(addressFromDB);
+                        txtEmail.setText(emailFromDB);
+                        txtNum.setText(numberFromDB);
+                        txtPw.setText(passwordFromDB);
+                        txtCpw.setText(passwordFromDB);
+                        txtName.setText(nameFromDB);
 
-                    if (typeFromDB.equals("Customer")){
-                        rbtnCus.setChecked(true);
-                    }else{
-                        rbtnCon.setChecked(true);
+                        if (typeFromDB.equals("Customer")){
+                            rbtnCus.setChecked(true);
+                        }else{
+                            rbtnCon.setChecked(true);
+                        }
+
                     }
+                    else{
+
+                        Toast.makeText(getActivity().getApplicationContext(),"Wrong NIC or password",Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-                else{
+            });
+        }catch(Exception ex){}
 
-                    Toast.makeText(getActivity().getApplicationContext(),"Wrong NIC or password",Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
