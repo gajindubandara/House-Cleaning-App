@@ -1,13 +1,6 @@
 package com.example.house_cleaning_app.ui.profile;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +9,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.house_cleaning_app.R;
-import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.ui.login.LoginCheck;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -85,9 +82,12 @@ public class ProfileFragment extends Fragment {
                         txtPw.setText(passwordFromDB);
                         txtCpw.setText(passwordFromDB);
                         txtName.setText(nameFromDB);
+                        rbtnCus.setEnabled(false);
+                        rbtnCon.setEnabled(false);
 
                         if (typeFromDB.equals("Customer")){
                             rbtnCus.setChecked(true);
+
                         }else{
                             rbtnCon.setChecked(true);
                         }

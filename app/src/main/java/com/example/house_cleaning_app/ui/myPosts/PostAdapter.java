@@ -1,5 +1,7 @@
 package com.example.house_cleaning_app.ui.myPosts;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +26,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     FirebaseDatabase fdb;
     List<Job> jobList;
     TextView text;
+    private Context context;
+
 
     public PostAdapter(List<Job> jobs, FirebaseDatabase _db){
 
@@ -30,21 +35,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         fdb = _db;
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View eventItems = inflater.inflate(R.layout.post_item,parent,false);
         ViewHolder holder = new ViewHolder(eventItems);
+        context = parent.getContext();
         return holder;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
         Job job = jobList.get(position);
         holder.txtDate.setText(job.getDate());
         holder.txtPrice.setText("Rs. "+job.getPrice()+".00/-");
         holder.txtStatus.setText(job.getStatus());
+        if(job.getStatus().equals("Open")){
+            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_green_dot));
+//            holder.txtStatus.setTextColor(R.color.green);
+        }else if(job.getStatus().equals("Assigned")){
+           holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_dot));
+//           holder.txtStatus.setTextColor(R.color.red);
+        }
 
 
 
@@ -71,7 +86,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtDate, txtPrice, txtStatus;
-        ImageView imgVE;
+        ImageView imgDot;
         ImageButton imgBtnLoc;
         Button viewBtn;
         public ViewHolder(@NonNull View itemView) {
@@ -80,6 +95,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             txtPrice =itemView.findViewById(R.id.txtPrice);
             txtStatus =itemView.findViewById(R.id.txtStatus);
             viewBtn =itemView.findViewById(R.id.btnViewJob);
+            imgDot = itemView.findViewById(R.id.imgDot);
 
 //            imgVE = itemView.findViewById(R.id.imgVE);
 //            imgbtnEdit =itemView.findViewById(R.id.imgbtnEdit);
@@ -89,6 +105,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         }
     }
+
+
 
 
 

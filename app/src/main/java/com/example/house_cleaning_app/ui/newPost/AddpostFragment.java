@@ -292,7 +292,7 @@ public class AddpostFragment extends Fragment {
                         String nobr = editNoOfBr.getText().toString();
                         String user = LoginCheck.getNIC();
 //                        String user = "1";
-                        String status ="open";
+                        String status ="Open";
 
 
 

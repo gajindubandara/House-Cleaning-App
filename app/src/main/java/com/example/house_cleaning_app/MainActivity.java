@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,42 +67,31 @@ public class MainActivity extends AppCompatActivity {
 
         //check register
         if (register){
+            Menu menu = navigationView.getMenu();
+            MenuItem item=menu.findItem(R.id.nav_register);
+            item.setVisible(false);
             //check login
             if(status) {
+
+//                    EnableOnLogin(false);
+//                EnableOnLogin();
+//                Menu menu = navigationView.getMenu();
+//                MenuItem item=menu.findItem(R.id.nav_login);
+//                item.setVisible(false);
+                item=menu.findItem(R.id.nav_login);
+                item.setVisible(false);
+
                 String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
                 LoginCheck.setNIC(nic);
                 ProfileFragment fragment = new ProfileFragment();
                 trans.replace(R.id.nav_host_fragment_content_main, fragment);
                 trans.addToBackStack(null);
                 trans.commit();
-
-//                EnableOnLogin();
-                Menu menu = navigationView.getMenu();
-                MenuItem itemM=menu.findItem(R.id.nav_allPosts);
-                itemM.setVisible(status);
-                itemM=menu.findItem(R.id.nav_add);
-                itemM.setVisible(status);
-                itemM=menu.findItem(R.id.nav_home);
-                itemM.setVisible(status);
-                itemM=menu.findItem(R.id.nav_profile);
-                itemM.setVisible(status);
-                itemM=menu.findItem(R.id.nav_logout);
-                itemM.setVisible(status);
-                itemM=menu.findItem(R.id.nav_login);
-                itemM.setVisible(false);
-                itemM=menu.findItem(R.id.nav_register);
-                itemM.setVisible(false);
             }
             else {
-                LoginFragment fragment = new LoginFragment();
-                trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                trans.addToBackStack(null);
-                trans.commit();
 
-//                EnableMenu(false);
-
-                Menu menu = navigationView.getMenu();
-                MenuItem item=menu.findItem(R.id.nav_allPosts);
+                menu = navigationView.getMenu();
+                item=menu.findItem(R.id.nav_allPosts);
                 item.setVisible(false);
                 item=menu.findItem(R.id.nav_add);
                 item.setVisible(false);
@@ -111,21 +101,21 @@ public class MainActivity extends AppCompatActivity {
                 item.setVisible(false);
                 item=menu.findItem(R.id.nav_logout);
                 item.setVisible(false);
-                item=menu.findItem(R.id.nav_login);
-                item.setVisible(true);
-                item=menu.findItem(R.id.nav_register);
-                item.setVisible(false);
+
+
+                LoginFragment fragment = new LoginFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+
+
             }
         }
         else {
-            RegisterFragment fragment = new RegisterFragment();
-            trans.replace(R.id.nav_host_fragment_content_main,fragment);
-            trans.addToBackStack(null);
-            trans.commit();
-
-//            EnableMenu(false);
             Menu menu = navigationView.getMenu();
-            MenuItem item=menu.findItem(R.id.nav_allPosts);
+            MenuItem item=menu.findItem(R.id.nav_register);
+            menu = navigationView.getMenu();
+            item=menu.findItem(R.id.nav_allPosts);
             item.setVisible(false);
             item=menu.findItem(R.id.nav_add);
             item.setVisible(false);
@@ -135,8 +125,14 @@ public class MainActivity extends AppCompatActivity {
             item.setVisible(false);
             item=menu.findItem(R.id.nav_logout);
             item.setVisible(false);
-            item=menu.findItem(R.id.nav_register);
-            item.setVisible(true);
+
+            RegisterFragment fragment = new RegisterFragment();
+            trans.replace(R.id.nav_host_fragment_content_main,fragment);
+            trans.addToBackStack(null);
+            trans.commit();
+
+
+
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -183,40 +179,41 @@ public class MainActivity extends AppCompatActivity {
 //                    preference.SaveString(getApplicationContext(),null,SharedPreference.USER_TYPE);
                     preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
 //                    EnableMenu(false);
-                    Menu menu = navigationView.getMenu();
-                    MenuItem itemM=menu.findItem(R.id.nav_allPosts);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_add);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_home);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_profile);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_logout);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_login);
-                    itemM.setVisible(true);
+
+//                    Menu menu = navigationView.getMenu();
+//                    MenuItem itemM=menu.findItem(R.id.nav_allPosts);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_add);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_home);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_profile);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_logout);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_login);
+//                    itemM.setVisible(true);
                 }
                 else if (menuID==R.id.nav_unReg){
                     RegisterFragment fragment = new RegisterFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                     trans.addToBackStack(null);
                     preference.SaveBool(getApplicationContext(),false,SharedPreference.REGISTER);
-                    Menu menu = navigationView.getMenu();
-                    MenuItem itemM=menu.findItem(R.id.nav_allPosts);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_add);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_home);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_profile);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_logout);
-                    itemM.setVisible(false);
-                    itemM=menu.findItem(R.id.nav_login);
-                    itemM.setVisible(true);
-                    itemM=menu.findItem(R.id.nav_register);
-                    itemM.setVisible(false);
+//                    Menu menu = navigationView.getMenu();
+//                    MenuItem itemM=menu.findItem(R.id.nav_allPosts);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_add);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_home);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_profile);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_logout);
+//                    itemM.setVisible(false);
+//                    itemM=menu.findItem(R.id.nav_login);
+//                    itemM.setVisible(true);
+//                    itemM=menu.findItem(R.id.nav_register);
+//                    itemM.setVisible(false);
                 }
                 trans.addToBackStack(null);
                 trans.commit();
@@ -244,24 +241,32 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
-     public  void EnableOnLogin()
+     public  void EnableOnLogin(Boolean status)
      {
          Menu menu = navigationView.getMenu();
-         MenuItem itemM=menu.findItem(R.id.nav_allPosts);
-         itemM.setVisible(status);
-         itemM=menu.findItem(R.id.nav_add);
-         itemM.setVisible(status);
-         itemM=menu.findItem(R.id.nav_home);
-         itemM.setVisible(status);
-         itemM=menu.findItem(R.id.nav_profile);
-         itemM.setVisible(status);
-         itemM=menu.findItem(R.id.nav_logout);
-         itemM.setVisible(status);
-         itemM=menu.findItem(R.id.nav_login);
-         itemM.setVisible(false);
-         itemM=menu.findItem(R.id.nav_register);
-         itemM.setVisible(false);
+        MenuItem item=menu.findItem(R.id.nav_login);
+             item.setVisible(status);
+//         try {
+
+//             Toast.makeText(getApplicationContext(), "Colicked" , Toast.LENGTH_LONG).show();
+//         }catch(Exception ex){
+//             throw ex;
+//
+//     }
      }
+
+    public  void EnableLoginMenu()
+    {
+        try {
+            Toast.makeText(getApplicationContext(), "Colicked" , Toast.LENGTH_LONG).show();
+            Menu menu = navigationView.getMenu();
+            MenuItem item=menu.findItem(R.id.nav_allPosts);
+            item.setVisible(false);
+        }catch(Exception ex){
+            throw ex;
+
+        }
+    }
 
      @Override
     public boolean onCreateOptionsMenu(Menu menu) {
