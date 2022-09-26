@@ -1,10 +1,10 @@
 package com.example.house_cleaning_app.model;
 
-public class Job<status> {
+public class Job {
     private String Location;
     private String date;
     private String noOfRooms;
-    private String floorType;
+    private String rFloorType;
     private String noOfBathrooms;
     private String bFloorType;
     private String price;
@@ -12,16 +12,17 @@ public class Job<status> {
     private String status;
     private String imageR;
     private String imageBr;
+    private String contractor;
 
 
     public Job() {
     }
 
-    public Job( String location, String date, String noOfRooms, String floorType, String noOfBathrooms, String bFloorType, String price, String user,String status,String imageR,String imageBr) {
+    public Job( String location, String date, String noOfRooms, String floorType, String noOfBathrooms, String bFloorType, String price, String user,String status,String imageR,String imageBr,String contractor) {
         Location = location;
         this.date = date;
         this.noOfRooms = noOfRooms;
-        this.floorType = floorType;
+        this.rFloorType = floorType;
         this.noOfBathrooms = noOfBathrooms;
         this.bFloorType = bFloorType;
         this.price = price;
@@ -29,6 +30,7 @@ public class Job<status> {
         this.status = status;
         this.imageR = imageR;
         this.imageBr = imageBr;
+        this.contractor=contractor;
     }
 
     public String getLocation() {
@@ -55,12 +57,12 @@ public class Job<status> {
         this.noOfRooms = noOfRooms;
     }
 
-    public String getFloorType() {
-        return floorType;
+    public String getrFloorType() {
+        return rFloorType;
     }
 
-    public void setFloorType(String floorType) {
-        this.floorType = floorType;
+    public void setrFloorType(String rFloorType) {
+        this.rFloorType = rFloorType;
     }
 
     public String getNoOfBathrooms() {
@@ -117,5 +119,13 @@ public class Job<status> {
 
     public void setImageBr(String imageBr) {
         this.imageBr = imageBr;
+    }
+
+    public String getContractor() {
+        return contractor;
+    }
+
+    public void setContractor(String contractor) {
+        this.contractor = contractor;
     }
 }

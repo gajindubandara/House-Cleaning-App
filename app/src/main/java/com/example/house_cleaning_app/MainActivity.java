@@ -1,29 +1,30 @@
 package com.example.house_cleaning_app;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.Menu;
-
-import com.example.house_cleaning_app.ui.home.HomeFragment;
-import com.example.house_cleaning_app.ui.login.LoginCheck;
-import com.example.house_cleaning_app.ui.login.LoginFragment;
-import com.example.house_cleaning_app.ui.myPosts.MyPostsFragment;
-import com.example.house_cleaning_app.ui.newPost.AddpostFragment;
-import com.example.house_cleaning_app.ui.profile.ProfileFragment;
-import com.example.house_cleaning_app.ui.register.RegisterFragment;
-import com.google.android.material.navigation.NavigationView;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.house_cleaning_app.databinding.ActivityMainBinding;
+import com.example.house_cleaning_app.ui.home.HomeFragment;
+import com.example.house_cleaning_app.ui.login.LoginCheck;
+import com.example.house_cleaning_app.ui.login.LoginFragment;
+import com.example.house_cleaning_app.ui.myPosts.AllPostsFragment;
+import com.example.house_cleaning_app.ui.newPost.AddpostFragment;
+import com.example.house_cleaning_app.ui.profile.ProfileFragment;
+import com.example.house_cleaning_app.ui.register.RegisterFragment;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,R.id.nav_login,R.id.nav_register,R.id.nav_myPosts,R.id.nav_profile)
+                R.id.nav_home,R.id.nav_login,R.id.nav_register,R.id.nav_allPosts,R.id.nav_profile)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -69,21 +70,23 @@ public class MainActivity extends AppCompatActivity {
             if(status) {
                 String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
                 LoginCheck.setNIC(nic);
-                MyPostsFragment fragment = new MyPostsFragment();
+                ProfileFragment fragment = new ProfileFragment();
                 trans.replace(R.id.nav_host_fragment_content_main, fragment);
                 trans.addToBackStack(null);
                 trans.commit();
 
+//                EnableOnLogin();
                 Menu menu = navigationView.getMenu();
-                MenuItem itemM=menu.findItem(R.id.nav_myPosts);
+                MenuItem itemM=menu.findItem(R.id.nav_allPosts);
+                itemM.setVisible(status);
                 itemM=menu.findItem(R.id.nav_add);
-                itemM.setVisible(true);
+                itemM.setVisible(status);
                 itemM=menu.findItem(R.id.nav_home);
-                itemM.setVisible(true);
+                itemM.setVisible(status);
                 itemM=menu.findItem(R.id.nav_profile);
-                itemM.setVisible(true);
+                itemM.setVisible(status);
                 itemM=menu.findItem(R.id.nav_logout);
-                itemM.setVisible(true);
+                itemM.setVisible(status);
                 itemM=menu.findItem(R.id.nav_login);
                 itemM.setVisible(false);
                 itemM=menu.findItem(R.id.nav_register);
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 //                EnableMenu(false);
 
                 Menu menu = navigationView.getMenu();
-                MenuItem item=menu.findItem(R.id.nav_myPosts);
+                MenuItem item=menu.findItem(R.id.nav_allPosts);
                 item.setVisible(false);
                 item=menu.findItem(R.id.nav_add);
                 item.setVisible(false);
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
 //            EnableMenu(false);
             Menu menu = navigationView.getMenu();
-            MenuItem item=menu.findItem(R.id.nav_myPosts);
+            MenuItem item=menu.findItem(R.id.nav_allPosts);
             item.setVisible(false);
             item=menu.findItem(R.id.nav_add);
             item.setVisible(false);
@@ -159,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
                     ProfileFragment fragment =new ProfileFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
-                else if(menuID ==R.id.nav_myPosts){
-                     MyPostsFragment fragment =new MyPostsFragment();
+                else if(menuID ==R.id.nav_allPosts){
+                     AllPostsFragment fragment =new AllPostsFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
                 else if(menuID ==R.id.nav_add){
@@ -181,7 +184,8 @@ public class MainActivity extends AppCompatActivity {
                     preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
 //                    EnableMenu(false);
                     Menu menu = navigationView.getMenu();
-                    MenuItem itemM=menu.findItem(R.id.nav_myPosts);
+                    MenuItem itemM=menu.findItem(R.id.nav_allPosts);
+                    itemM.setVisible(false);
                     itemM=menu.findItem(R.id.nav_add);
                     itemM.setVisible(false);
                     itemM=menu.findItem(R.id.nav_home);
@@ -199,7 +203,8 @@ public class MainActivity extends AppCompatActivity {
                     trans.addToBackStack(null);
                     preference.SaveBool(getApplicationContext(),false,SharedPreference.REGISTER);
                     Menu menu = navigationView.getMenu();
-                    MenuItem itemM=menu.findItem(R.id.nav_myPosts);
+                    MenuItem itemM=menu.findItem(R.id.nav_allPosts);
+                    itemM.setVisible(false);
                     itemM=menu.findItem(R.id.nav_add);
                     itemM.setVisible(false);
                     itemM=menu.findItem(R.id.nav_home);
@@ -239,7 +244,26 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
-    @Override
+     public  void EnableOnLogin()
+     {
+         Menu menu = navigationView.getMenu();
+         MenuItem itemM=menu.findItem(R.id.nav_allPosts);
+         itemM.setVisible(status);
+         itemM=menu.findItem(R.id.nav_add);
+         itemM.setVisible(status);
+         itemM=menu.findItem(R.id.nav_home);
+         itemM.setVisible(status);
+         itemM=menu.findItem(R.id.nav_profile);
+         itemM.setVisible(status);
+         itemM=menu.findItem(R.id.nav_logout);
+         itemM.setVisible(status);
+         itemM=menu.findItem(R.id.nav_login);
+         itemM.setVisible(false);
+         itemM=menu.findItem(R.id.nav_register);
+         itemM.setVisible(false);
+     }
+
+     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -252,4 +276,16 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    public void  goToUrl(){
+        try{
+        Uri uri = Uri.parse("http://www.google.com/maps/place/7.296288087554101,80.63245207071304"); // missing 'http://' will cause crashed
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+        startActivity(intent);
+//            Toast.makeText(getApplicationContext(), "Colicked" , Toast.LENGTH_LONG).show();
+        }
+        catch(Exception ex){throw ex;}
+    }
+
 }

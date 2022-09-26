@@ -1,14 +1,6 @@
 package com.example.house_cleaning_app.ui.login;
 
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +9,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.data.passwordHash;
-import com.example.house_cleaning_app.ui.myPosts.MyPostsFragment;
+import com.example.house_cleaning_app.ui.profile.ProfileFragment;
 import com.example.house_cleaning_app.ui.register.RegisterFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,7 +81,7 @@ public class LoginFragment extends Fragment {
 
                                     //Move to home frag
                                     FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                                    MyPostsFragment fragment = new MyPostsFragment();
+                                    ProfileFragment fragment = new ProfileFragment();
                                     trans.replace(R.id.nav_host_fragment_content_main, fragment);
                                     trans.addToBackStack(null);
                                     trans.commit();

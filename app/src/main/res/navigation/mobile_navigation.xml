@@ -38,10 +38,10 @@
         android:label="My Profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/nav_myPosts"
-        android:name="com.example.house_cleaning_app.ui.myPosts.MyPostsFragment"
+        android:id="@+id/nav_allPosts"
+        android:name="com.example.house_cleaning_app.ui.myPosts.AllPostsFragment"
         android:label="My Posts"
-        tools:layout="@layout/fragment_my_posts" />
+        tools:layout="@layout/fragment_all_posts" />
     <fragment
         android:id="@+id/nav_add"
         android:name="com.example.house_cleaning_app.ui.newPost.AddpostFragment"

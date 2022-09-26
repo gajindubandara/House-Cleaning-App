@@ -13,7 +13,7 @@
     <string name="menu_login">Login</string>
     <string name="menu_register">Register</string>
     <string name="menu_profile">My profile</string>
-    <string name="menu_myposts">My posts</string>
+    <string name="menu_myposts">All posts</string>
     <string name="menu_addpost">New Post</string>
     <string name="menu_exit">Exit</string>
     <string name="menu_logout">Logout</string>

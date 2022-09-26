@@ -1,11 +1,5 @@
 package com.example.house_cleaning_app.ui.newPost;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -16,11 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +22,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.data.JobDB;
 import com.example.house_cleaning_app.model.Job;
@@ -40,14 +38,11 @@ import com.example.house_cleaning_app.ui.login.LoginCheck;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -79,6 +74,7 @@ public class AddpostFragment extends Fragment {
     StorageReference storageReference;
     String imageRefR =" ";
     String imageRefBr =" ";
+    String  userNIC =  LoginCheck.getNIC();
 
 
 
@@ -355,14 +351,15 @@ public class AddpostFragment extends Fragment {
 
                     //Storing the job data
                     try{
+                        String contractor = "";
 //                         newJobNo = lastJobNo +1;
                         //creating object
-                        Job job=new Job(loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, imageRefR,imageRefBr);
+                        Job job=new Job(loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, imageRefR,imageRefBr,contractor);
 
                         //Sending data to the database
                         rootNode = FirebaseDatabase.getInstance();
                         referance = rootNode.getReference("Job");
-                        referance.push().setValue(job);
+                        referance.child(userNIC).setValue(job);
                     }catch(Exception ex)
                     {
                         throw ex;
@@ -380,7 +377,7 @@ public class AddpostFragment extends Fragment {
                         {
                             if (dataSnapshot.exists())
                             {
-                               key = dataSnapshot.getKey();
+//                               key = dataSnapshot.getKey();
                                // uploading image
                                 try {
                                     storageReference = FirebaseStorage.getInstance().getReference();
@@ -388,8 +385,8 @@ public class AddpostFragment extends Fragment {
                                         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                                         progressDialog.setTitle("Positing...");
                                         progressDialog.show();
-                                        StorageReference rRef = storageReference.child("images/" + key +"/Room"+ imgRoomUri.getLastPathSegment());
-                                        StorageReference brRef = storageReference.child("images/" + key +"/Bathroom"+imgBathroomUri.getLastPathSegment());
+                                        StorageReference rRef = storageReference.child("images/" + userNIC +"/Room"+ imgRoomUri.getLastPathSegment());
+                                        StorageReference brRef = storageReference.child("images/" + userNIC +"/Bathroom"+imgBathroomUri.getLastPathSegment());
                                         uploadTask = rRef.putFile(imgRoomUri);
                                         uploadTask = brRef.putFile(imgBathroomUri);
                                         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -404,7 +401,7 @@ public class AddpostFragment extends Fragment {
                                                     public void onSuccess(Uri uri) {
                                                         imageRefR = uri.toString();
                                                         referance = rootNode.getReference("Job");
-                                                        referance.child(key).child("imageR").setValue(imageRefR);
+                                                        referance.child(userNIC).child("imageR").setValue(imageRefR);
                                                         progressDialog.dismiss();
                                                     }
                                                 });
@@ -413,7 +410,7 @@ public class AddpostFragment extends Fragment {
                                                     public void onSuccess(Uri uri) {
                                                         imageRefBr = uri.toString();
                                                         referance = rootNode.getReference("Job");
-                                                        referance.child(key).child("imageBr").setValue(imageRefBr);
+                                                        referance.child(userNIC).child("imageBr").setValue(imageRefBr);
                                                         progressDialog.dismiss();
 //                                                        referance = FirebaseDatabase.getInstance().getReference("jobNo");
 //                                                        referance.child("no").setValue(newJobNo);
