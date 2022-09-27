@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     tools:context=".ui.register.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +31,7 @@
                     android:layout_marginTop="30dp"
                     android:text="Login"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -63,7 +65,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -89,7 +90,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:text="Don't have an account? Register now!"
-                    android:textColor="@color/ic_launcher_background"
+                    android:textColor="@color/purple_700"
                     android:textStyle="bold" />
 
             </LinearLayout>

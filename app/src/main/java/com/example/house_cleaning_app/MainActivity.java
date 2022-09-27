@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
                             String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
                             Temp.setNIC(nic);
-                            ProfileFragment fragment = new ProfileFragment();
+                            HomeFragment fragment = new HomeFragment();
                             trans.replace(R.id.nav_host_fragment_content_main, fragment);
                             trans.addToBackStack(null);
                             trans.commit();

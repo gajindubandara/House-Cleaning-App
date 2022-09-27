@@ -19,7 +19,7 @@ import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.data.passwordHash;
-import com.example.house_cleaning_app.ui.profile.ProfileFragment;
+import com.example.house_cleaning_app.ui.home.HomeFragment;
 import com.example.house_cleaning_app.ui.register.RegisterFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,7 +83,7 @@ public class LoginFragment extends Fragment {
 
                                     //Move to home frag
                                     FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                                    ProfileFragment fragment = new ProfileFragment();
+                                    HomeFragment fragment = new HomeFragment();
                                     trans.replace(R.id.nav_host_fragment_content_main, fragment);
                                     trans.addToBackStack(null);
                                     trans.commit();

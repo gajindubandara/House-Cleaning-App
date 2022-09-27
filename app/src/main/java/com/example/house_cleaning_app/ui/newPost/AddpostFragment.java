@@ -272,7 +272,7 @@ public class AddpostFragment extends Fragment {
 
         //create post
         JobDB jdb=new JobDB();
-        btnCreate=view.findViewById(R.id.btnCreate);
+        btnCreate=view.findViewById(R.id.homeNewPost);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

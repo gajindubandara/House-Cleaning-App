@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layout_border"
+    android:background="@drawable/bg"
     tools:context=".ui.newPost.AddpostFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +31,7 @@
                     android:layout_marginTop="30dp"
                     android:text="Post Details"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -48,6 +49,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="20dp"
                         android:scrollbars="vertical"
+                        app:cardBackgroundColor="@color/bgMsg"
                         app:cardCornerRadius="20dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,6 +96,7 @@
                                 android:paddingTop="5dp"
                                 android:paddingEnd="5dp"
                                 android:text="A contractor has requested this job."
+                                android:textColor="@color/white"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,6 +133,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="5dp"
                         android:text="Contractor:"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -140,6 +144,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:text="TextView"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
 
@@ -155,6 +160,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="5dp"
                         android:text="Date:"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -165,6 +171,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:text="TextView"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
 
@@ -180,6 +187,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="5dp"
                         android:text="Price:"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -190,6 +198,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:text="TextView"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
 
@@ -205,6 +214,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="5dp"
                         android:text="No of Rooms:"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -215,6 +225,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:text="TextView"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
 
@@ -230,6 +241,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="5dp"
                         android:text="Room Floor Type:"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -240,6 +252,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:text="TextView"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
 
@@ -255,6 +268,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="5dp"
                         android:text="No of Bathrooms:"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -265,6 +279,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:text="TextView"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
 
@@ -280,6 +295,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="5dp"
                         android:text="Bathroom Floor Type"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -290,6 +306,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:text="TextView"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
 
@@ -314,6 +331,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
+                    android:background="@drawable/layout_border"
                     android:orientation="vertical">
 
                     <TextView
@@ -323,13 +341,14 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:text="Room Image:"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/imgPostR"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="250dp"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:layout_weight="1"
                         android:maxHeight="200dp"
@@ -343,13 +362,14 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:text="Bathroom Image:"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/imgPostBr"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="250dp"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:layout_weight="1"
                         android:maxHeight="200dp"

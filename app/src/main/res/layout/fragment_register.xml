@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     tools:context=".ui.register.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +31,7 @@
                     android:layout_marginTop="30dp"
                     android:text=" Register "
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -40,6 +42,7 @@
                     android:layout_marginTop="20dp"
                     android:text="Select account type"
                     android:textAlignment="viewStart"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <RadioGroup
@@ -53,17 +56,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="Customer" />
+                        android:text="Customer"
+                        android:textColor="@color/black" />
 
                     <RadioButton
                         android:id="@+id/rbtnCon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="Contractor" />
+                        android:text="Contractor"
+                        android:textColor="@color/black" />
 
                 </RadioGroup>
-
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -98,66 +102,71 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/Address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:hint="Address"
-                    android:inputType="textPostalAddress" />
+
+                    <EditText
+                        android:id="@+id/Address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="Address"
+                        android:inputType="textPostalAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/Email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress" />
+
+                    <EditText
+                        android:id="@+id/Email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/Num"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:hint="Contact Number"
-                    android:inputType="phone" />
+
+                    <EditText
+                        android:id="@+id/Num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="Contact Number"
+                        android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/txtPw"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:hint="Password"
-                    android:inputType="textPassword" />
+
+                    <EditText
+                        android:id="@+id/txtPw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="Password"
+                        android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/txtCpw"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:hint="Confirm Password"
-                    android:inputType="textPassword" />
+
+                    <EditText
+                        android:id="@+id/txtCpw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="Confirm Password"
+                        android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -185,7 +194,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:text="I already have an account. Click to Login!"
-                    android:textColor="@color/ic_launcher_background"
+                    android:textColor="@color/purple_700"
                     android:textStyle="bold" />
 
             </LinearLayout>
