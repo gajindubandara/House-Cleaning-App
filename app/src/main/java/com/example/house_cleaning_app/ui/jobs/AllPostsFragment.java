@@ -1,4 +1,4 @@
-package com.example.house_cleaning_app.ui.myPosts;
+package com.example.house_cleaning_app.ui.jobs;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.model.Job;
-import com.example.house_cleaning_app.ui.login.LoginCheck;
+import com.example.house_cleaning_app.Temp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ public class AllPostsFragment extends Fragment {
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
     private AllPostsViewModel mViewModel;
     String  userNIC = "";
+    String key;
 
 
     public static AllPostsFragment newInstance() {
@@ -39,7 +39,7 @@ public class AllPostsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_posts, container, false);
-        userNIC = LoginCheck.getNIC();
+        userNIC = Temp.getNIC();
 
 
         //set recycle view
@@ -49,7 +49,7 @@ public class AllPostsFragment extends Fragment {
 //        jobList.add(job2);
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Job");
-        Query job  = rootRef.orderByChild("user").equalTo(userNIC);
+//        Query job  = rootRef.orderByChild("user").equalTo(userNIC);
 //        job.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,6 +74,7 @@ public class AllPostsFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot postSnapshot: snapshot.getChildren()){
+                        key = snapshot.getKey();
                         Job job = postSnapshot.getValue(Job.class);
                         jobList.add(job);
 

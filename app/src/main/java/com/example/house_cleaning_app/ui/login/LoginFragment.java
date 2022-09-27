@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
+import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.data.passwordHash;
 import com.example.house_cleaning_app.ui.profile.ProfileFragment;
 import com.example.house_cleaning_app.ui.register.RegisterFragment;
@@ -70,13 +71,14 @@ public class LoginFragment extends Fragment {
                                 String userTypeFromDB =snapshot.child(enteredNIC).child("type").getValue(String.class);
 
                                 if(passwordFromDB.equals(enteredPW)){
-                                    LoginCheck.NIC = enteredNIC;
+                                    Temp.NIC = enteredNIC;
 
                                     SharedPreference preference=new SharedPreference();
                                     preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
                                     preference.SaveBool(view.getContext(),true,SharedPreference.LOGIN_STATUS);
-//                                   preference.SaveString(view.getContext(),userTypeFromDB,SharedPreference.USER_TYPE);
+                                    preference.SaveString(view.getContext(),userTypeFromDB,SharedPreference.USER_TYPE);
                                     preference.SaveString(view.getContext(),enteredNIC,SharedPreference.USER_NIC);
+
 
 
                                     //Move to home frag
@@ -134,7 +136,7 @@ public class LoginFragment extends Fragment {
     }
     private boolean checkValid() {
         if (txtNIC.getText().toString().equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(),"Email cannot be blank",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(),"NIC number cannot be blank",Toast.LENGTH_LONG).show();
             return false;
         }
         if (txtPw.getText().toString().equals("")) {

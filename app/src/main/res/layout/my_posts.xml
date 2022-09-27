@@ -79,18 +79,32 @@
             app:layout_constraintTop_toBottomOf="@+id/txtPrice" />
 
         <Button
-            android:id="@+id/btnViewJob"
+            android:id="@+id/btnEditMyPost"
             android:layout_width="106dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="52dp"
+            android:backgroundTint="@color/ic_launcher_background"
+            android:text="Edit"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnViewMyPost"
+            android:layout_width="106dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="92dp"
             android:backgroundTint="@color/ic_launcher_background"
             android:text="View "
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtPrice" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imgDot"

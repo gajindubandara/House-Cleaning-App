@@ -41,6 +41,14 @@
             android:id="@+id/nav_unReg"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="un reg" />
+        <item
+            android:id="@+id/nav_myPosts"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="My posts" />
+        <item
+            android:id="@+id/nav_myJobs"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="My Jobs" />
 
 
     </group>

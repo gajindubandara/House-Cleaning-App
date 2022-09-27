@@ -1,4 +1,4 @@
-package com.example.house_cleaning_app.ui.myPosts;
+package com.example.house_cleaning_app.ui.jobs;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.MainActivity;
 import com.example.house_cleaning_app.R;
-import com.example.house_cleaning_app.ui.login.LoginCheck;
+import com.example.house_cleaning_app.Temp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,9 +31,10 @@ public class ViewJobFragment extends Fragment {
     TextView jobDate,jobPrice, NOR,NOBr,RFT,BrFT;
     String date,price,NoR,NoBr,RFt,BrFt,loc;
     ImageView imgR,imgBr;
-    Button btnLoc,btnGet;
+    Button btnLoc,btnGet,btnFinish;
     DatabaseReference referance;
     FirebaseDatabase rootNode;
+    int status;
 
 
     public static ViewJobFragment newInstance() {
@@ -44,8 +45,9 @@ public class ViewJobFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_view_job, container, false);
-        String postUserID =JobID.getNIC();
-        String  ID =  LoginCheck.getNIC();
+//        String jobID =JobID.getID();
+        String jobID =Temp.getJobID();
+        String  ID =  Temp.getNIC();
         jobDate =view.findViewById(R.id.jobDate);
         jobPrice =view.findViewById(R.id.jobPrice);
         NOR =view.findViewById(R.id.jobNoR);
@@ -57,30 +59,45 @@ public class ViewJobFragment extends Fragment {
         btnLoc =view.findViewById(R.id.btnLocation);
         btnGet =view.findViewById(R.id.btnGet);
 
+
+
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Job");
-        Query checkUser = reference.orderByChild("user").equalTo(postUserID);
+        Query checkUser = reference.orderByChild("jobID").equalTo(jobID);
+//        Toast.makeText(getActivity().getApplicationContext(),key,Toast.LENGTH_LONG).show();
 
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
 
-                    String rUrl = snapshot.child(postUserID).child("imageR").getValue(String.class);
-                    String brUrl = snapshot.child(postUserID).child("imageBr").getValue(String.class);
-                    loc = snapshot.child(postUserID).child("location").getValue(String.class);
+                    String rUrl = snapshot.child(jobID).child("imageR").getValue(String.class);
+                    String brUrl = snapshot.child(jobID).child("imageBr").getValue(String.class);
+                    loc = snapshot.child(jobID).child("location").getValue(String.class);
+                    status =Integer.valueOf(snapshot.child(jobID).child("status").getValue(String.class));
 
+//                    CircularProgressDrawable cpd =new CircularProgressDrawable();
+//
+//                    cpd.strokeWidth = 5f;
+//                    cpd.centerRadius = 30f;
+//                    cpd.start();
                     Picasso.get().load(rUrl).into(imgR);
                     Picasso.get().load(brUrl).into(imgBr);
-                    jobDate.setText(snapshot.child(postUserID).child("date").getValue(String.class));
-                    jobPrice.setText("Rs. "+snapshot.child(postUserID).child("price").getValue(String.class)+".00/-");
-                    NOR.setText(snapshot.child(postUserID).child("noOfRooms").getValue(String.class));
-                    NOBr.setText(snapshot.child(postUserID).child("noOfBathrooms").getValue(String.class));
-                    RFT.setText(snapshot.child(postUserID).child("rFloorType").getValue(String.class));
-                    BrFT.setText(snapshot.child(postUserID).child("bFloorType").getValue(String.class));
+                    jobDate.setText(snapshot.child(jobID).child("date").getValue(String.class));
+                    jobPrice.setText("Rs. "+snapshot.child(jobID).child("price").getValue(String.class)+".00/-");
+                    NOR.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
+                    NOBr.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
+                    RFT.setText(snapshot.child(jobID).child("rFloorType").getValue(String.class));
+                    BrFT.setText(snapshot.child(jobID).child("bFloorType").getValue(String.class));
+
+                    if(status!=1) {
+                        btnGet.setVisibility(view.GONE);
+                    }
+
 
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(),"nodata",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(),"no data",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -97,17 +114,23 @@ public class ViewJobFragment extends Fragment {
             }
         });
 
+
+
+
+
+
         btnGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnGet.setEnabled(false);
+                btnGet.setVisibility(view.GONE);
                 rootNode = FirebaseDatabase.getInstance();
                 referance = rootNode.getReference("Job");
-                referance = rootNode.getReference("Job");
-                referance.child(postUserID).child("status").setValue("Assigned");
-                referance.child(postUserID).child("contractor").setValue(ID);
+                referance.child(jobID).child("status").setValue("2");
+                referance.child(jobID).child("contractor").setValue(ID);
+                Toast.makeText(getActivity().getApplicationContext(),"Request Sent!",Toast.LENGTH_LONG).show();
             }
         });
+
 
 
         return view;

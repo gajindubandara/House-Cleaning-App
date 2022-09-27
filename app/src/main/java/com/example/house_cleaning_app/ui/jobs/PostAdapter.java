@@ -1,4 +1,4 @@
-package com.example.house_cleaning_app.ui.myPosts;
+package com.example.house_cleaning_app.ui.jobs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.house_cleaning_app.MainActivity;
 import com.example.house_cleaning_app.R;
+import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Job;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -52,13 +53,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         Job job = jobList.get(position);
         holder.txtDate.setText(job.getDate());
         holder.txtPrice.setText("Rs. "+job.getPrice()+".00/-");
-        holder.txtStatus.setText(job.getStatus());
-        if(job.getStatus().equals("Open")){
+
+        int status =Integer.valueOf(job.getStatus());
+        if(status==1){
             holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_green_dot));
-//            holder.txtStatus.setTextColor(R.color.green);
-        }else if(job.getStatus().equals("Assigned")){
-           holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_dot));
-//           holder.txtStatus.setTextColor(R.color.red);
+            holder.txtStatus.setText("Open");
+
+        }else if(status==2){
+            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_yellow_dot));
+            holder.txtStatus.setText("Request Pending");
+
+        }else if(status==3){
+            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_blue_dot));
+            holder.txtStatus.setText("Assigned");
+        }
+        else if(status==4){
+            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_dot));
+            holder.txtStatus.setText("Finished");
+        }
+        else if(status==5){
+            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_remove));
+            holder.txtStatus.setText("Job Removed");
         }
 
 
@@ -67,7 +82,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JobID.setNIC(job.getUser());
+//                Bundle bundle =new Bundle();
+//                bundle.putString("key",job.getJobID());
+//                ViewJobFragment frag =new ViewJobFragment();
+//                frag.setArguments(bundle);
+
+//                JobID.setID(job.getJobID());
+                Temp.setJobID(job.getJobID());
                 ViewJobFragment fragment =new ViewJobFragment();
                 FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.nav_host_fragment_content_main,fragment);

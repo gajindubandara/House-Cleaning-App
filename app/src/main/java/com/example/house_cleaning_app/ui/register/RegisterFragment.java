@@ -1,14 +1,6 @@
 package com.example.house_cleaning_app.ui.register;
 
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +10,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
@@ -88,7 +86,15 @@ public class RegisterFragment extends Fragment {
                        String email = txtEmail.getText().toString();
                        String num = txtNum.getText().toString();
                        String hashPW = passwordHash.getMd5(txtPw.getText().toString());
-                       String type = radioButton.getText().toString();
+//                       String type = radioButton.getText().toString();
+                       String type;
+                       if(radioButton.getText().toString()=="Customer"){
+                           type ="1";
+                       }
+                       else {
+                           type ="2";
+                       }
+//                       String type = radioButton.getText().toString();
 
                        User user=new User(nic,type,name,address,email,num,hashPW);
 

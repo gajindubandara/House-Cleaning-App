@@ -34,7 +34,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.data.JobDB;
 import com.example.house_cleaning_app.model.Job;
-import com.example.house_cleaning_app.ui.login.LoginCheck;
+import com.example.house_cleaning_app.Temp;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -74,7 +74,7 @@ public class AddpostFragment extends Fragment {
     StorageReference storageReference;
     String imageRefR =" ";
     String imageRefBr =" ";
-    String  userNIC =  LoginCheck.getNIC();
+    String  userNIC =  Temp.getNIC();
 
 
 
@@ -290,9 +290,9 @@ public class AddpostFragment extends Fragment {
                         String roomFloor = roomF.getSelectedItem().toString();
                         String bathroomFloor = bathroomF.getSelectedItem().toString();
                         String nobr = editNoOfBr.getText().toString();
-                        String user = LoginCheck.getNIC();
+                        String user = Temp.getNIC();
 //                        String user = "1";
-                        String status ="Open";
+                        String status ="1";
 
 
 
@@ -352,14 +352,20 @@ public class AddpostFragment extends Fragment {
                     //Storing the job data
                     try{
                         String contractor = "";
-//                         newJobNo = lastJobNo +1;
-                        //creating object
-                        Job job=new Job(loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, imageRefR,imageRefBr,contractor);
+                        String review="";
 
                         //Sending data to the database
                         rootNode = FirebaseDatabase.getInstance();
                         referance = rootNode.getReference("Job");
-                        referance.child(userNIC).setValue(job);
+                        String key= referance.push().getKey();
+
+//                         newJobNo = lastJobNo +1;
+                        //creating object
+                        Job job=new Job(key,loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, imageRefR,imageRefBr,contractor,review);
+
+
+//                        referance.child(userNIC).setValue(job);
+                        referance.child(key).setValue(job);
                     }catch(Exception ex)
                     {
                         throw ex;
@@ -377,7 +383,7 @@ public class AddpostFragment extends Fragment {
                         {
                             if (dataSnapshot.exists())
                             {
-//                               key = dataSnapshot.getKey();
+                               key = dataSnapshot.getKey();
                                // uploading image
                                 try {
                                     storageReference = FirebaseStorage.getInstance().getReference();
@@ -385,8 +391,8 @@ public class AddpostFragment extends Fragment {
                                         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                                         progressDialog.setTitle("Positing...");
                                         progressDialog.show();
-                                        StorageReference rRef = storageReference.child("images/" + userNIC +"/Room"+ imgRoomUri.getLastPathSegment());
-                                        StorageReference brRef = storageReference.child("images/" + userNIC +"/Bathroom"+imgBathroomUri.getLastPathSegment());
+                                        StorageReference rRef = storageReference.child("images/" + key+"/Room"+ imgRoomUri.getLastPathSegment());
+                                        StorageReference brRef = storageReference.child("images/" + key+"/Bathroom"+imgBathroomUri.getLastPathSegment());
                                         uploadTask = rRef.putFile(imgRoomUri);
                                         uploadTask = brRef.putFile(imgBathroomUri);
                                         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -401,7 +407,8 @@ public class AddpostFragment extends Fragment {
                                                     public void onSuccess(Uri uri) {
                                                         imageRefR = uri.toString();
                                                         referance = rootNode.getReference("Job");
-                                                        referance.child(userNIC).child("imageR").setValue(imageRefR);
+//                                                        referance.child(userNIC).child("imageR").setValue(imageRefR);
+                                                        referance.child(key).child("imageR").setValue(imageRefR);
                                                         progressDialog.dismiss();
                                                     }
                                                 });
@@ -410,7 +417,8 @@ public class AddpostFragment extends Fragment {
                                                     public void onSuccess(Uri uri) {
                                                         imageRefBr = uri.toString();
                                                         referance = rootNode.getReference("Job");
-                                                        referance.child(userNIC).child("imageBr").setValue(imageRefBr);
+//                                                        referance.child(userNIC).child("imageBr").setValue(imageRefBr);
+                                                        referance.child(key).child("imageBr").setValue(imageRefBr);
                                                         progressDialog.dismiss();
 //                                                        referance = FirebaseDatabase.getInstance().getReference("jobNo");
 //                                                        referance.child("no").setValue(newJobNo);

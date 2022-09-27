@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.R;
-import com.example.house_cleaning_app.ui.login.LoginCheck;
+import com.example.house_cleaning_app.Temp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment {
 
         try{
 //            SharedPreference preference=new SharedPreference();
-            String  userNIC =  LoginCheck.getNIC();
+            String  userNIC =  Temp.getNIC();
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
             Query checkUser = reference.orderByChild("userNIC").equalTo(userNIC);
@@ -65,15 +65,15 @@ public class ProfileFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()){
 
-                        String passwordFromDB =snapshot.child(LoginCheck.getNIC()).child("password").getValue(String.class);
-                        String nameFromDB =snapshot.child(LoginCheck.getNIC()).child("name").getValue(String.class);
-                        String addressFromDB =snapshot.child(LoginCheck.getNIC()).child("address").getValue(String.class);
-                        String emailFromDB =snapshot.child(LoginCheck.getNIC()).child("email").getValue(String.class);
-                        String typeFromDB =snapshot.child(LoginCheck.getNIC()).child("type").getValue(String.class);
-                        String numberFromDB =snapshot.child(LoginCheck.getNIC()).child("number").getValue(String.class);
+                        String passwordFromDB =snapshot.child(Temp.getNIC()).child("password").getValue(String.class);
+                        String nameFromDB =snapshot.child(Temp.getNIC()).child("name").getValue(String.class);
+                        String addressFromDB =snapshot.child(Temp.getNIC()).child("address").getValue(String.class);
+                        String emailFromDB =snapshot.child(Temp.getNIC()).child("email").getValue(String.class);
+                        int typeFromDB =Integer.valueOf(snapshot.child(Temp.getNIC()).child("type").getValue(String.class));
+                        String numberFromDB =snapshot.child(Temp.getNIC()).child("number").getValue(String.class);
 
 
-                        txtNIC.setText(LoginCheck.getNIC());
+                        txtNIC.setText(Temp.getNIC());
                         txtNIC.setEnabled(false);
                         txtName.setText(nameFromDB);
                         txtAddress.setText(addressFromDB);
@@ -85,10 +85,10 @@ public class ProfileFragment extends Fragment {
                         rbtnCus.setEnabled(false);
                         rbtnCon.setEnabled(false);
 
-                        if (typeFromDB.equals("Customer")){
+                        if (typeFromDB==1){
                             rbtnCus.setChecked(true);
 
-                        }else{
+                        }else if (typeFromDB==2){
                             rbtnCon.setChecked(true);
                         }
 

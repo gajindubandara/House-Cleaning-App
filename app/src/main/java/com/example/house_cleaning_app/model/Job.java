@@ -1,6 +1,7 @@
 package com.example.house_cleaning_app.model;
 
 public class Job {
+    private String jobID;
     private String Location;
     private String date;
     private String noOfRooms;
@@ -13,12 +14,14 @@ public class Job {
     private String imageR;
     private String imageBr;
     private String contractor;
+    private String review;
 
 
     public Job() {
     }
 
-    public Job( String location, String date, String noOfRooms, String floorType, String noOfBathrooms, String bFloorType, String price, String user,String status,String imageR,String imageBr,String contractor) {
+    public Job(String jobID, String location, String date, String noOfRooms, String floorType, String noOfBathrooms, String bFloorType, String price, String user, String status, String imageR, String imageBr, String contractor,String review) {
+        this.jobID = jobID;
         Location = location;
         this.date = date;
         this.noOfRooms = noOfRooms;
@@ -31,6 +34,15 @@ public class Job {
         this.imageR = imageR;
         this.imageBr = imageBr;
         this.contractor=contractor;
+        this.review=review;
+    }
+
+    public String getJobID() {
+        return jobID;
+    }
+
+    public void setJobID(String jobID) {
+        this.jobID = jobID;
     }
 
     public String getLocation() {
@@ -127,5 +139,13 @@ public class Job {
 
     public void setContractor(String contractor) {
         this.contractor = contractor;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 }

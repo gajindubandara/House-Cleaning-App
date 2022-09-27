@@ -39,7 +39,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/nav_allPosts"
-        android:name="com.example.house_cleaning_app.ui.myPosts.AllPostsFragment"
+        android:name="com.example.house_cleaning_app.ui.jobs.AllPostsFragment"
         android:label="My Posts"
         tools:layout="@layout/fragment_all_posts" />
     <fragment
@@ -47,4 +47,14 @@
         android:name="com.example.house_cleaning_app.ui.newPost.AddpostFragment"
         android:label="@string/menu_addpost"
         tools:layout="@layout/fragment_addpost" />
+    <fragment
+        android:id="@+id/nav_myPosts"
+        android:name="com.example.house_cleaning_app.ui.post.MyPostsFragment"
+        android:label="fragment_my_posts"
+        tools:layout="@layout/fragment_my_posts" />
+    <fragment
+        android:id="@+id/nav_myJobs"
+        android:name="com.example.house_cleaning_app.ui.myJobs.MyJobsFragment"
+        android:label="fragment_my_jobs"
+        tools:layout="@layout/fragment_my_jobs" />
 </navigation>
