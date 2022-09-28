@@ -24,6 +24,7 @@ import com.example.house_cleaning_app.ui.login.LoginFragment;
 import com.example.house_cleaning_app.ui.myJobs.MyJobsFragment;
 import com.example.house_cleaning_app.ui.newPost.AddpostFragment;
 import com.example.house_cleaning_app.ui.post.MyPostsFragment;
+import com.example.house_cleaning_app.ui.pricing.FloorPriceFragment;
 import com.example.house_cleaning_app.ui.profile.ProfileFragment;
 import com.example.house_cleaning_app.ui.register.RegisterFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -219,6 +220,11 @@ public class MainActivity extends AppCompatActivity {
                     MyJobsFragment fragment =new MyJobsFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
+                else if(menuID ==R.id.nav_floorPrice){
+                    FloorPriceFragment fragment =new FloorPriceFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
+
                 else if (menuID==R.id.nav_exit){
                     finish();
 

@@ -1,7 +1,6 @@
 package com.example.house_cleaning_app.data;
 
 import com.example.house_cleaning_app.model.Job;
-import com.example.house_cleaning_app.model.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

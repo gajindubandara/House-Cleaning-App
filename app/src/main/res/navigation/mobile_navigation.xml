@@ -57,4 +57,9 @@
         android:name="com.example.house_cleaning_app.ui.myJobs.MyJobsFragment"
         android:label="fragment_my_jobs"
         tools:layout="@layout/fragment_my_jobs" />
+    <fragment
+        android:id="@+id/nav_floorPrice"
+        android:name="com.example.house_cleaning_app.ui.pricing.FloorPriceFragment"
+        android:label="fragment_floor_price"
+        tools:layout="@layout/fragment_floor_price" />
 </navigation>

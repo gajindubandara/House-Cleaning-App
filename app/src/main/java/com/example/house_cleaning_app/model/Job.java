@@ -14,13 +14,15 @@ public class Job {
     private String imageR;
     private String imageBr;
     private String contractor;
-    private String review;
+    private String RSqFt;
+    private String BSqFt;
+
 
 
     public Job() {
     }
 
-    public Job(String jobID, String location, String date, String noOfRooms, String floorType, String noOfBathrooms, String bFloorType, String price, String user, String status, String imageR, String imageBr, String contractor,String review) {
+    public Job(String jobID, String location, String date, String noOfRooms, String floorType, String noOfBathrooms, String bFloorType, String price, String user, String status, String imageR, String imageBr, String contractor,String RSqFt,String BSqFt) {
         this.jobID = jobID;
         Location = location;
         this.date = date;
@@ -34,7 +36,9 @@ public class Job {
         this.imageR = imageR;
         this.imageBr = imageBr;
         this.contractor=contractor;
-        this.review=review;
+        this.BSqFt=BSqFt;
+        this.RSqFt=RSqFt;
+
     }
 
     public String getJobID() {
@@ -141,11 +145,11 @@ public class Job {
         this.contractor = contractor;
     }
 
-    public String getReview() {
-        return review;
+    public String getRSqFt() {
+        return RSqFt;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setRSqFt(String RSqFt) {
+        this.RSqFt = RSqFt;
     }
 }

@@ -45,31 +45,8 @@ public class AllPostsFragment extends Fragment {
         //set recycle view
         RecyclerView recyclerView = v.findViewById(R.id.rcvJobs);
         List<Job> jobList = new ArrayList<>();
-//        Job job2 =new Job("2","2","2","2","2","2","2","2","2","2","2");
-//        jobList.add(job2);
-
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Job");
-//        Query job  = rootRef.orderByChild("user").equalTo(userNIC);
-//        job.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if(snapshot.exists()){
-//
-//                    String date =snapshot.child(userNIC).child("date").getValue(String.class);
-//                    String status =snapshot.child(userNIC).child("status").getValue(String.class);
-//                    String price =snapshot.child(userNIC).child("price").getValue(String.class);
-//                    Job job = new Job("1",date,"1","1","1","1",price,"1",status,"1","1");
-//                    jobList.add(job);
 
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
             rootRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

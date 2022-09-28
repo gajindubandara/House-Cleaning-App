@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
-import com.example.house_cleaning_app.data.UserDB;
 import com.example.house_cleaning_app.data.passwordHash;
 import com.example.house_cleaning_app.model.User;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
@@ -64,7 +63,7 @@ public class RegisterFragment extends Fragment {
 
        rg = view.findViewById(R.id.rg);
 
-        UserDB udb=new UserDB();
+
 
 
        btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +72,7 @@ public class RegisterFragment extends Fragment {
 
 
 
-                boolean check =false;
+
                int selectedId = rg.getCheckedRadioButtonId();
                radioButton = view.findViewById(selectedId);
 
@@ -103,7 +102,7 @@ public class RegisterFragment extends Fragment {
                            rootNode = FirebaseDatabase.getInstance();
                            ref =rootNode.getReference("User");
                            ref.child(user.getUserNIC()).setValue(user);
-                           check=true;
+
 
                            //Set shared pref for register
                            SharedPreference preference=new SharedPreference();

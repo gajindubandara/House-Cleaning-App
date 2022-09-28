@@ -32,9 +32,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.R;
-import com.example.house_cleaning_app.data.JobDB;
-import com.example.house_cleaning_app.model.Job;
 import com.example.house_cleaning_app.Temp;
+import com.example.house_cleaning_app.model.Job;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -43,6 +42,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -51,6 +52,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -75,6 +77,16 @@ public class AddpostFragment extends Fragment {
     String imageRefR =" ";
     String imageRefBr =" ";
     String  userNIC =  Temp.getNIC();
+    String price ="";
+    String priceForRoomType ="";
+    String priceForBathroomType="";
+    String typeID;
+    String test;
+    int Total= 0;
+    int roomPrice =0;
+    int bathroomPrice=0;
+
+
 
 
 
@@ -97,20 +109,40 @@ public class AddpostFragment extends Fragment {
         editBrSqFt =view.findViewById(R.id.BrSqFt);
 
 
-        String[] roomFloor = {"Tile","Cement","Carpet","Wood"};
-        String[] bathroomFloor = {"Tile","Polished Cement"};
+
+
+
+
+        ArrayList<String> ft = new ArrayList<>();
+        ft.add("Select-");
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("FloorType");
+        rootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot postSnapshot: snapshot.getChildren()){
+                    String type =postSnapshot.child("type").getValue(String.class);
+                    String typePrice =postSnapshot.child("price").getValue(String.class);
+                    typeID =postSnapshot.child("key").getValue(String.class);
+                    Temp.setTypeID(typeID);
+                    String value =type+"   (RS."+typePrice+".00 per SqFt)";
+                    ft.add(value);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         //set spinners
         roomF  = view.findViewById(R.id.spinner_roomFloor);
-        ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, roomFloor); //selected item will look like a spinner set from XML
+        ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, ft);
         roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roomF.setAdapter(roomAdapter);
 
         bathroomF = view.findViewById(R.id.spinner_bathroomFloor);
-        ArrayAdapter<String> bathroomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, bathroomFloor); //selected item will look like a spinner set from XML
+        ArrayAdapter<String> bathroomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, ft);
         bathroomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bathroomF.setAdapter(bathroomAdapter);
-
 
 
         //Date picker
@@ -154,8 +186,6 @@ public class AddpostFragment extends Fragment {
         });
 
 
-
-
         ActivityResultLauncher galleryLauncher1 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
@@ -196,7 +226,6 @@ public class AddpostFragment extends Fragment {
             @Override
             public void onActivityResult(ActivityResult result) {
                 Intent intent = result.getData();
-//                imgBathroomUri = intent.getData();
                 pic =(Bitmap) intent.getExtras().get("data");
                 imgBR.setImageBitmap(pic);
                 BrPicCheck= true;
@@ -215,7 +244,6 @@ public class AddpostFragment extends Fragment {
             public void onActivityResult(ActivityResult result) {
                 Intent intent = result.getData();
                 imgBathroomUri = intent.getData();
-//                Uri selectedimage = intent.getData();
                 imgBR.setImageURI(imgBathroomUri);
                 pic = ((BitmapDrawable)imgBR.getDrawable()).getBitmap();
                 BrPicCheck= true;
@@ -271,7 +299,6 @@ public class AddpostFragment extends Fragment {
         });
 
         //create post
-        JobDB jdb=new JobDB();
         btnCreate=view.findViewById(R.id.homeNewPost);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,97 +309,75 @@ public class AddpostFragment extends Fragment {
 
                 //Validation
                 if (checkValid()){
-
-                        int id = 1;
                         String date = editDate.getText().toString();
                         String loc = "http://www.google.com/maps/place/"+editLoc.getText().toString();
                         String nor = editNoOfR.getText().toString();
-                        String roomFloor = roomF.getSelectedItem().toString();
-                        String bathroomFloor = bathroomF.getSelectedItem().toString();
+                        String rF = String.valueOf(roomF.getSelectedItem());
+                        String[] splitRF = rF.split("\\s+");
+                        String roomFloor = splitRF[0];
+                        String brF = String.valueOf(bathroomF.getSelectedItem());
+                        String[] splitBRF = brF.split("\\s+");
+                        String bathroomFloor =splitBRF[0];
                         String nobr = editNoOfBr.getText().toString();
                         String user = Temp.getNIC();
-//                        String user = "1";
                         String status ="1";
-
-
-
-
                         int RSqFt = Integer.valueOf(editRSqFt.getText().toString());
                         int BrSqFt = Integer.valueOf(editBrSqFt.getText().toString());
+                        String rsqft =editRSqFt.getText().toString();
+                        String bsqft =editBrSqFt.getText().toString();
 
-                        int priceForRooms =0;
-                        int priceForBathrooms =0;
 
-                        //calculate the price for rooms
-                        if (roomF.getSelectedItem().toString().equals("Tile")){
-                            priceForRooms = RSqFt*250;
+                    DatabaseReference rootRev = FirebaseDatabase.getInstance().getReference("FloorType");
+                    Query getRoomF = rootRev.orderByChild("type").equalTo(roomFloor);
+
+                    getRoomF.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if(snapshot.exists()){
+                               priceForRoomType =snapshot.child(roomFloor).child("price").getValue(String.class);
+                               roomPrice = Integer.valueOf(priceForRoomType)*RSqFt;
+                               Query getBathroomF = rootRev.orderByChild("type").equalTo(bathroomFloor);
+
+                                getBathroomF.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                        if(snapshot.exists()){
+                                            priceForBathroomType =snapshot.child(bathroomFloor).child("price").getValue(String.class);
+
+                                            bathroomPrice = Integer.valueOf(priceForBathroomType)*BrSqFt;
+                                            price =String.valueOf(roomPrice+bathroomPrice);
+
+                                            //Storing the job data
+                                            try{
+                                                String contractor = "";
+
+                                                //Sending data to the database
+                                                rootNode = FirebaseDatabase.getInstance();
+                                                referance = rootNode.getReference("Job");
+                                                String key= referance.push().getKey();
+
+                                                //creating object
+                                                Job job=new Job(key,loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, imageRefR,imageRefBr,contractor,rsqft,bsqft);
+
+                                                referance.child(key).setValue(job);
+                                            }catch(Exception ex)
+                                            {
+                                                throw ex;
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                    }
+                                });
+                            }
                         }
-                        else if(roomF.getSelectedItem().toString().equals("Cement")){
-                            priceForRooms = RSqFt*500;
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
                         }
-                        else if(roomF.getSelectedItem().toString().equals("Carpet")){
-                            priceForRooms = RSqFt*750;
-                        }
-                        else if(roomF.getSelectedItem().toString().equals("Wood")){
-                            priceForRooms = RSqFt*1000;
-                        }
-
-                        //calculate the price for bathrooms
-                        if (bathroomF.getSelectedItem().toString().equals("Tile")){
-                            priceForBathrooms = BrSqFt*250;
-                        }
-                        else if(bathroomF.getSelectedItem().toString().equals("Polished Cement")){
-                            priceForBathrooms = BrSqFt*500;
-                        }
-
-                        //Calculate total price
-                        String price =String.valueOf(priceForBathrooms+priceForRooms);
-
-//                    //checking the job number
-//                    try {
-//                        referance = FirebaseDatabase.getInstance().getReference("jobNo");
-//                        Query checkNo = referance.orderByChild("no");
-//                        checkNo.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                if(snapshot.exists()){
-//                                    lastJobNo =snapshot.child("no").getValue(int.class);
-//                                }
-//                            }
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {}
-//                        });
-//                    } catch (Exception ex) {
-//                        throw ex;
-//                    }
-
-
-
-
-                    //Storing the job data
-                    try{
-                        String contractor = "";
-                        String review="";
-
-                        //Sending data to the database
-                        rootNode = FirebaseDatabase.getInstance();
-                        referance = rootNode.getReference("Job");
-                        String key= referance.push().getKey();
-
-//                         newJobNo = lastJobNo +1;
-                        //creating object
-                        Job job=new Job(key,loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, imageRefR,imageRefBr,contractor,review);
-
-
-//                        referance.child(userNIC).setValue(job);
-                        referance.child(key).setValue(job);
-                    }catch(Exception ex)
-                    {
-                        throw ex;
-                    }
-
-
-
+                    });
 
                     //getting the key
                     rootNode = FirebaseDatabase.getInstance();
@@ -391,6 +396,7 @@ public class AddpostFragment extends Fragment {
                                         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                                         progressDialog.setTitle("Positing...");
                                         progressDialog.show();
+                                        progressDialog.setCancelable(false);
                                         StorageReference rRef = storageReference.child("images/" + key+"/Room"+ imgRoomUri.getLastPathSegment());
                                         StorageReference brRef = storageReference.child("images/" + key+"/Bathroom"+imgBathroomUri.getLastPathSegment());
                                         uploadTask = rRef.putFile(imgRoomUri);
@@ -407,7 +413,6 @@ public class AddpostFragment extends Fragment {
                                                     public void onSuccess(Uri uri) {
                                                         imageRefR = uri.toString();
                                                         referance = rootNode.getReference("Job");
-//                                                        referance.child(userNIC).child("imageR").setValue(imageRefR);
                                                         referance.child(key).child("imageR").setValue(imageRefR);
                                                         progressDialog.dismiss();
                                                     }
@@ -417,11 +422,8 @@ public class AddpostFragment extends Fragment {
                                                     public void onSuccess(Uri uri) {
                                                         imageRefBr = uri.toString();
                                                         referance = rootNode.getReference("Job");
-//                                                        referance.child(userNIC).child("imageBr").setValue(imageRefBr);
                                                         referance.child(key).child("imageBr").setValue(imageRefBr);
-                                                        progressDialog.dismiss();
-//                                                        referance = FirebaseDatabase.getInstance().getReference("jobNo");
-//                                                        referance.child("no").setValue(newJobNo);
+                                                        progressDialog.dismiss();;
                                                     }
                                                 });
                                             }
@@ -442,11 +444,6 @@ public class AddpostFragment extends Fragment {
                         public void onCancelled(@NonNull DatabaseError error) { }
                     });
 
-//                    if (check) {
-//                        Toast.makeText(getActivity().getApplicationContext(), "New post added" +key, Toast.LENGTH_LONG).show();
-//                    } else {
-//                        Toast.makeText(getActivity().getApplicationContext(), "New post not added", Toast.LENGTH_LONG).show();
-//                    }
                     }
                 }
         });
@@ -476,12 +473,20 @@ public class AddpostFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(),"Room square Feet cannot blank",Toast.LENGTH_LONG).show();
             return false;
         }
+        if (roomF.getSelectedItem().toString()=="Select-") {
+            Toast.makeText(getActivity().getApplicationContext(),"Select a Room Floor Type",Toast.LENGTH_LONG).show();
+            return false;
+        }
         if (editNoOfBr.getText().toString().equals("")) {
             Toast.makeText(getActivity().getApplicationContext(), "No of Bathrooms cannot be blank", Toast.LENGTH_LONG).show();
             return false;
         }
         if (editBrSqFt.getText().toString().equals("")) {
             Toast.makeText(getActivity().getApplicationContext(),"Bathroom square Feet cannot blank",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (bathroomF.getSelectedItem().toString()=="Select-") {
+            Toast.makeText(getActivity().getApplicationContext(),"Select a Bathroom Floor Type",Toast.LENGTH_LONG).show();
             return false;
         }
         if (RPicCheck==false) {

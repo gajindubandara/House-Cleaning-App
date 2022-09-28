@@ -12,11 +12,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.MainActivity;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
+import com.example.house_cleaning_app.ui.userView.ViewUserFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,13 +31,13 @@ public class ViewJobFragment extends Fragment {
 
     private ViewJobViewModel mViewModel;
     TextView jobDate,jobPrice, NOR,NOBr,RFT,BrFT;
-    String date,price,NoR,NoBr,RFt,BrFt,loc;
+    String loc;
     ImageView imgR,imgBr;
-    Button btnLoc,btnGet,btnFinish;
+    Button btnLoc,btnGet,btnViewUser;
     DatabaseReference referance;
     FirebaseDatabase rootNode;
     int status;
-
+    String viewUserID;
 
     public static ViewJobFragment newInstance() {
         return new ViewJobFragment();
@@ -50,14 +52,15 @@ public class ViewJobFragment extends Fragment {
         String  ID =  Temp.getNIC();
         jobDate =view.findViewById(R.id.jobDate);
         jobPrice =view.findViewById(R.id.jobPrice);
-        NOR =view.findViewById(R.id.jobNoR);
-        NOBr =view.findViewById(R.id.jobNOBr);
+        NOR =view.findViewById(R.id.jobRSqFt);
+        NOBr =view.findViewById(R.id.jobBSqFts);
         RFT =view.findViewById(R.id.jobRFT);
         BrFT =view.findViewById(R.id.jobBrFT);
         imgBr =view.findViewById(R.id.imgJobBr);
         imgR =view.findViewById(R.id.imgJobR);
         btnLoc =view.findViewById(R.id.btnLocation);
         btnGet =view.findViewById(R.id.btnGet);
+        btnViewUser =view.findViewById(R.id.btnViewUser);
 
 
 
@@ -89,6 +92,7 @@ public class ViewJobFragment extends Fragment {
                     NOBr.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
                     RFT.setText(snapshot.child(jobID).child("rFloorType").getValue(String.class));
                     BrFT.setText(snapshot.child(jobID).child("bFloorType").getValue(String.class));
+                    viewUserID =snapshot.child(jobID).child("user").getValue(String.class);
 
                     if(status!=1) {
                         btnGet.setVisibility(view.GONE);
@@ -115,7 +119,17 @@ public class ViewJobFragment extends Fragment {
         });
 
 
-
+        btnViewUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Temp.setViewUserID(viewUserID);
+                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                ViewUserFragment fragment = new ViewUserFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        });
 
 
 

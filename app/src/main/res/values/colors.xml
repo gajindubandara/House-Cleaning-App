@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bg">#2e2e2e</color>
     <color name="bgMsg">#B92E2E2E</color>
+    <color name="bgProfile">#656565</color>
 
 
 </resources>

@@ -5,6 +5,8 @@ package com.example.house_cleaning_app;
 public class Temp {
     public static String NIC;
     public static String jobID;
+    public static String viewUserID;
+    public  static  String typeID;
 
 
     public static String getNIC() {
@@ -23,4 +25,19 @@ public class Temp {
         Temp.jobID = jobID;
     }
 
+    public static String getViewUserID() {
+        return viewUserID;
+    }
+
+    public static void setViewUserID(String viewUserID) {
+        Temp.viewUserID = viewUserID;
+    }
+
+    public static String getTypeID() {
+        return typeID;
+    }
+
+    public static void setTypeID(String typeID) {
+        Temp.typeID = typeID;
+    }
 }
