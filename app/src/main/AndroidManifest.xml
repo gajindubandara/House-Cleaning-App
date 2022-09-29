@@ -32,7 +32,7 @@
             android:value="@string/api_key" />
 
         <activity
-            android:name=".ui.newPost.MapsActivity"
+            android:name=".ui.managePost.MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity

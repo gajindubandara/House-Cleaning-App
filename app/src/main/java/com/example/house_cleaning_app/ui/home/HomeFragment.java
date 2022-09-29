@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.databinding.FragmentHomeBinding;
-import com.example.house_cleaning_app.ui.newPost.AddpostFragment;
+import com.example.house_cleaning_app.ui.managePost.AddpostFragment;
 
 public class HomeFragment extends Fragment {
 

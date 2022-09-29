@@ -80,7 +80,6 @@ public class LoginFragment extends Fragment {
                                     preference.SaveString(view.getContext(),enteredNIC,SharedPreference.USER_NIC);
 
 
-
                                     //Move to home frag
                                     FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
                                     HomeFragment fragment = new HomeFragment();
@@ -88,9 +87,6 @@ public class LoginFragment extends Fragment {
                                     trans.addToBackStack(null);
                                     trans.commit();
                                     Toast.makeText(getActivity().getApplicationContext(),"Login Successful!",Toast.LENGTH_LONG).show();
-
-
-
                                 }
                                 else{
                                     Toast.makeText(getActivity().getApplicationContext(),"Wrong password",Toast.LENGTH_LONG).show();
@@ -107,10 +103,6 @@ public class LoginFragment extends Fragment {
 
                         }
                     });
-
-
-
-//                    Toast.makeText(getActivity().getApplicationContext(),"DONE",Toast.LENGTH_LONG).show();
                 }
             }
         });

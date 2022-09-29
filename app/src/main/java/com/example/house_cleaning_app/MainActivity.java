@@ -22,7 +22,7 @@ import com.example.house_cleaning_app.ui.home.HomeFragment;
 import com.example.house_cleaning_app.ui.jobs.AllPostsFragment;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
 import com.example.house_cleaning_app.ui.myJobs.MyJobsFragment;
-import com.example.house_cleaning_app.ui.newPost.AddpostFragment;
+import com.example.house_cleaning_app.ui.managePost.AddpostFragment;
 import com.example.house_cleaning_app.ui.post.MyPostsFragment;
 import com.example.house_cleaning_app.ui.pricing.FloorPriceFragment;
 import com.example.house_cleaning_app.ui.profile.ProfileFragment;

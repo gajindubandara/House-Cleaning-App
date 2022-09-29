@@ -85,7 +85,7 @@ public class RegisterFragment extends Fragment {
                        String email = txtEmail.getText().toString();
                        String num = txtNum.getText().toString();
                        String hashPW = passwordHash.getMd5(txtPw.getText().toString());
-//                       String type = radioButton.getText().toString();
+
                        String type;
                        if(radioButton.getText().toString()=="Customer"){
                            type ="1";
@@ -93,7 +93,7 @@ public class RegisterFragment extends Fragment {
                        else {
                            type ="2";
                        }
-//                       String type = radioButton.getText().toString();
+
 
                        User user=new User(nic,type,name,address,email,num,hashPW);
 
@@ -117,26 +117,12 @@ public class RegisterFragment extends Fragment {
 
                            Toast.makeText(getActivity().getApplicationContext(),"Account Created Successfully!",Toast.LENGTH_LONG).show();
 
-
                        }
                        catch(Exception ex){
 
+                           Toast.makeText(getActivity().getApplicationContext(),"Failed to Create an Account",Toast.LENGTH_LONG).show();
                        }
 
-
-
-//                       try {
-//
-//                       } catch (InterruptedException e) {
-//                           e.printStackTrace();
-//                       }
-
-//                       if (check) {
-//                           Toast.makeText(getActivity().getApplicationContext(),"New record added",Toast.LENGTH_LONG).show();
-//                       }
-//                       else{
-//                           Toast.makeText(getActivity().getApplicationContext(),"New record not added",Toast.LENGTH_LONG).show();
-//                       }
                    }
                    else{
                        Toast.makeText(getActivity().getApplicationContext(),"Passwords dose not match",Toast.LENGTH_LONG).show();

@@ -11,20 +11,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.model.FloorType;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FloorPriceFragment extends Fragment {
 
     private FloorPriceViewModel mViewModel;
     EditText type,price;
-    Button add;
+    Button add,update;
     DatabaseReference ref;
     FirebaseDatabase rootNode;
+    FirebaseDatabase fdb = FirebaseDatabase.getInstance();
 
     public static FloorPriceFragment newInstance() {
         return new FloorPriceFragment();
@@ -38,6 +48,9 @@ public class FloorPriceFragment extends Fragment {
         type=view.findViewById(R.id.txtFloorType);
         price=view.findViewById(R.id.txtFloorPrice);
         add=view.findViewById(R.id.btnAdd);
+        update=view.findViewById(R.id.btnUpdate);
+
+        update.setVisibility(view.GONE);
 
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -55,10 +68,42 @@ public class FloorPriceFragment extends Fragment {
                 ref.child(addType).setValue(ft);
                 Toast.makeText(getActivity().getApplicationContext(),"New Floor Type Added!",Toast.LENGTH_LONG).show();
 
+                FloorPriceFragment fragment =new FloorPriceFragment();
+                FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
+                trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                trans.detach(fragment);
+                trans.attach(fragment);
+                trans.commit();
+
             }
             catch(Exception ex){
 
             }
+            }
+        });
+
+
+        RecyclerView recyclerView = view.findViewById(R.id.rcvFP);
+        List<FloorType> ftList = new ArrayList<>();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("FloorType");
+
+        rootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot postSnapshot: snapshot.getChildren()){
+//                    key = snapshot.getKey();
+                    FloorType ft =postSnapshot.getValue(FloorType.class);
+//                    Job job = postSnapshot.getValue(Job.class);
+                    ftList.add(ft);
+
+                }
+
+                FloorAdapter adapter= new FloorAdapter(ftList,fdb);
+                recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                recyclerView.setAdapter(adapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
 

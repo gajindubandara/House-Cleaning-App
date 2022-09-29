@@ -152,4 +152,12 @@ public class Job {
     public void setRSqFt(String RSqFt) {
         this.RSqFt = RSqFt;
     }
+
+    public String getBSqFt() {
+        return BSqFt;
+    }
+
+    public void setBSqFt(String BSqFt) {
+        this.BSqFt = BSqFt;
+    }
 }

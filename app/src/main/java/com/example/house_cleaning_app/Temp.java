@@ -7,6 +7,7 @@ public class Temp {
     public static String jobID;
     public static String viewUserID;
     public  static  String typeID;
+//    public
 
 
     public static String getNIC() {

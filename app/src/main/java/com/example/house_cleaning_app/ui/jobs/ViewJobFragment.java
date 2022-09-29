@@ -30,7 +30,7 @@ import com.squareup.picasso.Picasso;
 public class ViewJobFragment extends Fragment {
 
     private ViewJobViewModel mViewModel;
-    TextView jobDate,jobPrice, NOR,NOBr,RFT,BrFT;
+    TextView jobDate,jobPrice, RSqFt, BSqFt,RFT,BrFT,NoR,NoBR;
     String loc;
     ImageView imgR,imgBr;
     Button btnLoc,btnGet,btnViewUser;
@@ -47,15 +47,16 @@ public class ViewJobFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_view_job, container, false);
-//        String jobID =JobID.getID();
         String jobID =Temp.getJobID();
         String  ID =  Temp.getNIC();
         jobDate =view.findViewById(R.id.jobDate);
         jobPrice =view.findViewById(R.id.jobPrice);
-        NOR =view.findViewById(R.id.jobRSqFt);
-        NOBr =view.findViewById(R.id.jobBSqFts);
+        RSqFt =view.findViewById(R.id.jobRSqFt);
+        BSqFt =view.findViewById(R.id.jobBSqFts);
         RFT =view.findViewById(R.id.jobRFT);
         BrFT =view.findViewById(R.id.jobBrFT);
+        NoR =view.findViewById(R.id.jobNoR);
+        NoBR =view.findViewById(R.id.jobNoBR);
         imgBr =view.findViewById(R.id.imgJobBr);
         imgR =view.findViewById(R.id.imgJobR);
         btnLoc =view.findViewById(R.id.btnLocation);
@@ -67,7 +68,7 @@ public class ViewJobFragment extends Fragment {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Job");
         Query checkUser = reference.orderByChild("jobID").equalTo(jobID);
-//        Toast.makeText(getActivity().getApplicationContext(),key,Toast.LENGTH_LONG).show();
+
 
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -79,17 +80,14 @@ public class ViewJobFragment extends Fragment {
                     loc = snapshot.child(jobID).child("location").getValue(String.class);
                     status =Integer.valueOf(snapshot.child(jobID).child("status").getValue(String.class));
 
-//                    CircularProgressDrawable cpd =new CircularProgressDrawable();
-//
-//                    cpd.strokeWidth = 5f;
-//                    cpd.centerRadius = 30f;
-//                    cpd.start();
                     Picasso.get().load(rUrl).into(imgR);
                     Picasso.get().load(brUrl).into(imgBr);
                     jobDate.setText(snapshot.child(jobID).child("date").getValue(String.class));
                     jobPrice.setText("Rs. "+snapshot.child(jobID).child("price").getValue(String.class)+".00/-");
-                    NOR.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
-                    NOBr.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
+                    RSqFt.setText(snapshot.child(jobID).child("rsqFt").getValue(String.class));
+                    BSqFt.setText(snapshot.child(jobID).child("bsqFt").getValue(String.class));
+                    NoR.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
+                    NoBR.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
                     RFT.setText(snapshot.child(jobID).child("rFloorType").getValue(String.class));
                     BrFT.setText(snapshot.child(jobID).child("bFloorType").getValue(String.class));
                     viewUserID =snapshot.child(jobID).child("user").getValue(String.class);

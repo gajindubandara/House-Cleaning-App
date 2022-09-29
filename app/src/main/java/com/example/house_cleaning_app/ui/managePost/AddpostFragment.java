@@ -1,4 +1,4 @@
-package com.example.house_cleaning_app.ui.newPost;
+package com.example.house_cleaning_app.ui.managePost;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,11 +29,13 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Job;
+import com.example.house_cleaning_app.ui.post.MyPostsFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -76,13 +78,10 @@ public class AddpostFragment extends Fragment {
     StorageReference storageReference;
     String imageRefR =" ";
     String imageRefBr =" ";
-    String  userNIC =  Temp.getNIC();
     String price ="";
     String priceForRoomType ="";
     String priceForBathroomType="";
     String typeID;
-    String test;
-    int Total= 0;
     int roomPrice =0;
     int bathroomPrice=0;
 
@@ -112,9 +111,12 @@ public class AddpostFragment extends Fragment {
 
 
 
+        //set spinners
+        ArrayList<String> Rft = new ArrayList<>();
+        ArrayList<String> Bft = new ArrayList<>();
 
-        ArrayList<String> ft = new ArrayList<>();
-        ft.add("Select-");
+        Rft.add("Select Room Floor Type-");
+        Bft.add("Select Bathroom Floor Type-");
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("FloorType");
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -124,8 +126,9 @@ public class AddpostFragment extends Fragment {
                     String typePrice =postSnapshot.child("price").getValue(String.class);
                     typeID =postSnapshot.child("key").getValue(String.class);
                     Temp.setTypeID(typeID);
-                    String value =type+"   (RS."+typePrice+".00 per SqFt)";
-                    ft.add(value);
+                    String value =type+",  (Rs. "+typePrice+".00 per SqFt)";
+                    Rft.add(value);
+                    Bft.add(value);
                 }
             }
             @Override
@@ -133,14 +136,14 @@ public class AddpostFragment extends Fragment {
             }
         });
 
-        //set spinners
+
         roomF  = view.findViewById(R.id.spinner_roomFloor);
-        ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, ft);
+        ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Rft);
         roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roomF.setAdapter(roomAdapter);
 
         bathroomF = view.findViewById(R.id.spinner_bathroomFloor);
-        ArrayAdapter<String> bathroomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, ft);
+        ArrayAdapter<String> bathroomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bft);
         bathroomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bathroomF.setAdapter(bathroomAdapter);
 
@@ -285,7 +288,7 @@ public class AddpostFragment extends Fragment {
                     if(latLng != null){
                         String str = String.valueOf(latLng);
                         String[] splitStr = str.split("\\s+");
-                        editLoc.setText(splitStr[1]);
+                        editLoc.setText("http://www.google.com/maps/place/"+splitStr[1]);
                     }
                 }
             }
@@ -306,17 +309,16 @@ public class AddpostFragment extends Fragment {
                 rootNode = FirebaseDatabase.getInstance();
                 referance=rootNode.getReference("Job");
 
-
                 //Validation
                 if (checkValid()){
                         String date = editDate.getText().toString();
-                        String loc = "http://www.google.com/maps/place/"+editLoc.getText().toString();
+                        String loc = editLoc.getText().toString();
                         String nor = editNoOfR.getText().toString();
                         String rF = String.valueOf(roomF.getSelectedItem());
-                        String[] splitRF = rF.split("\\s+");
+                        String[] splitRF = rF.split("[,]", 0);
                         String roomFloor = splitRF[0];
                         String brF = String.valueOf(bathroomF.getSelectedItem());
-                        String[] splitBRF = brF.split("\\s+");
+                        String[] splitBRF = brF.split("[,]", 0);
                         String bathroomFloor =splitBRF[0];
                         String nobr = editNoOfBr.getText().toString();
                         String user = Temp.getNIC();
@@ -397,8 +399,8 @@ public class AddpostFragment extends Fragment {
                                         progressDialog.setTitle("Positing...");
                                         progressDialog.show();
                                         progressDialog.setCancelable(false);
-                                        StorageReference rRef = storageReference.child("images/" + key+"/Room"+ imgRoomUri.getLastPathSegment());
-                                        StorageReference brRef = storageReference.child("images/" + key+"/Bathroom"+imgBathroomUri.getLastPathSegment());
+                                        StorageReference rRef = storageReference.child("images/" + key+"/Room");
+                                        StorageReference brRef = storageReference.child("images/" + key+"/Bathroom");
                                         uploadTask = rRef.putFile(imgRoomUri);
                                         uploadTask = brRef.putFile(imgBathroomUri);
                                         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -423,7 +425,16 @@ public class AddpostFragment extends Fragment {
                                                         imageRefBr = uri.toString();
                                                         referance = rootNode.getReference("Job");
                                                         referance.child(key).child("imageBr").setValue(imageRefBr);
-                                                        progressDialog.dismiss();;
+                                                        progressDialog.dismiss();
+
+                                                        FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                                                        MyPostsFragment fragment = new MyPostsFragment();
+                                                        trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                                        trans.addToBackStack(null);
+                                                        trans.commit();
+                                                        Toast.makeText(getActivity().getApplicationContext(),"Post Created!",Toast.LENGTH_LONG).show();
+
+
                                                     }
                                                 });
                                             }
@@ -473,7 +484,9 @@ public class AddpostFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(),"Room square Feet cannot blank",Toast.LENGTH_LONG).show();
             return false;
         }
-        if (roomF.getSelectedItem().toString()=="Select-") {
+        String strR = roomF.getSelectedItem().toString();
+        String[] splitStrR = strR.split("\\s+");
+        if (splitStrR[0].equals("Select")) {
             Toast.makeText(getActivity().getApplicationContext(),"Select a Room Floor Type",Toast.LENGTH_LONG).show();
             return false;
         }
@@ -485,7 +498,9 @@ public class AddpostFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(),"Bathroom square Feet cannot blank",Toast.LENGTH_LONG).show();
             return false;
         }
-        if (bathroomF.getSelectedItem().toString()=="Select-") {
+        String strB = bathroomF.getSelectedItem().toString();
+        String[] splitStrB = strB.split("\\s+");
+        if (splitStrB[0].equals("Select")){
             Toast.makeText(getActivity().getApplicationContext(),"Select a Bathroom Floor Type",Toast.LENGTH_LONG).show();
             return false;
         }

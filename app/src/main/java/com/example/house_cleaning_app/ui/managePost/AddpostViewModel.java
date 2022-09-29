@@ -1,4 +1,4 @@
-package com.example.house_cleaning_app.ui.newPost;
+package com.example.house_cleaning_app.ui.managePost;
 
 import androidx.lifecycle.ViewModel;
 

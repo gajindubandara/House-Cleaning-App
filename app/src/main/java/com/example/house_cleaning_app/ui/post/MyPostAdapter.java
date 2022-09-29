@@ -19,6 +19,7 @@ import com.example.house_cleaning_app.MainActivity;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Job;
+import com.example.house_cleaning_app.ui.managePost.EditPostFragment;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -95,6 +96,18 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.ViewHolder
 
                 Temp.setJobID(job.getJobID());
                 ViewMyPostFragment fragment =new ViewMyPostFragment();
+                FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.nav_host_fragment_content_main,fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Temp.setJobID(job.getJobID());
+                EditPostFragment fragment =new EditPostFragment();
                 FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.nav_host_fragment_content_main,fragment);
                 ft.addToBackStack(null);

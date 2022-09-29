@@ -39,7 +39,7 @@ import java.time.format.DateTimeFormatter;
 public class ViewMyJobFragment extends Fragment {
 
     private ViewMyJobViewModel mViewModel;
-    TextView postDate,postPrice, NOR,NOBr,RFT,BrFT,txtMsg;
+    TextView postDate,postPrice, RSqFt, BSqFt,RFT,BrFT,txtMsg,NoR,NoBR;
     String loc;
     ImageView imgR,imgBr;
     Button btnLoc,btnFinish;
@@ -65,8 +65,8 @@ public class ViewMyJobFragment extends Fragment {
 
         postDate =view.findViewById(R.id.postDate);
         postPrice =view.findViewById(R.id.postPrice);
-        NOR =view.findViewById(R.id.postRSqFt);
-        NOBr =view.findViewById(R.id.postBSqFr);
+        RSqFt =view.findViewById(R.id.postRSqFt);
+        BSqFt =view.findViewById(R.id.postBSqFr);
         RFT =view.findViewById(R.id.postRFT);
         BrFT=view.findViewById(R.id.postBrFT);
         imgBr =view.findViewById(R.id.imgPostBr);
@@ -74,6 +74,8 @@ public class ViewMyJobFragment extends Fragment {
         txtMsg =view.findViewById(R.id.txtMsg);
         btnLoc =view.findViewById(R.id.btnPostLocation);
         btnFinish=view.findViewById(R.id.btnFinish);
+        NoR=view.findViewById(R.id.postNoR);
+        NoBR=view.findViewById(R.id.postNoBR);
 
 
 
@@ -98,8 +100,10 @@ public class ViewMyJobFragment extends Fragment {
                     Picasso.get().load(brUrl).into(imgBr);
                     postDate.setText(snapshot.child(jobID).child("date").getValue(String.class));
                     postPrice.setText("Rs. "+snapshot.child(jobID).child("price").getValue(String.class)+".00/-");
-                    NOR.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
-                    NOBr.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
+                    RSqFt.setText(snapshot.child(jobID).child("rsqFt").getValue(String.class));
+                    BSqFt.setText(snapshot.child(jobID).child("bsqFt").getValue(String.class));
+                    NoR.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
+                    NoBR.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
                     RFT.setText(snapshot.child(jobID).child("rFloorType").getValue(String.class));
                     BrFT.setText(snapshot.child(jobID).child("bFloorType").getValue(String.class));
 

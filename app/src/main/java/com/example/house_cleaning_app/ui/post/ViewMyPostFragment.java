@@ -41,7 +41,7 @@ import java.time.format.DateTimeFormatter;
 public class ViewMyPostFragment extends Fragment {
 
     private ViewMyPostViewModel mViewModel;
-    TextView postDate,postPrice, RSqFt, BSqFt,RFT,BrFT,txtMsg;
+    TextView postDate,postPrice, RSqFt, BSqFt,RFT,BrFT,txtMsg,NoR,NoBR;
     String loc;
     ImageView imgR,imgBr;
     Button btnLoc,btnDel,btnAccept,btnCancel,btnCon,btnAddReview;
@@ -79,6 +79,16 @@ public class ViewMyPostFragment extends Fragment {
         btnCon=view.findViewById(R.id.btnViewContractor);
         cdMsg=view.findViewById(R.id.cardMsg);
         btnAddReview=view.findViewById(R.id.btnAddReview);
+        NoR=view.findViewById(R.id.postNoR);
+        NoBR=view.findViewById(R.id.postNoBR);
+
+        cdMsg.setVisibility(view.GONE);
+        btnAccept.setVisibility(view.GONE);
+        btnCancel.setVisibility(view.GONE);
+        txtMsg.setVisibility(view.GONE);
+        btnDel.setVisibility(view.GONE);
+        btnCon.setVisibility(view.GONE);
+        btnAddReview.setVisibility(view.GONE);
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Job");
@@ -99,27 +109,29 @@ public class ViewMyPostFragment extends Fragment {
                     Picasso.get().load(brUrl).into(imgBr);
                     postDate.setText(snapshot.child(jobID).child("date").getValue(String.class));
                     postPrice.setText("Rs. "+snapshot.child(jobID).child("price").getValue(String.class)+".00/-");
-                    RSqFt.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
-                    BSqFt.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
+                    RSqFt.setText(snapshot.child(jobID).child("rsqFt").getValue(String.class));
+                    BSqFt.setText(snapshot.child(jobID).child("bsqFt").getValue(String.class));
                     RFT.setText(snapshot.child(jobID).child("rFloorType").getValue(String.class));
                     BrFT.setText(snapshot.child(jobID).child("bFloorType").getValue(String.class));
+                    NoR.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
+                    NoBR.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
                     viewUserID=snapshot.child(jobID).child("contractor").getValue(String.class);
 
-                    if(status==1 ||status==5){
-                        btnCon.setVisibility(view.GONE);
+                    if(status==2||status==3||status==4){
+                    btnCon.setVisibility(view.VISIBLE);
                     }
-                    if(status!=2) {
-                        cdMsg.setVisibility(view.GONE);
-                        btnAccept.setVisibility(view.GONE);
-                        btnCancel.setVisibility(view.GONE);
-                        txtMsg.setVisibility(view.GONE);
-                        btnDel.setVisibility(view.GONE);
+                    if(status==2) {
+                        cdMsg.setVisibility(view.VISIBLE);
+                        btnAccept.setVisibility(view.VISIBLE);
+                        btnCancel.setVisibility(view.VISIBLE);
+                        txtMsg.setVisibility(view.VISIBLE);
+                        btnDel.setVisibility(view.VISIBLE);
                     }
                     if(status!=1) {
                         btnDel.setVisibility(view.GONE);
                     }
-                    if(status!=4) {
-                        btnAddReview.setVisibility(view.GONE);
+                    if(status==4) {
+                        btnAddReview.setVisibility(view.VISIBLE);
                     }
 
 

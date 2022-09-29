@@ -55,19 +55,15 @@ public class ViewUserFragment extends Fragment {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         Query checkUser = reference.orderByChild("userNIC").equalTo(viewUserID);
-//        Toast.makeText(getActivity().getApplicationContext(),key,Toast.LENGTH_LONG).show();
 
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-
                     name.setText(snapshot.child(viewUserID).child("name").getValue(String.class));
                     address.setText(snapshot.child(viewUserID).child("address").getValue(String.class));
                     email.setText(snapshot.child(viewUserID).child("email").getValue(String.class));
                     no.setText(snapshot.child(viewUserID).child("number").getValue(String.class));
-//                    viewUserID=snapshot.child(viewUserID).child("user").getValue(String.class);
-
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(),"no data",Toast.LENGTH_LONG).show();
@@ -102,8 +98,6 @@ public class ViewUserFragment extends Fragment {
                 recyclerView.setAdapter(adapter);
             }
                 else{
-//
-//                    Toast.makeText(getActivity().getApplicationContext(),"no rev",Toast.LENGTH_LONG).show();
                 }
             }
             @Override
