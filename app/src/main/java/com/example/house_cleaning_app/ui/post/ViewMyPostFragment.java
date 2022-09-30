@@ -44,7 +44,7 @@ public class ViewMyPostFragment extends Fragment {
     TextView postDate,postPrice, RSqFt, BSqFt,RFT,BrFT,txtMsg,NoR,NoBR;
     String loc;
     ImageView imgR,imgBr;
-    Button btnLoc,btnDel,btnAccept,btnCancel,btnCon,btnAddReview;
+    Button btnLoc,btnAccept,btnCancel,btnCon,btnAddReview;
     CardView cdMsg;
     DatabaseReference referance,refReview;
     FirebaseDatabase rootNode;
@@ -73,7 +73,7 @@ public class ViewMyPostFragment extends Fragment {
         imgR =view.findViewById(R.id.imgPostR);
         txtMsg =view.findViewById(R.id.txtMsg);
         btnLoc =view.findViewById(R.id.btnPostLocation);
-        btnDel =view.findViewById(R.id.btnDel);
+
         btnAccept =view.findViewById(R.id.btnAccept);
         btnCancel =view.findViewById(R.id.btnCancel);
         btnCon=view.findViewById(R.id.btnViewContractor);
@@ -86,7 +86,7 @@ public class ViewMyPostFragment extends Fragment {
         btnAccept.setVisibility(view.GONE);
         btnCancel.setVisibility(view.GONE);
         txtMsg.setVisibility(view.GONE);
-        btnDel.setVisibility(view.GONE);
+
         btnCon.setVisibility(view.GONE);
         btnAddReview.setVisibility(view.GONE);
 
@@ -125,11 +125,8 @@ public class ViewMyPostFragment extends Fragment {
                         btnAccept.setVisibility(view.VISIBLE);
                         btnCancel.setVisibility(view.VISIBLE);
                         txtMsg.setVisibility(view.VISIBLE);
-                        btnDel.setVisibility(view.VISIBLE);
                     }
-                    if(status!=1) {
-                        btnDel.setVisibility(view.GONE);
-                    }
+
                     if(status==4) {
                         btnAddReview.setVisibility(view.VISIBLE);
                     }
@@ -207,18 +204,6 @@ public class ViewMyPostFragment extends Fragment {
 
 
 
-        btnDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                referance.child(jobID).child("status").setValue("5");
-                Toast.makeText(getActivity().getApplicationContext(),"Post Removed!",Toast.LENGTH_LONG).show();
-                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                MyPostsFragment fragment = new MyPostsFragment();
-                trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                trans.addToBackStack(null);
-                trans.commit();
-            }
-        });
 
         btnAddReview.setOnClickListener(new View.OnClickListener() {
             @Override

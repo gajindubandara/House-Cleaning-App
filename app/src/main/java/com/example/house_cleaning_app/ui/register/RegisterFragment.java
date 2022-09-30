@@ -22,8 +22,12 @@ import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.data.passwordHash;
 import com.example.house_cleaning_app.model.User;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterFragment extends Fragment {
 
@@ -97,31 +101,55 @@ public class RegisterFragment extends Fragment {
 
                        User user=new User(nic,type,name,address,email,num,hashPW);
 
-                       //saving data to DB
-                       try{
-                           rootNode = FirebaseDatabase.getInstance();
-                           ref =rootNode.getReference("User");
-                           ref.child(user.getUserNIC()).setValue(user);
+                       //checking duplicates
+                       DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+                       Query checkUser = reference.orderByChild("userNIC").equalTo(nic);
+
+                       checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                           @Override
+                           public void onDataChange(@NonNull DataSnapshot snapshot) {
+                               if(snapshot.exists()){
+
+                                   Toast.makeText(getActivity().getApplicationContext(),"There is an exiting account for this NIC number",Toast.LENGTH_LONG).show();
+
+                               }
+                               else{
+
+                                   //saving data to DB
+                                   try{
+                                       rootNode = FirebaseDatabase.getInstance();
+                                       ref =rootNode.getReference("User");
+                                       ref.child(user.getUserNIC()).setValue(user);
 
 
-                           //Set shared pref for register
-                           SharedPreference preference=new SharedPreference();
-                           preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
+                                       //Set shared pref for register
+                                       SharedPreference preference=new SharedPreference();
+                                       preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);
 
-                           //Move to login frag
-                           LoginFragment fragment = new LoginFragment();
-                           FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                           trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                           trans.addToBackStack(null);
-                           trans.commit();
+                                       //Move to login frag
+                                       LoginFragment fragment = new LoginFragment();
+                                       FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                                       trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                       trans.addToBackStack(null);
+                                       trans.commit();
 
-                           Toast.makeText(getActivity().getApplicationContext(),"Account Created Successfully!",Toast.LENGTH_LONG).show();
+                                       Toast.makeText(getActivity().getApplicationContext(),"Account Created Successfully!",Toast.LENGTH_LONG).show();
 
-                       }
-                       catch(Exception ex){
+                                   }
+                                   catch(Exception ex){
 
-                           Toast.makeText(getActivity().getApplicationContext(),"Failed to Create an Account",Toast.LENGTH_LONG).show();
-                       }
+                                       Toast.makeText(getActivity().getApplicationContext(),"Failed to Create an Account",Toast.LENGTH_LONG).show();
+                                   }
+                               }
+                           }
+
+                           @Override
+                           public void onCancelled(@NonNull DatabaseError error) {
+
+                           }
+                       });
+
+
 
                    }
                    else{

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,10 +70,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_dot));
             holder.txtStatus.setText("Finished");
         }
-        else if(status==5){
-            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_remove));
-            holder.txtStatus.setText("Job Removed");
-        }
+
 
 
 
@@ -108,8 +104,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtDate, txtPrice, txtStatus;
         ImageView imgDot;
-        ImageButton imgBtnLoc;
-        Button viewBtn;
+        ImageButton viewBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtDate =itemView.findViewById(R.id.txtDate);
@@ -117,10 +112,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             txtStatus =itemView.findViewById(R.id.txtStatus);
             viewBtn =itemView.findViewById(R.id.btnViewJob);
             imgDot = itemView.findViewById(R.id.imgDot);
-
-//            imgVE = itemView.findViewById(R.id.imgVE);
-//            imgbtnEdit =itemView.findViewById(R.id.imgbtnEdit);
-//            imgbtnDelete =itemView.findViewById(R.id.imgbtnDelete);
+;
 
 
 

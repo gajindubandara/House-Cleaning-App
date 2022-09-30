@@ -93,7 +93,7 @@ public class ViewUserFragment extends Fragment {
                     Review rev = postSnapshot.getValue(Review.class);
                     revList.add(rev);
                 }
-                UserAdapter adapter = new UserAdapter(revList, fdb);
+                UserReviewAdapter adapter = new UserReviewAdapter(revList, fdb);
                 recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                 recyclerView.setAdapter(adapter);
             }

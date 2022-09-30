@@ -54,11 +54,34 @@ public class MyPostsFragment extends Fragment {
         getPosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for(DataSnapshot postSnapshot: snapshot.getChildren()){
+//                    Job job = postSnapshot.getValue(Job.class);
+//                    jobList.add(job);
+//
+//                }
                 for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    key = snapshot.getKey();
                     Job job = postSnapshot.getValue(Job.class);
-                    jobList.add(job);
-
+                    if(job.getStatus().equals("1")){
+                        jobList.add(job);
+                    }
+                }
+                for(DataSnapshot postSnapshot: snapshot.getChildren()){
+                    Job job = postSnapshot.getValue(Job.class);
+                    if(job.getStatus().equals("2")){
+                        jobList.add(job);
+                    }
+                }
+                for(DataSnapshot postSnapshot: snapshot.getChildren()){
+                    Job job = postSnapshot.getValue(Job.class);
+                    if(job.getStatus().equals("3")){
+                        jobList.add(job);
+                    }
+                }
+                for(DataSnapshot postSnapshot: snapshot.getChildren()){
+                    Job job = postSnapshot.getValue(Job.class);
+                    if(job.getStatus().equals("4")){
+                        jobList.add(job);
+                    }
                 }
 
                 MyPostAdapter adapter= new MyPostAdapter(jobList,fdb);

@@ -7,6 +7,7 @@ public class Temp {
     public static String jobID;
     public static String viewUserID;
     public  static  String typeID;
+    public  static  String userType;
 //    public
 
 
@@ -40,5 +41,13 @@ public class Temp {
 
     public static void setTypeID(String typeID) {
         Temp.typeID = typeID;
+    }
+
+    public static String getUserType() {
+        return userType;
+    }
+
+    public static void setUserType(String userType) {
+        Temp.userType = userType;
     }
 }

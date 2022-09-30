@@ -21,19 +21,13 @@ import com.example.house_cleaning_app.databinding.ActivityMainBinding;
 import com.example.house_cleaning_app.ui.home.HomeFragment;
 import com.example.house_cleaning_app.ui.jobs.AllPostsFragment;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
-import com.example.house_cleaning_app.ui.myJobs.MyJobsFragment;
 import com.example.house_cleaning_app.ui.managePost.AddpostFragment;
+import com.example.house_cleaning_app.ui.myJobs.MyJobsFragment;
 import com.example.house_cleaning_app.ui.post.MyPostsFragment;
 import com.example.house_cleaning_app.ui.pricing.FloorPriceFragment;
 import com.example.house_cleaning_app.ui.profile.ProfileFragment;
 import com.example.house_cleaning_app.ui.register.RegisterFragment;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     boolean register= false;
     String userType;
     String NIC;
+    int userTypeFromDB;
 
 
     @Override
@@ -66,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
 
-//        adding the navigation manually
+       //adding the navigation manually
         getSupportFragmentManager().popBackStack();
         FragmentTransaction trans =getSupportFragmentManager().beginTransaction();
 
@@ -76,109 +71,96 @@ public class MainActivity extends AppCompatActivity {
         status = preference.GetBoolean(getApplicationContext(),SharedPreference.LOGIN_STATUS);
         userType =preference.GetString(getApplicationContext(),SharedPreference.USER_TYPE);
         NIC=preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
-//        String userType ="Customer";
-
-
-        //check user type
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
-        Query checkUser = reference.orderByChild("userNIC").equalTo(NIC);
-
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    int userTypeFromDB =Integer.valueOf(snapshot.child(NIC).child("type").getValue(String.class));
-
-                    if (register){
-                        Menu menu = navigationView.getMenu();
-                        MenuItem item=menu.findItem(R.id.nav_register);
-                        item.setVisible(false);
-                        //check login
-                        if(status) {
-
-                            if (userTypeFromDB==1){
-//                                Toast.makeText(getApplicationContext(),userTypeFromDB+"  cus",Toast.LENGTH_LONG).show();
-                                item=menu.findItem(R.id.nav_allPosts);
-                                item.setVisible(false);
-                            }else if (userTypeFromDB==2){
-//                                Toast.makeText(getApplicationContext(),userTypeFromDB+"  con",Toast.LENGTH_LONG).show();
-                                item=menu.findItem(R.id.nav_add);
-                                item.setVisible(false);
-                            }
-
-
-//                    EnableOnLogin(false);
-//                EnableOnLogin();
-//                Menu menu = navigationView.getMenu();
-//                MenuItem item=menu.findItem(R.id.nav_login);
-//                item.setVisible(false);
-                            item=menu.findItem(R.id.nav_login);
-                            item.setVisible(false);
-
-                            String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
-                            Temp.setNIC(nic);
-                            HomeFragment fragment = new HomeFragment();
-                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                            trans.addToBackStack(null);
-                            trans.commit();
-                        }
-                        else {
-
-                            menu = navigationView.getMenu();
-                            item=menu.findItem(R.id.nav_allPosts);
-                            item.setVisible(false);
-                            item=menu.findItem(R.id.nav_add);
-                            item.setVisible(false);
-                            item=menu.findItem(R.id.nav_home);
-                            item.setVisible(false);
-                            item=menu.findItem(R.id.nav_profile);
-                            item.setVisible(false);
-                            item=menu.findItem(R.id.nav_logout);
-                            item.setVisible(false);
-
-
-                            LoginFragment fragment = new LoginFragment();
-                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                            trans.addToBackStack(null);
-                            trans.commit();
-
-
-                        }
-                    }
-                    else {
-                        Menu menu = navigationView.getMenu();
-                        MenuItem item=menu.findItem(R.id.nav_allPosts);
-                        item.setVisible(false);
-                        item=menu.findItem(R.id.nav_add);
-                        item.setVisible(false);
-                        item=menu.findItem(R.id.nav_home);
-                        item.setVisible(false);
-                        item=menu.findItem(R.id.nav_profile);
-                        item.setVisible(false);
-                        item=menu.findItem(R.id.nav_logout);
-                        item.setVisible(false);
-
-                        RegisterFragment fragment = new RegisterFragment();
-                        trans.replace(R.id.nav_host_fragment_content_main,fragment);
-                        trans.addToBackStack(null);
-                        trans.commit();
 
 
 
-                    }
+        Menu menu1 = navigationView.getMenu();
+        MenuItem item1=menu1.findItem(R.id.nav_allPosts);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_add);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_myPosts);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_myJobs);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_logout);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_register);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_floorPrice);
+        item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_profile);
+        item1.setVisible(false);
+
+
+        if (register){
+            Menu menu = navigationView.getMenu();
+            MenuItem item;
+
+            //check login
+            if(status) {
+                item=menu.findItem(R.id.nav_profile);
+                item.setVisible(true);
+                item1=menu1.findItem(R.id.nav_logout);
+                item1.setVisible(true);
+
+                String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
+                String type=preference.GetString(getApplicationContext(),SharedPreference.USER_TYPE);
+                Temp.setNIC(nic);
+                Temp.setUserType(type);
+
+                if (type.equals("1")){
+                    item=menu.findItem(R.id.nav_add);
+                    item.setVisible(true);
+                    item=menu.findItem(R.id.nav_myPosts);
+                    item.setVisible(true);
+
+                }else if (type.equals("2")){
+
+                    item=menu.findItem(R.id.nav_allPosts);
+                    item.setVisible(true);
+                    item=menu.findItem(R.id.nav_myJobs);
+                    item.setVisible(true);
+
+                }else if(type.equals("3")){
+                    item=menu.findItem(R.id.nav_floorPrice);
+                    item.setVisible(false);
+                    item=menu.findItem(R.id.nav_allPosts);
+                    item.setVisible(true);
+
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                item=menu.findItem(R.id.nav_login);
+                item.setVisible(false);
 
-//        String cus ="Customer";//Customer
-//        String con ="Contractor";//Contractor
-//        String userType ="Customer";
-//        Toast.makeText(getApplicationContext(),userType,Toast.LENGTH_LONG).show();
-        //check register
+
+                //moving to frag
+                HomeFragment fragment = new HomeFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+            else {
+                //moving to frag
+                LoginFragment fragment = new LoginFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        }
+        else {
+            Menu menu = navigationView.getMenu();
+            MenuItem item=menu.findItem(R.id.nav_register);
+            item.setVisible(true);
+
+            //moving to frag
+            RegisterFragment fragment = new RegisterFragment();
+            trans.replace(R.id.nav_host_fragment_content_main,fragment);
+            trans.addToBackStack(null);
+            trans.commit();
+
+        }
+
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -237,42 +219,17 @@ public class MainActivity extends AppCompatActivity {
                     preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
                     preference.SaveString(getApplicationContext(),null,SharedPreference.USER_TYPE);
                     preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
-//                    EnableMenu(false);
 
-//                    Menu menu = navigationView.getMenu();
-//                    MenuItem itemM=menu.findItem(R.id.nav_allPosts);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_add);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_home);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_profile);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_logout);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_login);
-//                    itemM.setVisible(true);
                 }
                 else if (menuID==R.id.nav_unReg){
                     RegisterFragment fragment = new RegisterFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                     trans.addToBackStack(null);
                     preference.SaveBool(getApplicationContext(),false,SharedPreference.REGISTER);
-//                    Menu menu = navigationView.getMenu();
-//                    MenuItem itemM=menu.findItem(R.id.nav_allPosts);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_add);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_home);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_profile);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_logout);
-//                    itemM.setVisible(false);
-//                    itemM=menu.findItem(R.id.nav_login);
-//                    itemM.setVisible(true);
-//                    itemM=menu.findItem(R.id.nav_register);
-//                    itemM.setVisible(false);
+                    preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
+                    preference.SaveString(getApplicationContext(),"",SharedPreference.USER_TYPE);
+                    preference.SaveString(getApplicationContext(),"",SharedPreference.USER_NIC);
+
                 }
                 trans.addToBackStack(null);
                 trans.commit();
@@ -282,6 +239,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    public  void CustomerMenu(boolean a){
+        Menu menu = navigationView.getMenu();
+        MenuItem item;
+        item=menu.findItem(R.id.nav_add);
+        item.setVisible(true);
+        item=menu.findItem(R.id.nav_myPosts);
+        item.setVisible(true);
+    }
     public void EnableAfterLoginMenu()
     {
 

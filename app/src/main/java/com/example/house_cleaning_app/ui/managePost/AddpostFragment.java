@@ -302,7 +302,7 @@ public class AddpostFragment extends Fragment {
         });
 
         //create post
-        btnCreate=view.findViewById(R.id.homeNewPost);
+        btnCreate=view.findViewById(R.id.NewPost);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -427,12 +427,15 @@ public class AddpostFragment extends Fragment {
                                                         referance.child(key).child("imageBr").setValue(imageRefBr);
                                                         progressDialog.dismiss();
 
+                                                        Toast.makeText(getActivity().getApplicationContext(),"Post Created!",Toast.LENGTH_LONG).show();
                                                         FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
                                                         MyPostsFragment fragment = new MyPostsFragment();
                                                         trans.replace(R.id.nav_host_fragment_content_main, fragment);
                                                         trans.addToBackStack(null);
+                                                        trans.detach(fragment);
+                                                        trans.attach(fragment);
                                                         trans.commit();
-                                                        Toast.makeText(getActivity().getApplicationContext(),"Post Created!",Toast.LENGTH_LONG).show();
+
 
 
                                                     }

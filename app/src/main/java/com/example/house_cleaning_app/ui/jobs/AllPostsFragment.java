@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -46,8 +47,10 @@ public class AllPostsFragment extends Fragment {
         RecyclerView recyclerView = v.findViewById(R.id.rcvJobs);
         List<Job> jobList = new ArrayList<>();
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Job");
+        Query getOpenPosts = rootRef.orderByChild("status").equalTo("1");
+        Query getRequestPosts = rootRef.orderByChild("status").equalTo("2");
 
-            rootRef.addValueEventListener(new ValueEventListener() {
+            getOpenPosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot postSnapshot: snapshot.getChildren()){
@@ -65,6 +68,25 @@ public class AllPostsFragment extends Fragment {
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
+
+        getRequestPosts.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot postSnapshot: snapshot.getChildren()){
+                    key = snapshot.getKey();
+                    Job job = postSnapshot.getValue(Job.class);
+                    jobList.add(job);
+
+                }
+
+                PostAdapter adapter= new PostAdapter(jobList,fdb);
+                recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                recyclerView.setAdapter(adapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         return v;
     }

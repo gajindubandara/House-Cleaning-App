@@ -71,7 +71,7 @@ public class LoginFragment extends Fragment {
                                 String userTypeFromDB =snapshot.child(enteredNIC).child("type").getValue(String.class);
 
                                 if(passwordFromDB.equals(enteredPW)){
-                                    Temp.NIC = enteredNIC;
+                                    Temp.setNIC(enteredNIC);
 
                                     SharedPreference preference=new SharedPreference();
                                     preference.SaveBool(view.getContext(),true,SharedPreference.REGISTER);

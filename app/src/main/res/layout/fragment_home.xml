@@ -36,7 +36,7 @@
             tools:ignore="MissingConstraints" />
 
         <Button
-            android:id="@+id/btnLoad"
+            android:id="@+id/homeMyPosts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -47,18 +47,7 @@
             tools:ignore="MissingConstraints" />
 
         <Button
-            android:id="@+id/btnCreate22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="@color/ic_launcher_background"
-            android:text="My PRofile"
-            android:textStyle="bold"
-            tools:ignore="MissingConstraints" />
-
-        <Button
-            android:id="@+id/btnCreate224"
+            android:id="@+id/homeAllPosts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -69,7 +58,7 @@
             tools:ignore="MissingConstraints" />
 
         <Button
-            android:id="@+id/btnCreate3"
+            android:id="@+id/homeMyJobs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -80,7 +69,29 @@
             tools:ignore="MissingConstraints" />
 
         <Button
-            android:id="@+id/btnCreate4"
+            android:id="@+id/homePricing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/ic_launcher_background"
+            android:text="Pricing"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/homeMyProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/ic_launcher_background"
+            android:text="My PRofile"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/homeLogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -91,7 +102,7 @@
             tools:ignore="MissingConstraints" />
 
         <Button
-            android:id="@+id/btnCreate5"
+            android:id="@+id/homeExit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

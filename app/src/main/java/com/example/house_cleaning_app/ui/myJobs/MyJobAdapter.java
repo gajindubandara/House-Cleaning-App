@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,13 +59,8 @@ public class MyJobAdapter extends RecyclerView.Adapter<MyJobAdapter.ViewHolder> 
 
         }else if(status==2){
             holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_yellow_dot));
-            holder.txtStatus.setText("Request Pending");
+            holder.txtStatus.setText("Request Sent");
 
-
-        }
-        else if(status==3){
-            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_blue_dot));
-            holder.txtStatus.setText("Assigned");
 
         }
         else if(status==3){
@@ -79,11 +73,7 @@ public class MyJobAdapter extends RecyclerView.Adapter<MyJobAdapter.ViewHolder> 
             holder.txtStatus.setText("Finished");
 
         }
-        else if(status==5){
-            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_remove));
-            holder.txtStatus.setText("Job Removed");
 
-        }
 
 
 
@@ -111,8 +101,7 @@ public class MyJobAdapter extends RecyclerView.Adapter<MyJobAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtDate, txtPrice, txtStatus;
         ImageView imgDot;
-        ImageButton imgBtnLoc;
-        Button viewBtn,editBtn;
+        ImageButton viewBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtDate =itemView.findViewById(R.id.txtDate);

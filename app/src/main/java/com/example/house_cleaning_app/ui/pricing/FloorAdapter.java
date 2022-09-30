@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
@@ -74,13 +75,13 @@ public class FloorAdapter extends RecyclerView.Adapter<FloorAdapter.ViewHolder> 
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 rootRef.child(ft.getType()).removeValue();
-
                                 FloorPriceFragment fragment =new FloorPriceFragment();
                                 FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
                                 ft.replace(R.id.nav_host_fragment_content_main,fragment);
                                 ft.detach(fragment);
                                 ft.attach(fragment);
                                 ft.commit();
+                                Toast.makeText((MainActivity)v.getContext(),"Floor Type Removed!",Toast.LENGTH_LONG).show();
 
                             }
                             @Override

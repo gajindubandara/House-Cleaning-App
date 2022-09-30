@@ -288,14 +288,14 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/homeNewPost"
+                        android:id="@+id/NewPost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="20dp"
                         android:backgroundTint="@color/ic_launcher_background"
-                        android:text="Create"
+                        android:text="Create Post"
                         android:textStyle="bold" />
                 </LinearLayout>
 

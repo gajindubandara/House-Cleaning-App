@@ -16,14 +16,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.ViewHolder> {
     FirebaseDatabase fdb;
     List<Review> revList;
 
     private Context context;
 
 
-    public UserAdapter(List<Review> reviews, FirebaseDatabase _db){
+    public UserReviewAdapter(List<Review> reviews, FirebaseDatabase _db){
 
         revList = reviews;
         fdb = _db;
@@ -31,10 +31,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public UserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserReviewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View eventItems = inflater.inflate(R.layout.review,parent,false);
-        UserAdapter.ViewHolder holder = new UserAdapter.ViewHolder(eventItems);
+        UserReviewAdapter.ViewHolder holder = new UserReviewAdapter.ViewHolder(eventItems);
         context = parent.getContext();
         return holder;
     }
