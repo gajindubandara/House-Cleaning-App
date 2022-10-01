@@ -439,6 +439,7 @@ public class EditPostFragment extends Fragment {
                                                 Job job=new Job(jobID,loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, rUrl,brUrl,contractor,rsqft,bsqft);
 
                                                 referance.child(jobID).setValue(job);
+                                                Toast.makeText(getActivity().getApplicationContext(),"Post Updated!",Toast.LENGTH_LONG).show();
                                             }catch(Exception ex)
                                             {
                                                 throw ex;

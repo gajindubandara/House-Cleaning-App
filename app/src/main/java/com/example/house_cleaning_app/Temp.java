@@ -8,6 +8,7 @@ public class Temp {
     public static String viewUserID;
     public  static  String typeID;
     public  static  String userType;
+    public  static  String userName;
 //    public
 
 
@@ -49,5 +50,13 @@ public class Temp {
 
     public static void setUserType(String userType) {
         Temp.userType = userType;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void setUserName(String userName) {
+        Temp.userName = userName;
     }
 }

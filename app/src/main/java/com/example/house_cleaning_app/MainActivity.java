@@ -73,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         NIC=preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
 
 
+        Temp.setNIC(NIC);
+        Temp.setUserType(userType);
+
+
+
 
         Menu menu1 = navigationView.getMenu();
         MenuItem item1=menu1.findItem(R.id.nav_allPosts);
@@ -104,25 +109,25 @@ public class MainActivity extends AppCompatActivity {
                 item1=menu1.findItem(R.id.nav_logout);
                 item1.setVisible(true);
 
-                String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
-                String type=preference.GetString(getApplicationContext(),SharedPreference.USER_TYPE);
-                Temp.setNIC(nic);
-                Temp.setUserType(type);
+//                String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
+//                String type=preference.GetString(getApplicationContext(),SharedPreference.USER_TYPE);
 
-                if (type.equals("1")){
+
+
+                if (userType.equals("1")){
                     item=menu.findItem(R.id.nav_add);
                     item.setVisible(true);
                     item=menu.findItem(R.id.nav_myPosts);
                     item.setVisible(true);
 
-                }else if (type.equals("2")){
+                }else if (userType.equals("2")){
 
                     item=menu.findItem(R.id.nav_allPosts);
                     item.setVisible(true);
                     item=menu.findItem(R.id.nav_myJobs);
                     item.setVisible(true);
 
-                }else if(type.equals("3")){
+                }else if(userType.equals("3")){
                     item=menu.findItem(R.id.nav_floorPrice);
                     item.setVisible(false);
                     item=menu.findItem(R.id.nav_allPosts);

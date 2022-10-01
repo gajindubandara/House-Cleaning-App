@@ -44,7 +44,7 @@ public class ViewMyPostFragment extends Fragment {
     TextView postDate,postPrice, RSqFt, BSqFt,RFT,BrFT,txtMsg,NoR,NoBR;
     String loc;
     ImageView imgR,imgBr;
-    Button btnLoc,btnAccept,btnCancel,btnCon,btnAddReview;
+    Button btnLoc,btnAccept,btnCancel,btnCon,btnAddReview,btnMsgCon;
     CardView cdMsg;
     DatabaseReference referance,refReview;
     FirebaseDatabase rootNode;
@@ -81,14 +81,13 @@ public class ViewMyPostFragment extends Fragment {
         btnAddReview=view.findViewById(R.id.btnAddReview);
         NoR=view.findViewById(R.id.postNoR);
         NoBR=view.findViewById(R.id.postNoBR);
+        btnMsgCon=view.findViewById(R.id.btnMsgCon);
 
         cdMsg.setVisibility(view.GONE);
-        btnAccept.setVisibility(view.GONE);
-        btnCancel.setVisibility(view.GONE);
-        txtMsg.setVisibility(view.GONE);
 
         btnCon.setVisibility(view.GONE);
         btnAddReview.setVisibility(view.GONE);
+
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Job");
@@ -117,14 +116,11 @@ public class ViewMyPostFragment extends Fragment {
                     NoBR.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
                     viewUserID=snapshot.child(jobID).child("contractor").getValue(String.class);
 
-                    if(status==2||status==3||status==4){
+                    if(status==3||status==4){
                     btnCon.setVisibility(view.VISIBLE);
                     }
                     if(status==2) {
                         cdMsg.setVisibility(view.VISIBLE);
-                        btnAccept.setVisibility(view.VISIBLE);
-                        btnCancel.setVisibility(view.VISIBLE);
-                        txtMsg.setVisibility(view.VISIBLE);
                     }
 
                     if(status==4) {
@@ -145,6 +141,18 @@ public class ViewMyPostFragment extends Fragment {
         });
 
         btnCon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Temp.setViewUserID(viewUserID);
+                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                ViewUserFragment fragment = new ViewUserFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        });
+
+        btnMsgCon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Temp.setViewUserID(viewUserID);

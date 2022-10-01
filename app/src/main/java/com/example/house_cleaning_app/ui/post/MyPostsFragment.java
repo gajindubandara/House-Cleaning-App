@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +31,7 @@ public class MyPostsFragment extends Fragment {
     private MyPostsViewModel mViewModel;
     String  userNIC = "";
     String key;
-
+    TextView noPosts;
 
     public static MyPostsFragment newInstance() {
         return new MyPostsFragment();
@@ -42,9 +43,11 @@ public class MyPostsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my_posts, container, false);
         userNIC = Temp.getNIC();
 
+        noPosts=v.findViewById(R.id.txtNoPosts);
+        noPosts.setVisibility(v.GONE);
 
         //set recycle view
-        RecyclerView recyclerView = v.findViewById(R.id.rcvJobs);
+        RecyclerView recyclerView = v.findViewById(R.id.rcvMyJobs);
         List<Job> jobList = new ArrayList<>();
 
 
@@ -59,34 +62,39 @@ public class MyPostsFragment extends Fragment {
 //                    jobList.add(job);
 //
 //                }
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    Job job = postSnapshot.getValue(Job.class);
-                    if(job.getStatus().equals("1")){
-                        jobList.add(job);
+                if (snapshot.exists()) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Job job = postSnapshot.getValue(Job.class);
+                        if (job.getStatus().equals("1")) {
+                            jobList.add(job);
+                        }
                     }
-                }
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    Job job = postSnapshot.getValue(Job.class);
-                    if(job.getStatus().equals("2")){
-                        jobList.add(job);
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Job job = postSnapshot.getValue(Job.class);
+                        if (job.getStatus().equals("2")) {
+                            jobList.add(job);
+                        }
                     }
-                }
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    Job job = postSnapshot.getValue(Job.class);
-                    if(job.getStatus().equals("3")){
-                        jobList.add(job);
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Job job = postSnapshot.getValue(Job.class);
+                        if (job.getStatus().equals("3")) {
+                            jobList.add(job);
+                        }
                     }
-                }
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    Job job = postSnapshot.getValue(Job.class);
-                    if(job.getStatus().equals("4")){
-                        jobList.add(job);
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Job job = postSnapshot.getValue(Job.class);
+                        if (job.getStatus().equals("4")) {
+                            jobList.add(job);
+                        }
                     }
-                }
 
-                MyPostAdapter adapter= new MyPostAdapter(jobList,fdb);
-                recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-                recyclerView.setAdapter(adapter);
+                    MyPostAdapter adapter = new MyPostAdapter(jobList, fdb);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                    recyclerView.setAdapter(adapter);
+                }
+                else{
+                    noPosts.setVisibility(v.VISIBLE);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -4,13 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.house_cleaning_app.MainActivity;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.Temp;
@@ -26,7 +28,8 @@ import com.example.house_cleaning_app.ui.profile.ProfileFragment;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    Button newPost, allPosts,myPosts,myJobs,pricing,logout,myProfile,exit;
+    CardView newPost, allPosts,myPosts,myJobs,pricing,logout,myProfile,exit,users;
+    TextView name;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,17 +38,25 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        String  userNIC =  Temp.getNIC();
+
+
+
 
         newPost =root.findViewById(R.id.homeNewPost);
         allPosts =root.findViewById(R.id.homeAllPosts);
         myPosts =root.findViewById(R.id.homeMyPosts);
         myJobs =root.findViewById(R.id.homeMyJobs);
         pricing =root.findViewById(R.id.homePricing);
-        logout =root.findViewById(R.id.homeLogout);
+        logout =root.findViewById(R.id.Logout);
         myProfile =root.findViewById(R.id.homeMyProfile);
-        exit =root.findViewById(R.id.homeExit);
+        users =root.findViewById(R.id.homeusers);
+        exit =root.findViewById(R.id.Exit);
+        name=root.findViewById(R.id.txtUserName);
 
-        String nic=Temp.getNIC();
+
+
+
         SharedPreference preference= new SharedPreference();
         String  type=preference.GetString(getActivity().getApplicationContext(), SharedPreference.USER_TYPE);
         boolean status = preference.GetBoolean(getActivity().getApplicationContext(),SharedPreference.LOGIN_STATUS);
@@ -55,6 +66,25 @@ public class HomeFragment extends Fragment {
         pricing.setVisibility(root.GONE);
         newPost.setVisibility(root.GONE);
         myPosts.setVisibility(root.GONE);
+        users.setVisibility(root.GONE);
+
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+//        Query checkUser = reference.orderByChild("userNIC").equalTo(userNIC);
+//        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                   String nameFromDB =snapshot.child(Temp.getNIC()).child("name").getValue(String.class);
+//                   Temp.setUserName(nameFromDB);
+//
+//
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        name.setText("hello");
 
         if(status){
             if (type.equals("1")){
@@ -151,6 +181,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                LoginFragment fragment = new LoginFragment();
+                trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+                preference.SaveBool(getContext(),false,SharedPreference.LOGIN_STATUS);
+                preference.SaveString(getContext(),null,SharedPreference.USER_TYPE);
+                preference.SaveString(getContext(),null,SharedPreference.USER_NIC);
+
             }
         });
 
@@ -169,6 +208,7 @@ public class HomeFragment extends Fragment {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((MainActivity) getActivity()).finish();
 
             }
         });

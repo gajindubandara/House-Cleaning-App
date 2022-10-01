@@ -31,7 +31,7 @@ public class FloorPriceFragment extends Fragment {
 
     private FloorPriceViewModel mViewModel;
     EditText type,price;
-    Button add,update;
+    Button add;
     DatabaseReference ref;
     FirebaseDatabase rootNode;
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
@@ -48,9 +48,9 @@ public class FloorPriceFragment extends Fragment {
         type=view.findViewById(R.id.txtFloorType);
         price=view.findViewById(R.id.txtFloorPrice);
         add=view.findViewById(R.id.btnAdd);
-        update=view.findViewById(R.id.btnUpdate);
 
-        update.setVisibility(view.GONE);
+
+
 
 
         add.setOnClickListener(new View.OnClickListener() {

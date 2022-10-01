@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ public class MyJobsFragment extends Fragment {
     private MyJobsViewModel mViewModel;
     String  userNIC = "";
     String key;
+    TextView noJobs;
 
 
     public static MyJobsFragment newInstance() {
@@ -42,6 +44,8 @@ public class MyJobsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my_jobs, container, false);
         userNIC = Temp.getNIC();
 
+        noJobs=v.findViewById(R.id.txtNoJobs);
+        noJobs.setVisibility(v.GONE);
 
         //set recycle view
         RecyclerView recyclerView = v.findViewById(R.id.rcvMyJobs);
@@ -54,28 +58,33 @@ public class MyJobsFragment extends Fragment {
         getPosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    Job job = postSnapshot.getValue(Job.class);
-                    if(job.getStatus().equals("2")){
-                        jobList.add(job);
+                if (snapshot.exists()) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Job job = postSnapshot.getValue(Job.class);
+                        if (job.getStatus().equals("2")) {
+                            jobList.add(job);
+                        }
                     }
-                }
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    Job job = postSnapshot.getValue(Job.class);
-                    if(job.getStatus().equals("3")){
-                        jobList.add(job);
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Job job = postSnapshot.getValue(Job.class);
+                        if (job.getStatus().equals("3")) {
+                            jobList.add(job);
+                        }
                     }
-                }
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    Job job = postSnapshot.getValue(Job.class);
-                    if(job.getStatus().equals("4")){
-                        jobList.add(job);
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Job job = postSnapshot.getValue(Job.class);
+                        if (job.getStatus().equals("4")) {
+                            jobList.add(job);
+                        }
                     }
-                }
 
-                MyJobAdapter adapter= new MyJobAdapter(jobList,fdb);
-                recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-                recyclerView.setAdapter(adapter);
+                    MyJobAdapter adapter = new MyJobAdapter(jobList, fdb);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                    recyclerView.setAdapter(adapter);
+                }
+                else{
+                    noJobs.setVisibility(v.VISIBLE);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

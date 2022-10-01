@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/ic_launcher_background"
+            android:background="@color/bg"
             app:popupTheme="@style/Theme.HouseCleaningApp.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>

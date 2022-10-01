@@ -1,53 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    tools:context=".ui.jobs.AllPostsFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:background="@color/ic_launcher_background">
 
-    </ScrollView>
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/ic_launcher_background"
+
+        android:orientation="vertical"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp">
+            android:orientation="horizontal"
 
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="match_parent"
+            android:paddingLeft="32dp"
+            android:paddingTop="@dimen/fab_margin"
+            android:paddingRight="32dp"
+
+
+            android:weightSum="100">
+
+            <LinearLayout
+                android:layout_width="310dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Avialable Jobs"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:layout_weight="40"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="203dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="40"
+                    android:fontFamily="sans-serif"
+                    android:text="Jobs"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="30sp"
+                    android:textStyle="bold">
+
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="203dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:fontFamily="sans-serif"
+                    android:text="Availabe Jobs..."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp">
+
+
+                </TextView>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+
+                android:layout_weight="60"
+                android:src="@drawable/top_bg"
+                app:srcCompat="@drawable/top_bg">
+
+            </ImageView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
+            android:layout_height="700dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/back_courses">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvJobs"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:background="@null">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtNoJobList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="No Open Jobs Available"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcvMyJobs"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginRight="20dp"
+                            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+
+                            >
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
         </LinearLayout>
     </LinearLayout>
 
-</FrameLayout>
+</androidx.core.widget.NestedScrollView>

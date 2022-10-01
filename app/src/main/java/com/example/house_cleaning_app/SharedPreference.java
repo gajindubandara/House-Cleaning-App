@@ -10,6 +10,7 @@ public class SharedPreference {
 //    public  static final String  USER_TYPE ="USER_TYPE";
     public  static final String  USER_NIC ="USER_NIC";
     public  static final String  USER_TYPE ="USER_TYPE";
+    public  static final String  USER_NAME ="USER_NAME";
 
     public SharedPreference(){
         super();

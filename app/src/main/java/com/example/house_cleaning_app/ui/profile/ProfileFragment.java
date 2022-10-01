@@ -39,7 +39,7 @@ public class ProfileFragment extends Fragment {
     RadioButton rbtnCon, rbtnCus;
     EditText txtNIC,txtName,txtAddress,txtEmail,txtNum;
     String currentPw,nPw,cPw;
-    String passwordFromDB,nameFromDB;
+    String passwordFromDB,nameFromDB,emailFromDB,addressFromDB,numberFromDB;
 
 
     public static ProfileFragment newInstance() {
@@ -85,10 +85,10 @@ public class ProfileFragment extends Fragment {
 
                         passwordFromDB =snapshot.child(Temp.getNIC()).child("password").getValue(String.class);
                         nameFromDB =snapshot.child(Temp.getNIC()).child("name").getValue(String.class);
-                        String addressFromDB =snapshot.child(Temp.getNIC()).child("address").getValue(String.class);
-                        String emailFromDB =snapshot.child(Temp.getNIC()).child("email").getValue(String.class);
+                        addressFromDB =snapshot.child(Temp.getNIC()).child("address").getValue(String.class);
+                        emailFromDB =snapshot.child(Temp.getNIC()).child("email").getValue(String.class);
                         int typeFromDB =Integer.valueOf(snapshot.child(Temp.getNIC()).child("type").getValue(String.class));
-                        String numberFromDB =snapshot.child(Temp.getNIC()).child("number").getValue(String.class);
+                        numberFromDB =snapshot.child(Temp.getNIC()).child("number").getValue(String.class);
 
 
                         txtNIC.setText(Temp.getNIC());
@@ -130,53 +130,63 @@ public class ProfileFragment extends Fragment {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnUpdate.setVisibility(view.GONE);
-                btnEdit.setVisibility(view.VISIBLE);
 
-                txtName.setEnabled(false);
-                txtAddress.setEnabled(false);
-                txtEmail.setEnabled(false);
-                txtNum.setEnabled(false);
+                if(txtName.getText().toString().equals(nameFromDB) && txtAddress.getText().toString().equals(addressFromDB)
+                        && txtEmail.getText().toString().equals(emailFromDB) && txtNum.getText().toString().equals(numberFromDB)){
+
+                    Toast.makeText(getActivity().getApplicationContext(),"Nothing to update!",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    btnUpdate.setVisibility(view.GONE);
+                    btnEdit.setVisibility(view.VISIBLE);
+
+                    txtName.setEnabled(false);
+                    txtAddress.setEnabled(false);
+                    txtEmail.setEnabled(false);
+                    txtNum.setEnabled(false);
 
 
-                List<Review> revList = new ArrayList<>();
-                DatabaseReference checkRev = FirebaseDatabase.getInstance().getReference("Reviews");
-                Query getCreator = checkRev.orderByChild("creator").equalTo(nameFromDB);
+                    List<Review> revList = new ArrayList<>();
+                    DatabaseReference checkRev = FirebaseDatabase.getInstance().getReference("Reviews");
+                    Query getCreator = checkRev.orderByChild("creator").equalTo(nameFromDB);
 
-                getCreator.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
-                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                Review rev = postSnapshot.getValue(Review.class);
-                                checkRev.child(rev.getKey()).child("creator").setValue(txtName.getText().toString());
+                    getCreator.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                    Review rev = postSnapshot.getValue(Review.class);
+                                    checkRev.child(rev.getKey()).child("creator").setValue(txtName.getText().toString());
 
+                                }
                             }
                         }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
 
 
-                //update db
-                reference.child(userNIC).child("name").setValue(txtName.getText().toString());
-                reference.child(userNIC).child("email").setValue(txtEmail.getText().toString());
-                reference.child(userNIC).child("address").setValue(txtAddress.getText().toString());
-                reference.child(userNIC).child("number").setValue(txtNum.getText().toString());
+                    //update db
+                    reference.child(userNIC).child("name").setValue(txtName.getText().toString());
+                    reference.child(userNIC).child("email").setValue(txtEmail.getText().toString());
+                    reference.child(userNIC).child("address").setValue(txtAddress.getText().toString());
+                    reference.child(userNIC).child("number").setValue(txtNum.getText().toString());
 
 
 
 
-                //reload frag
-                ProfileFragment fragment =new ProfileFragment();
-                FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
-                trans.replace(R.id.nav_host_fragment_content_main,fragment);
-                trans.detach(fragment);
-                trans.attach(fragment);
-                trans.commit();
+                    //reload frag
+                    ProfileFragment fragment =new ProfileFragment();
+                    FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                    trans.detach(fragment);
+                    trans.attach(fragment);
+                    trans.commit();
 
+                    Toast.makeText(getActivity().getApplicationContext(),"Updated!",Toast.LENGTH_LONG).show();
+
+                }
             }
         });
 

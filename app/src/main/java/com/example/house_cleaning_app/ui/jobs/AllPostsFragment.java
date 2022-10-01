@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +31,8 @@ public class AllPostsFragment extends Fragment {
     private AllPostsViewModel mViewModel;
     String  userNIC = "";
     String key;
-
+    Boolean dataAvailability =false;
+    TextView noData;
 
     public static AllPostsFragment newInstance() {
         return new AllPostsFragment();
@@ -42,9 +44,12 @@ public class AllPostsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_all_posts, container, false);
         userNIC = Temp.getNIC();
 
+        noData=v.findViewById(R.id.txtNoJobList);
+        noData.setVisibility(v.GONE);
+
 
         //set recycle view
-        RecyclerView recyclerView = v.findViewById(R.id.rcvJobs);
+        RecyclerView recyclerView = v.findViewById(R.id.rcvMyJobs);
         List<Job> jobList = new ArrayList<>();
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Job");
         Query getOpenPosts = rootRef.orderByChild("status").equalTo("1");
@@ -53,41 +58,55 @@ public class AllPostsFragment extends Fragment {
             getOpenPosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                        key = snapshot.getKey();
-                        Job job = postSnapshot.getValue(Job.class);
-                        jobList.add(job);
+                    if (snapshot.exists()) {
+                        dataAvailability=true;
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            key = snapshot.getKey();
+                            Job job = postSnapshot.getValue(Job.class);
+                            jobList.add(job);
+
+                        }
+
+                        PostAdapter adapter = new PostAdapter(jobList, fdb);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                        recyclerView.setAdapter(adapter);
 
                     }
-
-                    PostAdapter adapter= new PostAdapter(jobList,fdb);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-                    recyclerView.setAdapter(adapter);
+                    else{
+                        noData.setVisibility(v.VISIBLE);
+                    }
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
 
-        getRequestPosts.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    key = snapshot.getKey();
-                    Job job = postSnapshot.getValue(Job.class);
-                    jobList.add(job);
+            getRequestPosts.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        dataAvailability =true;
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            key = snapshot.getKey();
+                            Job job = postSnapshot.getValue(Job.class);
+                            jobList.add(job);
 
+                        }
+
+                        PostAdapter adapter = new PostAdapter(jobList, fdb);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                        recyclerView.setAdapter(adapter);
+
+                    }
                 }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
 
-                PostAdapter adapter= new PostAdapter(jobList,fdb);
-                recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-                recyclerView.setAdapter(adapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
+        if (dataAvailability){
+            noData.setVisibility(v.VISIBLE);
+        }
         return v;
     }
 
