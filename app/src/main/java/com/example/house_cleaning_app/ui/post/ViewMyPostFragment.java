@@ -1,10 +1,8 @@
 package com.example.house_cleaning_app.ui.post;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +54,10 @@ public class ViewMyPostFragment extends Fragment {
     String viewUserID;
     String review;
     String creatorName ="";
+    Button check;
+    EditText editName;
+    RatingBar rb,rbView;
+
 
     public static ViewMyPostFragment newInstance() {
         return new ViewMyPostFragment();
@@ -91,6 +94,37 @@ public class ViewMyPostFragment extends Fragment {
         btnCon.setVisibility(view.GONE);
         btnAddReview.setVisibility(view.GONE);
 
+//        check=view.findViewById(R.id.check);
+        editName=view.findViewById(R.id.editName);
+        rb = view.findViewById(R.id.simpleRatingBar);
+//        rbView =view.findViewById(R.id.rbView);
+
+
+//        check.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(check.getContext());
+//                ViewGroup viewGroup = view.findViewById(android.R.id.content);
+//                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.custom_dialog, viewGroup, false);
+//                builder.setView(dialogView);
+//                AlertDialog alertDialog = builder.create();
+//
+//                final EditText et = dialogView.findViewById(R.id.editName);
+//                Button btnok = (Button) dialogView.findViewById(R.id.buttonOk);
+//                RatingBar rb = (RatingBar) dialogView.findViewById(R.id.simpleRatingBar);
+//                btnok.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        float rt = rb.getRating();
+//                        rbView.setRating(rt);
+//                        Toast.makeText(getActivity().getApplicationContext(),et.getText().toString()+" "+rt,Toast.LENGTH_LONG).show();
+//                        alertDialog.cancel();
+//                    }
+//                });
+//                alertDialog.show();
+//            }
+//        });
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Job");
@@ -217,76 +251,106 @@ public class ViewMyPostFragment extends Fragment {
 
 
         btnAddReview.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 String creatorID = Temp.getNIC();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(btnAddReview.getContext());
-                builder.setTitle("Review Contractor");
-                final EditText input = new EditText(getActivity().getApplicationContext());
-                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-                builder.setView(input);
-                builder.setPositiveButton("Add Review", new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
+                ViewGroup viewGroup = view.findViewById(android.R.id.content);
+                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.custom_dialog, viewGroup, false);
+                builder.setView(dialogView);
+                AlertDialog alertDialog = builder.create();
+
+                final EditText et = dialogView.findViewById(R.id.editName);
+                Button btnOk = (Button) dialogView.findViewById(R.id.buttonOk);
+                RatingBar rb = (RatingBar) dialogView.findViewById(R.id.simpleRatingBar);
+                btnOk.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        review = input.getText().toString();
+                    public void onClick(View v) {
+                        float rt = rb.getRating();
+                        String rating =String.valueOf(rt);
+                        review=et.getText().toString();
 
-                        //get date
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                        LocalDateTime now = LocalDateTime.now();
-                        String date = dtf.format(now);
+                        if(review.equals("")) {
+                            //change frag
+                            FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
+                            ViewMyPostFragment fragment = new ViewMyPostFragment();
+                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                            trans.addToBackStack(null);
+                            trans.commit();
+                            Toast.makeText(getActivity().getApplicationContext(), "Invalid Review!", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            //get date
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                            LocalDateTime now = LocalDateTime.now();
+                            String date = dtf.format(now);
 
+                            //get user name
+                            DatabaseReference refGetUser = FirebaseDatabase.getInstance().getReference("User");
+                            Query getUser = refGetUser.orderByChild("userNIC").equalTo(creatorID);
 
-                        //get user name
-                        DatabaseReference refGetUser = FirebaseDatabase.getInstance().getReference("User");
-                        Query getUser = refGetUser.orderByChild("userNIC").equalTo(creatorID);
+                            getUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        creatorName = snapshot.child(creatorID).child("name").getValue(String.class);
 
-                        getUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()){
+                                        //setReview
+                                        refReview = rootNode.getReference("Reviews");
+                                        String key = refReview.push().getKey();
+                                        Review re = new Review(creatorName, viewUserID, date, review, key, rating);
+                                        refReview.child(key).setValue(re);
+                                        Toast.makeText(getActivity().getApplicationContext(), "Review Added!", Toast.LENGTH_LONG).show();
 
-                                    creatorName =snapshot.child(creatorID).child("name").getValue(String.class);
+                                        //change frag
+                                        FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
+                                        ViewMyPostFragment fragment = new ViewMyPostFragment();
+                                        trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                        trans.addToBackStack(null);
+                                        trans.commit();
 
-
-
-                                    //setReview
-                                    refReview =rootNode.getReference("Reviews");
-                                    String key= refReview.push().getKey();
-                                    Review re =new Review(creatorName,viewUserID,date,review,key);
-                                    refReview.child(key).setValue(re);
-                                    Toast.makeText(getActivity().getApplicationContext(),"Review Added!",Toast.LENGTH_LONG).show();
-
-                                    //change frag
-                                    FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                                    MyPostsFragment fragment = new MyPostsFragment();
-                                    trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                                    trans.addToBackStack(null);
-                                    trans.commit();
-
+                                    } else {
+                                        Toast.makeText(getActivity().getApplicationContext(), "No data", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                                else{
-                                    Toast.makeText(getActivity().getApplicationContext(),"No data",Toast.LENGTH_LONG).show();
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
                                 }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
+                            });
+                        }
 
-
-
-
+                        alertDialog.cancel();
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
+                alertDialog.show();
+
+//                AlertDialog.Builder builder = new AlertDialog.Builder(btnAddReview.getContext());
+//                builder.setTitle("Review Contractor");
+//                final EditText input = new EditText(getActivity().getApplicationContext());
+//                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+//                builder.setView(input);
+//                builder.setPositiveButton("Add Review", new DialogInterface.OnClickListener() {
+//                    @RequiresApi(api = Build.VERSION_CODES.O)
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        review = input.getText().toString();
+//
+
+//
+//
+//
+//
+//                    }
+//                });
+//                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//                builder.show();
 
 
 

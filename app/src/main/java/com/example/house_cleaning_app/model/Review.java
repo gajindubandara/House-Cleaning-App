@@ -6,16 +6,18 @@ public class Review {
     private String date;
     private String review;
     private String key;
+    private String rating;
 
     public Review() {
     }
 
-    public Review(String creator,String user, String date, String review,String key) {
+    public Review(String creator,String user, String date, String review,String key,String rating) {
         this.creator=creator;
         this.user = user;
         this.date = date;
         this.review = review;
         this.key=key;
+        this.rating=rating;
     }
 
     public String getCreator() {
@@ -56,5 +58,13 @@ public class Review {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

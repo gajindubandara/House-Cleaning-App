@@ -100,7 +100,7 @@ public class AddpostFragment extends Fragment {
 
         imgBR =view.findViewById(R.id.imgBR);
         imgR =view.findViewById(R.id.imgR);
-        editDate =view.findViewById(R.id.Date);
+        editDate =view.findViewById(R.id.editName);
         editLoc =view.findViewById(R.id.Loc);
         editNoOfBr =view.findViewById(R.id.NoBr);
         editNoOfR =view.findViewById(R.id.NoR);

@@ -1,16 +1,16 @@
 package com.example.house_cleaning_app.ui.myJobs;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -180,32 +180,38 @@ public class ViewMyJobFragment extends Fragment {
         btnReviewCus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(btnFinish.getContext());
-                builder.setTitle("Review Customer");
-                final EditText input = new EditText(getActivity().getApplicationContext());
-                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-                builder.setView(input);
-                builder.setPositiveButton("Add Review", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(btnReviewCus.getContext());
+                ViewGroup viewGroup = view.findViewById(android.R.id.content);
+                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.custom_dialog, viewGroup, false);
+                builder.setView(dialogView);
+                AlertDialog alertDialog = builder.create();
+
+                final EditText et = dialogView.findViewById(R.id.editName);
+                Button btnOk = (Button) dialogView.findViewById(R.id.buttonOk);
+                RatingBar rb = (RatingBar) dialogView.findViewById(R.id.simpleRatingBar);
+                btnOk.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        review = input.getText().toString();
-
-                        //get date
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                        LocalDateTime now = LocalDateTime.now();
-                        String date = dtf.format(now);
+                    public void onClick(View v) {
+                        float rt = rb.getRating();
+                        String rating =String.valueOf(rt);
+                        review=et.getText().toString();
 
                         if(review.equals("")) {
                             //change frag
                             FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
-                            MyJobsFragment fragment = new MyJobsFragment();
+                            ViewMyJobFragment fragment = new ViewMyJobFragment();
                             trans.replace(R.id.nav_host_fragment_content_main, fragment);
                             trans.addToBackStack(null);
                             trans.commit();
                             Toast.makeText(getActivity().getApplicationContext(), "Invalid Review!", Toast.LENGTH_LONG).show();
                         }
-                        else{
+                        else {
+                            //get date
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                            LocalDateTime now = LocalDateTime.now();
+                            String date = dtf.format(now);
+
                             //get user name
                             DatabaseReference refGetUser = FirebaseDatabase.getInstance().getReference("User");
                             Query getUser = refGetUser.orderByChild("userNIC").equalTo(creator);
@@ -216,19 +222,16 @@ public class ViewMyJobFragment extends Fragment {
                                     if (snapshot.exists()) {
                                         creatorName = snapshot.child(creator).child("name").getValue(String.class);
 
-
                                         //setReview
                                         refReview = rootNode.getReference("Reviews");
                                         String key = refReview.push().getKey();
-                                        Review re = new Review(creatorName, user, date, review, key);
+                                        Review re = new Review(creatorName, viewUserID, date, review, key, rating);
                                         refReview.child(key).setValue(re);
                                         Toast.makeText(getActivity().getApplicationContext(), "Review Added!", Toast.LENGTH_LONG).show();
 
-//                                    }
-
                                         //change frag
                                         FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
-                                        MyJobsFragment fragment = new MyJobsFragment();
+                                        ViewMyJobFragment fragment = new ViewMyJobFragment();
                                         trans.replace(R.id.nav_host_fragment_content_main, fragment);
                                         trans.addToBackStack(null);
                                         trans.commit();
@@ -237,23 +240,15 @@ public class ViewMyJobFragment extends Fragment {
                                         Toast.makeText(getActivity().getApplicationContext(), "No data", Toast.LENGTH_LONG).show();
                                     }
                                 }
-
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
                                 }
                             });
                         }
-
-
+                        alertDialog.cancel();
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
+                alertDialog.show();
             }
         });
 

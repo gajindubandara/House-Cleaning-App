@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Vi
         holder.txtName.setText(rev.getCreator());
         holder.txtRev.setText(rev.getReview());
         holder.txtDate.setText(rev.getDate());
+        holder.rb.setRating(Float.parseFloat(rev.getRating()));
     }
 
     @Override
@@ -54,12 +56,14 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName,txtDate,txtRev;
+        RatingBar rb;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName=itemView.findViewById(R.id.txtName);
             txtDate =itemView.findViewById(R.id.txtRevDate);
             txtRev=itemView.findViewById(R.id.txtRev);
+            rb =itemView.findViewById(R.id.rbDisplay);
         }
     }
 }
