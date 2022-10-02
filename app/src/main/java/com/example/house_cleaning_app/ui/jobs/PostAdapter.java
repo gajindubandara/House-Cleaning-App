@@ -78,12 +78,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle =new Bundle();
-//                bundle.putString("key",job.getJobID());
-//                ViewJobFragment frag =new ViewJobFragment();
-//                frag.setArguments(bundle);
-
-//                JobID.setID(job.getJobID());
                 Temp.setJobID(job.getJobID());
                 ViewJobFragment fragment =new ViewJobFragment();
                 FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();

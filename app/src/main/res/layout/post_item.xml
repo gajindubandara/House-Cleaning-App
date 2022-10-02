@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:text="Cost:"
+            android:text="Price:"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,9 @@ public class ViewMyPostFragment extends Fragment {
     TextView postDate,postPrice, RSqFt, BSqFt,RFT,BrFT,txtMsg,NoR,NoBR;
     String loc;
     ImageView imgR,imgBr;
-    Button btnLoc,btnAccept,btnCancel,btnCon,btnAddReview,btnMsgCon;
+    Button btnAccept,btnCancel,btnMsgCon;
+    CardView btnCon,btnAddReview;
+    ImageButton btnLoc;
     CardView cdMsg;
     DatabaseReference referance,refReview;
     FirebaseDatabase rootNode;
@@ -219,7 +222,7 @@ public class ViewMyPostFragment extends Fragment {
                 String creatorID = Temp.getNIC();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(btnAddReview.getContext());
-                builder.setTitle("Review Customer");
+                builder.setTitle("Review Contractor");
                 final EditText input = new EditText(getActivity().getApplicationContext());
                 input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
                 builder.setView(input);

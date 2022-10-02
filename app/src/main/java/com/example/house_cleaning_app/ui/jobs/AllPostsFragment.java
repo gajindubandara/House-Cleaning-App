@@ -31,7 +31,7 @@ public class AllPostsFragment extends Fragment {
     private AllPostsViewModel mViewModel;
     String  userNIC = "";
     String key;
-    Boolean dataAvailability =false;
+
     TextView noData;
 
     public static AllPostsFragment newInstance() {
@@ -59,7 +59,7 @@ public class AllPostsFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        dataAvailability=true;
+
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             key = snapshot.getKey();
                             Job job = postSnapshot.getValue(Job.class);
@@ -85,7 +85,7 @@ public class AllPostsFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        dataAvailability =true;
+
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             key = snapshot.getKey();
                             Job job = postSnapshot.getValue(Job.class);
@@ -104,9 +104,7 @@ public class AllPostsFragment extends Fragment {
                 }
             });
 
-        if (dataAvailability){
-            noData.setVisibility(v.VISIBLE);
-        }
+
         return v;
     }
 

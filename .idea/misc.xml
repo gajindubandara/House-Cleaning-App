@@ -9,7 +9,10 @@
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/ic_green_dot.xml" value="0.2535" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/ic_image.xml" value="0.1675" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/ic_imgadd.xml" value="0.1675" />
+        <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/ic_location.xml" value="0.1675" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.199" />
+        <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/ic_user.xml" value="0.198" />
+        <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/ic_user_details.xml" value="0.198" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/layout_border.xml" value="0.2875" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/post_item.xml" value="0.2825" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/drawable/spinner_border.xml" value="0.2875" />
@@ -19,6 +22,7 @@
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/content_main.xml" value="0.19114583333333332" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/floor_type.xml" value="0.5" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_addpost.xml" value="0.431244153414406" />
+        <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_admin_view_users.xml" value="0.33" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_all_posts.xml" value="0.2328125" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_blank.xml" value="0.19114583333333332" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_con_view.xml" value="0.27943840579710144" />
@@ -39,7 +43,7 @@
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_slideshow.xml" value="0.28894927536231885" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_user_view.xml" value="0.24010416666666667" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_view_job.xml" value="0.34057971014492755" />
-        <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_view_my_job.xml" value="0.25" />
+        <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_view_my_job.xml" value="0.5" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/fragment_view_my_post.xml" value="0.2737044145873321" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/loading.xml" value="0.5" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/my_jobs.xml" value="0.28894927536231885" />
@@ -48,6 +52,7 @@
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/person.xml" value="0.24791666666666667" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/post_item.xml" value="0.33" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/review.xml" value="0.5" />
+        <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/user_card.xml" value="0.22" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/layout/viewposttest.xml" value="0.28125" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/menu/activity_main_drawer.xml" value="0.19114583333333332" />
         <entry key="..\:/ICBT/Semester 03/Mobile and Web  Technologies/android/House-Cleaning-App/app/src/main/res/menu/main.xml" value="0.37135416666666665" />

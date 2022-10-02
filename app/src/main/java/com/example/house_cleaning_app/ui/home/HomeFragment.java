@@ -16,6 +16,7 @@ import com.example.house_cleaning_app.MainActivity;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.Temp;
+import com.example.house_cleaning_app.ui.adminViewUsers.AdminViewUsersFragment;
 import com.example.house_cleaning_app.databinding.FragmentHomeBinding;
 import com.example.house_cleaning_app.ui.jobs.AllPostsFragment;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
@@ -68,23 +69,6 @@ public class HomeFragment extends Fragment {
         myPosts.setVisibility(root.GONE);
         users.setVisibility(root.GONE);
 
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
-//        Query checkUser = reference.orderByChild("userNIC").equalTo(userNIC);
-//        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                   String nameFromDB =snapshot.child(Temp.getNIC()).child("name").getValue(String.class);
-//                   Temp.setUserName(nameFromDB);
-//
-//
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        name.setText("hello");
 
         if(status){
             if (type.equals("1")){
@@ -98,6 +82,10 @@ public class HomeFragment extends Fragment {
             else{
                 allPosts.setVisibility(root.VISIBLE);
                 pricing.setVisibility(root.VISIBLE);
+                users.setVisibility(root.VISIBLE);
+                ViewGroup.MarginLayoutParams layoutParams =(ViewGroup.MarginLayoutParams) allPosts.getLayoutParams();
+                layoutParams.width=950;
+                allPosts.requestLayout();
             }
         }
         else{
@@ -116,6 +104,17 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
                 AddpostFragment fragment = new AddpostFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        });
+
+        users.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                AdminViewUsersFragment fragment = new AdminViewUsersFragment();
                 trans.replace(R.id.nav_host_fragment_content_main, fragment);
                 trans.addToBackStack(null);
                 trans.commit();

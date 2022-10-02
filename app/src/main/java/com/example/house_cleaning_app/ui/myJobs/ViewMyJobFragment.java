@@ -8,8 +8,8 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,6 +26,7 @@ import com.example.house_cleaning_app.MainActivity;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Review;
+import com.example.house_cleaning_app.ui.userView.ViewUserFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +44,8 @@ public class ViewMyJobFragment extends Fragment {
     TextView postDate,postPrice, RSqFt, BSqFt,RFT,BrFT,txtMsg,NoR,NoBR;
     String loc;
     ImageView imgR,imgBr;
-    Button btnLoc,btnFinish;
+    CardView btnFinish,btnReviewCus;
+    ImageButton btnLoc,btnViewCus;
     DatabaseReference referance,refReview;
     FirebaseDatabase rootNode;
     int status;
@@ -51,6 +54,7 @@ public class ViewMyJobFragment extends Fragment {
     String user;
     String creator;
     String creatorName ="";
+    String viewUserID;
 
 
 
@@ -79,6 +83,9 @@ public class ViewMyJobFragment extends Fragment {
         NoR = view.findViewById(R.id.postNoR);
         NoBR = view.findViewById(R.id.postNoBR);
         btnFinish.setVisibility(view.GONE);
+        btnViewCus=view.findViewById(R.id.btnViewCus);
+        btnReviewCus=view.findViewById(R.id.btnAddReviewCustomer);
+        btnReviewCus.setVisibility(view.GONE);
 
 
 
@@ -108,9 +115,13 @@ public class ViewMyJobFragment extends Fragment {
                     NoBR.setText(snapshot.child(jobID).child("noOfBathrooms").getValue(String.class));
                     RFT.setText(snapshot.child(jobID).child("rFloorType").getValue(String.class));
                     BrFT.setText(snapshot.child(jobID).child("bFloorType").getValue(String.class));
+                    viewUserID =snapshot.child(jobID).child("user").getValue(String.class);
 
                     if (stat.equals("3")){
                         btnFinish.setVisibility(view.VISIBLE);
+                    }
+                    if (stat.equals("4")){
+                        btnReviewCus.setVisibility(view.VISIBLE);
                     }
 
                 } else {
@@ -131,33 +142,70 @@ public class ViewMyJobFragment extends Fragment {
             }
         });
 
+        btnViewCus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Temp.setViewUserID(viewUserID);
+                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                ViewUserFragment fragment = new ViewUserFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
+            }
+        });
+
         rootNode = FirebaseDatabase.getInstance();
         referance = rootNode.getReference("Job");
 
 
 
-            btnFinish.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public void onClick(View v) {
-                    btnFinish.setVisibility(view.GONE);
+        btnFinish.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                btnFinish.setVisibility(view.GONE);
+                Toast.makeText(getActivity().getApplicationContext(), "Job Finished!", Toast.LENGTH_LONG).show();
+                referance.child(jobID).child("status").setValue("4");
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(btnFinish.getContext());
-                    builder.setTitle("Review Customer");
-                    final EditText input = new EditText(getActivity().getApplicationContext());
-                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-                    builder.setView(input);
-                    builder.setPositiveButton("Add Review", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            review = input.getText().toString();
+                ViewMyJobFragment fragment =new ViewMyJobFragment();
+                FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
+                trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                trans.detach(fragment);
+                trans.attach(fragment);
+                trans.commit();
 
-                            //get date
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                            LocalDateTime now = LocalDateTime.now();
-                            String date = dtf.format(now);
+            }
+        });
 
+        btnReviewCus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(btnFinish.getContext());
+                builder.setTitle("Review Customer");
+                final EditText input = new EditText(getActivity().getApplicationContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+                builder.setView(input);
+                builder.setPositiveButton("Add Review", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        review = input.getText().toString();
 
+                        //get date
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        LocalDateTime now = LocalDateTime.now();
+                        String date = dtf.format(now);
+
+                        if(review.equals("")) {
+                            //change frag
+                            FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
+                            MyJobsFragment fragment = new MyJobsFragment();
+                            trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                            trans.addToBackStack(null);
+                            trans.commit();
+                            Toast.makeText(getActivity().getApplicationContext(), "Invalid Review!", Toast.LENGTH_LONG).show();
+                        }
+                        else{
                             //get user name
                             DatabaseReference refGetUser = FirebaseDatabase.getInstance().getReference("User");
                             Query getUser = refGetUser.orderByChild("userNIC").equalTo(creator);
@@ -176,6 +224,8 @@ public class ViewMyJobFragment extends Fragment {
                                         refReview.child(key).setValue(re);
                                         Toast.makeText(getActivity().getApplicationContext(), "Review Added!", Toast.LENGTH_LONG).show();
 
+//                                    }
+
                                         //change frag
                                         FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
                                         MyJobsFragment fragment = new MyJobsFragment();
@@ -192,23 +242,20 @@ public class ViewMyJobFragment extends Fragment {
                                 public void onCancelled(@NonNull DatabaseError error) {
                                 }
                             });
-
-
                         }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    Toast.makeText(getActivity().getApplicationContext(), "Job Finished!", Toast.LENGTH_LONG).show();
-                    builder.show();
 
-                    referance.child(jobID).child("status").setValue("4");
 
-                }
-            });
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
 
 
 
