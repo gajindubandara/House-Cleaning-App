@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
+                android:isIndicator="true"
                 android:progressBackgroundTint="@color/back_courses"
                 android:rating="5"
                 android:scaleX=".5"
