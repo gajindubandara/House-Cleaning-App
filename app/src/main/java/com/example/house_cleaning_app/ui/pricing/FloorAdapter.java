@@ -132,6 +132,7 @@ public class FloorAdapter extends RecyclerView.Adapter<FloorAdapter.ViewHolder> 
                                 ft.detach(fragment);
                                 ft.attach(fragment);
                                 ft.commit();
+                                Toast.makeText((MainActivity)v.getContext(),"Floor Type Updated!",Toast.LENGTH_LONG).show();
 
                             }
                             @Override

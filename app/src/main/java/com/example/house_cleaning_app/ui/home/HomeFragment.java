@@ -15,9 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.house_cleaning_app.MainActivity;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
-import com.example.house_cleaning_app.Temp;
-import com.example.house_cleaning_app.ui.adminViewUsers.AdminViewUsersFragment;
 import com.example.house_cleaning_app.databinding.FragmentHomeBinding;
+import com.example.house_cleaning_app.ui.adminViewUsers.AdminViewUsersFragment;
 import com.example.house_cleaning_app.ui.jobs.AllPostsFragment;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
 import com.example.house_cleaning_app.ui.managePost.AddpostFragment;
@@ -39,7 +38,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        String  userNIC =  Temp.getNIC();
+
 
 
 
@@ -61,6 +60,9 @@ public class HomeFragment extends Fragment {
         SharedPreference preference= new SharedPreference();
         String  type=preference.GetString(getActivity().getApplicationContext(), SharedPreference.USER_TYPE);
         boolean status = preference.GetBoolean(getActivity().getApplicationContext(),SharedPreference.LOGIN_STATUS);
+        String username=preference.GetString(getActivity().getApplicationContext(),SharedPreference.USER_NAME);
+
+        name.setText(username);
 
         allPosts.setVisibility(root.GONE);
         myJobs.setVisibility(root.GONE);

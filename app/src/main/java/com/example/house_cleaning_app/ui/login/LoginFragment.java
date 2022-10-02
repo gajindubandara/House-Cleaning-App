@@ -80,6 +80,7 @@ public class LoginFragment extends Fragment {
                                     preference.SaveBool(view.getContext(),true,SharedPreference.LOGIN_STATUS);
                                     preference.SaveString(view.getContext(),userTypeFromDB,SharedPreference.USER_TYPE);
                                     preference.SaveString(view.getContext(),enteredNIC,SharedPreference.USER_NIC);
+                                    preference.SaveString(view.getContext(),userNameFromDB,SharedPreference.USER_NAME);
 
 
                                     //Move to home frag

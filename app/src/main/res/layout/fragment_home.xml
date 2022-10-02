@@ -104,7 +104,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_weight="40"
                             android:text="View Profile"
-                            android:textColor="@color/black"
+                            android:textColor="@color/design_default_color_primary_variant"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
