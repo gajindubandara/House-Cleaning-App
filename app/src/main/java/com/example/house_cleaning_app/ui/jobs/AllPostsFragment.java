@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.house_cleaning_app.R;
+import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.model.Job;
 import com.example.house_cleaning_app.Temp;
 import com.google.firebase.database.DataSnapshot;
@@ -51,9 +52,13 @@ public class AllPostsFragment extends Fragment {
         //set recycle view
         RecyclerView recyclerView = v.findViewById(R.id.rcvMyJobs);
         List<Job> jobList = new ArrayList<>();
+        SharedPreference preference=new SharedPreference();
+        String  type=preference.GetString(getActivity().getApplicationContext(), SharedPreference.USER_TYPE);
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Job");
-        Query getOpenPosts = rootRef.orderByChild("status").equalTo("1");
-        Query getRequestPosts = rootRef.orderByChild("status").equalTo("2");
+
+        if (type.equals("2")) {
+            Query getOpenPosts = rootRef.orderByChild("status").equalTo("1");
+            Query getRequestPosts = rootRef.orderByChild("status").equalTo("2");
 
             getOpenPosts.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -71,11 +76,11 @@ public class AllPostsFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
                         recyclerView.setAdapter(adapter);
 
-                    }
-                    else{
+                    } else {
                         noData.setVisibility(v.VISIBLE);
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
@@ -99,10 +104,118 @@ public class AllPostsFragment extends Fragment {
 
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
+        }
+
+
+        if (type.equals("3")){
+            Query getOpenPosts = rootRef.orderByChild("status").equalTo("1");
+            Query getRequestPosts = rootRef.orderByChild("status").equalTo("2");
+            Query getAssignedPosts = rootRef.orderByChild("status").equalTo("3");
+            Query getFinishedPosts = rootRef.orderByChild("status").equalTo("4");
+
+            getOpenPosts.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            key = snapshot.getKey();
+                            Job job = postSnapshot.getValue(Job.class);
+                            jobList.add(job);
+
+                        }
+
+                        PostAdapter adapter = new PostAdapter(jobList, fdb);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                        recyclerView.setAdapter(adapter);
+
+                    } else {
+                        noData.setVisibility(v.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+
+            getRequestPosts.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            key = snapshot.getKey();
+                            Job job = postSnapshot.getValue(Job.class);
+                            jobList.add(job);
+
+                        }
+
+                        PostAdapter adapter = new PostAdapter(jobList, fdb);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                        recyclerView.setAdapter(adapter);
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+
+            getAssignedPosts.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            key = snapshot.getKey();
+                            Job job = postSnapshot.getValue(Job.class);
+                            jobList.add(job);
+                        }
+                        PostAdapter adapter = new PostAdapter(jobList, fdb);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                        recyclerView.setAdapter(adapter);
+
+                    }
+                    else{
+                        noData.setVisibility(v.VISIBLE);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+
+            getFinishedPosts.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            key = snapshot.getKey();
+                            Job job = postSnapshot.getValue(Job.class);
+                            jobList.add(job);
+                        }
+                        PostAdapter adapter = new PostAdapter(jobList, fdb);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
+
+
+
+
+
 
 
         return v;

@@ -79,12 +79,6 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.ViewHolder
             holder.editBtn.setVisibility(View.GONE);
             holder.btnDel.setVisibility(View.GONE);
         }
-        else if(status==3){
-            holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_blue_dot));
-            holder.txtStatus.setText("Assigned");
-            holder.editBtn.setVisibility(View.GONE);
-            holder.btnDel.setVisibility(View.GONE);
-        }
         else if(status==4){
             holder.imgDot.setBackground(AppCompatResources.getDrawable(context, R.drawable.ic_red_dot));
             holder.txtStatus.setText("Finished");
