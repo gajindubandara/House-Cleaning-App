@@ -173,11 +173,10 @@ public class AddpostFragment extends Fragment {
             @Override
             public void onActivityResult(ActivityResult result) {
                 Intent intent = result.getData();
-//                imgRoomUri = intent.getData();
                 pic =(Bitmap) intent.getExtras().get("data");
                 imgR.setImageBitmap(pic);
                 RPicCheck= true;
-                imgR.setImageBitmap(pic);
+
 
                 Bitmap imgRoomBitmap =(Bitmap) intent.getExtras().get("data");
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();

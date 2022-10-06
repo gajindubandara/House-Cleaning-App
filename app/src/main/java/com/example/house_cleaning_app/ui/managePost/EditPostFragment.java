@@ -35,7 +35,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Job;
-import com.example.house_cleaning_app.ui.post.ViewMyPostFragment;
+import com.example.house_cleaning_app.ui.post.MyPostsFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -66,6 +66,7 @@ public class EditPostFragment extends Fragment {
     Button btnUpdate;
     ImageView imgR, imgBR;
     EditText editDate, editLoc, editNoOfR, editNoOfBr, editRSqFt, editBrSqFt;
+    String dateDb,locDb,NoOfRDb,NoOfBrDb,RSqFtDb,BrSqFtDb,rImgUriDb,bImgUriDb,bfSpinner,rfSpinner;
     Calendar calendar = Calendar.getInstance();
     Bitmap pic;
     boolean BrPicCheck= false;
@@ -84,13 +85,8 @@ public class EditPostFragment extends Fragment {
     String priceForBathroomType="";
     String typeID;
     String brUrl,rUrl;
-    String test;
-    int Total= 0;
     int roomPrice =0;
     int bathroomPrice=0;
-    ArrayList<String> Rft = new ArrayList<>();
-    ArrayList<String> Bft = new ArrayList<>();
-    Job job;
     String jobID =Temp.getJobID();
 
 
@@ -153,13 +149,15 @@ public class EditPostFragment extends Fragment {
             @Override
             public void onDataChange (@NonNull DataSnapshot snapshot){
                 if (snapshot.exists()) {
-//                    Toast.makeText(getActivity().getApplicationContext(), jobID, Toast.LENGTH_LONG).show();
+                    dateDb=snapshot.child(jobID).child("date").getValue(String.class);
+                    locDb=snapshot.child(jobID).child("location").getValue(String.class);
+                    NoOfBrDb=snapshot.child(jobID).child("noOfBathrooms").getValue(String.class);
+                    NoOfRDb=snapshot.child(jobID).child("noOfRooms").getValue(String.class);
+                    RSqFtDb=snapshot.child(jobID).child("rsqFt").getValue(String.class);
+                    BrSqFtDb=snapshot.child(jobID).child("bsqFt").getValue(String.class);
+                    rImgUriDb=snapshot.child(jobID).child("imageR").getValue(String.class);
+                    bImgUriDb=snapshot.child(jobID).child("imageBr").getValue(String.class);
 
-//                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-//                        job = postSnapshot.getValue(Job.class);
-////                        reference.child(job.getJobID()).child("creator").setValue(txtName.getText().toString());
-//
-//                    }
 
 
                     editDate.setText(snapshot.child(jobID).child("date").getValue(String.class));
@@ -173,25 +171,25 @@ public class EditPostFragment extends Fragment {
                     Picasso.get().load(rUrl).into(imgR);
                     Picasso.get().load(brUrl).into(imgBR);
 
-                    String rf = snapshot.child(jobID).child("rFloorType").getValue(String.class);
+                    rfSpinner = snapshot.child(jobID).child("rFloorType").getValue(String.class);
                     for (int i = 0; i < Rft.size(); i++) {
                         String temp =Rft.get(i);
                         String[] splitRF = temp.split("[,]", 0);
                         String roomFloor = splitRF[0];
-                        if(roomFloor.equals(rf)){
+                        if(roomFloor.equals(rfSpinner)){
 //                            System.out.println("found! "+Rft.get(i));
                             roomF.setSelection(i);
                             break;
                         }
                     }
 
-                    String bf =snapshot.child(jobID).child("bFloorType").getValue(String.class);
+                    bfSpinner =snapshot.child(jobID).child("bFloorType").getValue(String.class);
 
                     for (int i = 0; i < Bft.size(); i++) {
                         String temp =Bft.get(i);
                         String[] splitRF = temp.split("[,]", 0);
                         String roomFloor = splitRF[0];
-                        if(roomFloor.equals(bf)){
+                        if(roomFloor.equals(bfSpinner)){
 //                            System.out.println("found! "+Bft.get(i));
                             bathroomF.setSelection(i);
                             break;
@@ -247,11 +245,10 @@ public class EditPostFragment extends Fragment {
             @Override
             public void onActivityResult(ActivityResult result) {
                 Intent intent = result.getData();
-//                imgRoomUri = intent.getData();
                 pic =(Bitmap) intent.getExtras().get("data");
                 imgR.setImageBitmap(pic);
                 RPicCheck= true;
-                imgR.setImageBitmap(pic);
+
 
                 Bitmap imgRoomBitmap =(Bitmap) intent.getExtras().get("data");
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -404,154 +401,165 @@ public class EditPostFragment extends Fragment {
                     String bsqft =editBrSqFt.getText().toString();
 
 
-                    DatabaseReference rootRev = FirebaseDatabase.getInstance().getReference("FloorType");
-                    Query getRoomF = rootRev.orderByChild("type").equalTo(roomFloor);
-
-                    getRoomF.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                            if(snapshot.exists()){
-                                priceForRoomType =snapshot.child(roomFloor).child("price").getValue(String.class);
-                                roomPrice = Integer.valueOf(priceForRoomType)*RSqFt;
-                                Query getBathroomF = rootRev.orderByChild("type").equalTo(bathroomFloor);
-
-                                getBathroomF.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                        if(snapshot.exists()){
-                                            priceForBathroomType =snapshot.child(bathroomFloor).child("price").getValue(String.class);
-
-                                            bathroomPrice = Integer.valueOf(priceForBathroomType)*BrSqFt;
-                                            price =String.valueOf(roomPrice+bathroomPrice);
-
-                                            //Storing the job data
-                                            try{
-                                                String contractor = "";
-
-                                                //Sending data to the database
-                                                rootNode = FirebaseDatabase.getInstance();
-                                                referance = rootNode.getReference("Job");
+                    if( editDate.getText().toString().equals(dateDb)&&editLoc.getText().toString().equals(locDb)&&
+                            editNoOfR.getText().toString().equals(NoOfRDb)&&editNoOfBr.getText().toString().equals(NoOfBrDb)&&
+                            editRSqFt.getText().toString().equals(RSqFtDb)&&editBrSqFt.getText().toString().equals(BrSqFtDb)&&
+                            rfSpinner.equals(roomFloor)&&bfSpinner.equals(bathroomFloor)&&RPicCheck==false&&BrPicCheck==false){
 
 
-                                                //creating object
-                                                Job job=new Job(jobID,loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, rUrl,brUrl,contractor,rsqft,bsqft);
+                        Toast.makeText(getActivity().getApplicationContext(),"Nothing to update!",Toast.LENGTH_LONG).show();
 
-                                                referance.child(jobID).setValue(job);
-                                                Toast.makeText(getActivity().getApplicationContext(),"Post Updated!",Toast.LENGTH_LONG).show();
-                                            }catch(Exception ex)
-                                            {
-                                                throw ex;
+                    }
+                    else{
+
+                        DatabaseReference rootRev = FirebaseDatabase.getInstance().getReference("FloorType");
+                        Query getRoomF = rootRev.orderByChild("type").equalTo(roomFloor);
+
+                        getRoomF.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                if(snapshot.exists()){
+                                    priceForRoomType =snapshot.child(roomFloor).child("price").getValue(String.class);
+                                    roomPrice = Integer.valueOf(priceForRoomType)*RSqFt;
+                                    Query getBathroomF = rootRev.orderByChild("type").equalTo(bathroomFloor);
+
+                                    getBathroomF.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                            if(snapshot.exists()){
+                                                priceForBathroomType =snapshot.child(bathroomFloor).child("price").getValue(String.class);
+
+                                                bathroomPrice = Integer.valueOf(priceForBathroomType)*BrSqFt;
+                                                price =String.valueOf(roomPrice+bathroomPrice);
+
+                                                //Storing the job data
+                                                try{
+                                                    String contractor = "";
+
+                                                    //Sending data to the database
+                                                    rootNode = FirebaseDatabase.getInstance();
+                                                    referance = rootNode.getReference("Job");
+
+
+                                                    //creating object
+                                                    Job job=new Job(jobID,loc,date,nor,roomFloor,nobr,bathroomFloor,price,user,status, rUrl,brUrl,contractor,rsqft,bsqft);
+
+                                                    referance.child(jobID).setValue(job);
+                                                    Toast.makeText(getActivity().getApplicationContext(),"Post Updated!",Toast.LENGTH_LONG).show();
+                                                }catch(Exception ex)
+                                                {
+                                                    throw ex;
+                                                }
                                             }
                                         }
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                    }
-                                });
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-                    });
-
-                    //getting the key
-                    rootNode = FirebaseDatabase.getInstance();
-                    referance = rootNode.getReference("Job");
-                    referance.limitToLast(1).addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s)
-                        {
-                            if (dataSnapshot.exists())
-                            {
-                                // uploading image
-                                try {
-                                    storageReference = FirebaseStorage.getInstance().getReference();
-                                    if (imgRoomUri != null) {
-                                        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                                        progressDialog.setTitle("Uploading Images...");
-                                        progressDialog.show();
-                                        progressDialog.setCancelable(false);
-                                        StorageReference rRef = storageReference.child("images/" + jobID+"/Room");
-                                        uploadTask = rRef.putFile(imgRoomUri);
-                                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                StorageMetadata snapshotMetadata = taskSnapshot.getMetadata();
-                                                Task<Uri> downloadUrlR = rRef.getDownloadUrl();
-
-
-                                                downloadUrlR.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                    @Override
-                                                    public void onSuccess(Uri uri) {
-                                                        imageRefR = uri.toString();
-                                                        referance = rootNode.getReference("Job");
-                                                        referance.child(jobID).child("imageR").setValue(imageRefR);
-                                                        progressDialog.dismiss();
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                    if (imgBathroomUri != null) {
-                                        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                                        progressDialog.setTitle("Uploading Images...");
-                                        progressDialog.show();
-                                        progressDialog.setCancelable(false);
-
-                                        StorageReference brRef = storageReference.child("images/" + jobID+"/Bathroom");
-
-                                        uploadTask = brRef.putFile(imgBathroomUri);
-                                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                StorageMetadata snapshotMetadata = taskSnapshot.getMetadata();
-                                                Task<Uri> downloadUrlBR = brRef.getDownloadUrl();
-                                                downloadUrlBR.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                    @Override
-                                                    public void onSuccess(Uri uri) {
-                                                        imageRefBr = uri.toString();
-                                                        referance = rootNode.getReference("Job");
-                                                        referance.child(jobID).child("imageBr").setValue(imageRefBr);
-                                                        progressDialog.dismiss();
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                }catch(Exception ex){
-                                    throw ex;
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                        }
+                                    });
                                 }
                             }
-                        }
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) { }
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot snapshot) { }
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot snapshot, @androidx.annotation.Nullable String previousChilddemo) { }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) { }
-                    });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+
+                        //getting the key
+                        rootNode = FirebaseDatabase.getInstance();
+                        referance = rootNode.getReference("Job");
+                        referance.limitToLast(1).addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s)
+                            {
+                                if (dataSnapshot.exists())
+                                {
+                                    // uploading image
+                                    try {
+                                        storageReference = FirebaseStorage.getInstance().getReference();
+                                        if (imgRoomUri != null) {
+                                            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                                            progressDialog.setTitle("Uploading Images...");
+                                            progressDialog.show();
+                                            progressDialog.setCancelable(false);
+                                            StorageReference rRef = storageReference.child("images/" + jobID+"/Room");
+                                            uploadTask = rRef.putFile(imgRoomUri);
+                                            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                    StorageMetadata snapshotMetadata = taskSnapshot.getMetadata();
+                                                    Task<Uri> downloadUrlR = rRef.getDownloadUrl();
+
+
+                                                    downloadUrlR.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                        @Override
+                                                        public void onSuccess(Uri uri) {
+                                                            imageRefR = uri.toString();
+                                                            referance = rootNode.getReference("Job");
+                                                            referance.child(jobID).child("imageR").setValue(imageRefR);
+                                                            progressDialog.dismiss();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                        if (imgBathroomUri != null) {
+                                            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                                            progressDialog.setTitle("Uploading Images...");
+                                            progressDialog.show();
+                                            progressDialog.setCancelable(false);
+
+                                            StorageReference brRef = storageReference.child("images/" + jobID+"/Bathroom");
+
+                                            uploadTask = brRef.putFile(imgBathroomUri);
+                                            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                    StorageMetadata snapshotMetadata = taskSnapshot.getMetadata();
+                                                    Task<Uri> downloadUrlBR = brRef.getDownloadUrl();
+                                                    downloadUrlBR.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                        @Override
+                                                        public void onSuccess(Uri uri) {
+                                                            imageRefBr = uri.toString();
+                                                            referance = rootNode.getReference("Job");
+                                                            referance.child(jobID).child("imageBr").setValue(imageRefBr);
+                                                            progressDialog.dismiss();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }catch(Exception ex){
+                                        throw ex;
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) { }
+                            @Override
+                            public void onChildRemoved(@NonNull DataSnapshot snapshot) { }
+                            @Override
+                            public void onChildMoved(@NonNull DataSnapshot snapshot, @androidx.annotation.Nullable String previousChilddemo) { }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) { }
+                        });
+
+                    }
+
+
+
 
                 }
 
                 FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                ViewMyPostFragment fragment = new ViewMyPostFragment();
+                MyPostsFragment fragment = new MyPostsFragment();
                 trans.replace(R.id.nav_host_fragment_content_main, fragment);
                 trans.addToBackStack(null);
                 trans.detach(fragment);
                 trans.attach(fragment);
                 trans.commit();
-                Toast.makeText(getActivity().getApplicationContext(),"Post Updated!",Toast.LENGTH_LONG).show();
             }
         });
-
-
-
-
 
         return view;
         }
