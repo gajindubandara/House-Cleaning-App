@@ -118,27 +118,32 @@ public class FloorAdapter extends RecyclerView.Adapter<FloorAdapter.ViewHolder> 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String value = input.getText().toString();
-                        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("FloorType");
-                        Query checkType = rootRef.orderByChild("type").equalTo(ft.getType());
+                        if(value.equals("")){
+                            Toast.makeText((MainActivity)v.getContext(),"Invalid Price",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("FloorType");
+                            Query checkType = rootRef.orderByChild("type").equalTo(ft.getType());
 
-                        checkType.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                rootRef.child(ft.getType()).child("price").setValue(value);
+                            checkType.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    rootRef.child(ft.getType()).child("price").setValue(value);
 
-                                FloorPriceFragment fragment =new FloorPriceFragment();
-                                FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.nav_host_fragment_content_main,fragment);
-                                ft.detach(fragment);
-                                ft.attach(fragment);
-                                ft.commit();
-                                Toast.makeText((MainActivity)v.getContext(),"Floor Type Updated!",Toast.LENGTH_LONG).show();
+                                    FloorPriceFragment fragment =new FloorPriceFragment();
+                                    FragmentTransaction ft=((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
+                                    ft.replace(R.id.nav_host_fragment_content_main,fragment);
+                                    ft.detach(fragment);
+                                    ft.attach(fragment);
+                                    ft.commit();
+                                    Toast.makeText((MainActivity)v.getContext(),"Floor Type Updated!",Toast.LENGTH_LONG).show();
 
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        }
                     }
                 });
 

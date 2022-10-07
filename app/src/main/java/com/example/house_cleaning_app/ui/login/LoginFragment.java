@@ -92,12 +92,12 @@ public class LoginFragment extends Fragment {
                                     Toast.makeText(getActivity().getApplicationContext(),"Login Successful!",Toast.LENGTH_LONG).show();
                                 }
                                 else{
-                                    Toast.makeText(getActivity().getApplicationContext(),"Wrong password",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity().getApplicationContext(),"Incorrect password",Toast.LENGTH_LONG).show();
                                 }
                             }
                             else{
 
-                                Toast.makeText(getActivity().getApplicationContext(),"Wrong NIC or password",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity().getApplicationContext(),"Incorrect NIC Number",Toast.LENGTH_LONG).show();
                             }
                         }
 

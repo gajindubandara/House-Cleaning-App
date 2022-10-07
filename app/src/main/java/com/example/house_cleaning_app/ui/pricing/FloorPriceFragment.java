@@ -32,8 +32,7 @@ public class FloorPriceFragment extends Fragment {
     private FloorPriceViewModel mViewModel;
     EditText type,price;
     Button add;
-    DatabaseReference ref;
-    FirebaseDatabase rootNode;
+
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
 
     public static FloorPriceFragment newInstance() {
@@ -56,29 +55,29 @@ public class FloorPriceFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            try{
-                rootNode = FirebaseDatabase.getInstance();
-                ref =rootNode.getReference("FloorType");
 
-                String addType = type.getText().toString();
-                String addPrice = price.getText().toString();
+                if(checkValid()){
+                        DatabaseReference ref;
+                        FirebaseDatabase rootNode;
+                        rootNode = FirebaseDatabase.getInstance();
+                        ref =rootNode.getReference("FloorType");
 
-                FloorType ft =new FloorType(addType,addPrice);
+                        String addType = type.getText().toString();
+                        String addPrice = price.getText().toString();
 
-                ref.child(addType).setValue(ft);
-                Toast.makeText(getActivity().getApplicationContext(),"New Floor Type Added!",Toast.LENGTH_LONG).show();
+                        FloorType ft =new FloorType(addType,addPrice);
 
-                FloorPriceFragment fragment =new FloorPriceFragment();
-                FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
-                trans.replace(R.id.nav_host_fragment_content_main,fragment);
-                trans.detach(fragment);
-                trans.attach(fragment);
-                trans.commit();
+                        ref.child(addType).setValue(ft);
+                        Toast.makeText(getActivity().getApplicationContext(),"New Floor Type Added!",Toast.LENGTH_LONG).show();
 
-            }
-            catch(Exception ex){
+                        FloorPriceFragment fragment =new FloorPriceFragment();
+                        FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
+                        trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                        trans.detach(fragment);
+                        trans.attach(fragment);
+                        trans.commit();
+                }
 
-            }
             }
         });
 
@@ -117,6 +116,20 @@ public class FloorPriceFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(FloorPriceViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    private boolean checkValid() {
+        if (type.getText().toString().equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(),"Floor Type cannot be blank",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (price.getText().toString().equals("")) {
+            Toast.makeText(getActivity().getApplicationContext(),"Price cannot be blank",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+
     }
 
 }

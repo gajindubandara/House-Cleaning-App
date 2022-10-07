@@ -103,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:ems="10"
-                            android:hint="Price"
+                            android:hint="Price (Per Square Feet)"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
