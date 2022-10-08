@@ -1,4 +1,4 @@
-package com.example.house_cleaning_app.data;
+package com.example.house_cleaning_app.PasswordHash;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

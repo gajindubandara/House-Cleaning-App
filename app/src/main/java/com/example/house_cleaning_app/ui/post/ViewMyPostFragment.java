@@ -94,42 +94,14 @@ public class ViewMyPostFragment extends Fragment {
         btnCon.setVisibility(view.GONE);
         btnAddReview.setVisibility(view.GONE);
 
-//        check=view.findViewById(R.id.check);
+
         editName=view.findViewById(R.id.editName);
         rb = view.findViewById(R.id.simpleRatingBar);
-//        rbView =view.findViewById(R.id.rbView);
-
-
-//        check.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(check.getContext());
-//                ViewGroup viewGroup = view.findViewById(android.R.id.content);
-//                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.custom_dialog, viewGroup, false);
-//                builder.setView(dialogView);
-//                AlertDialog alertDialog = builder.create();
-//
-//                final EditText et = dialogView.findViewById(R.id.editName);
-//                Button btnok = (Button) dialogView.findViewById(R.id.buttonOk);
-//                RatingBar rb = (RatingBar) dialogView.findViewById(R.id.simpleRatingBar);
-//                btnok.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        float rt = rb.getRating();
-//                        rbView.setRating(rt);
-//                        Toast.makeText(getActivity().getApplicationContext(),et.getText().toString()+" "+rt,Toast.LENGTH_LONG).show();
-//                        alertDialog.cancel();
-//                    }
-//                });
-//                alertDialog.show();
-//            }
-//        });
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Job");
         Query checkUser = reference.orderByChild("jobID").equalTo(jobID);
-//        Toast.makeText(getActivity().getApplicationContext(),key,Toast.LENGTH_LONG).show();
+
 
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

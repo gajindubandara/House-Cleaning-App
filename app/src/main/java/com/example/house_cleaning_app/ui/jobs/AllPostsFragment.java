@@ -134,8 +134,6 @@ public class AllPostsFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
                         recyclerView.setAdapter(adapter);
 
-                    } else {
-                        noData.setVisibility(v.VISIBLE);
                     }
                 }
 
@@ -181,9 +179,6 @@ public class AllPostsFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
                         recyclerView.setAdapter(adapter);
 
-                    }
-                    else{
-                        noData.setVisibility(v.VISIBLE);
                     }
                 }
                 @Override

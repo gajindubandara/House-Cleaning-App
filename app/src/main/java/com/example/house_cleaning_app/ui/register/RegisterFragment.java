@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
-import com.example.house_cleaning_app.data.passwordHash;
+import com.example.house_cleaning_app.PasswordHash.passwordHash;
 import com.example.house_cleaning_app.model.User;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
 import com.google.firebase.database.DataSnapshot;

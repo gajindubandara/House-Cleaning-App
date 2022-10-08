@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,10 +33,11 @@ public class ViewJobFragment extends Fragment {
 
     private ViewJobViewModel mViewModel;
     TextView jobDate,jobPrice, RSqFt, BSqFt,RFT,BrFT,NoR,NoBR;
-    String loc;
+    String loc,contractor;
     ImageView imgR,imgBr;
     Button btnGet;
     ImageButton btnLoc,btnViewUser;
+    CardView btnViewCon;
     DatabaseReference referance;
     FirebaseDatabase rootNode;
     int status;
@@ -64,7 +66,9 @@ public class ViewJobFragment extends Fragment {
         btnLoc =view.findViewById(R.id.btnLocation);
         btnGet =view.findViewById(R.id.btnGet);
         btnViewUser =view.findViewById(R.id.btnViewUser);
-
+        btnViewCon =view.findViewById(R.id.btnViewCon);
+        btnGet.setVisibility(view.GONE);
+        btnViewCon.setVisibility(view.GONE);
 
 
 
@@ -93,9 +97,13 @@ public class ViewJobFragment extends Fragment {
                     RFT.setText(snapshot.child(jobID).child("rFloorType").getValue(String.class));
                     BrFT.setText(snapshot.child(jobID).child("bFloorType").getValue(String.class));
                     viewUserID =snapshot.child(jobID).child("user").getValue(String.class);
+                    contractor =snapshot.child(jobID).child("contractor").getValue(String.class);
 
-                    if(status!=1) {
-                        btnGet.setVisibility(view.GONE);
+                    if(status==1) {
+                        btnGet.setVisibility(view.VISIBLE);
+
+                    }else{
+                        btnViewCon.setVisibility(view.VISIBLE);
                     }
 
 
@@ -115,6 +123,18 @@ public class ViewJobFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).goToUrl();
+            }
+        });
+
+        btnViewCon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Temp.setViewUserID(contractor);
+                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                ViewUserFragment fragment = new ViewUserFragment();
+                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                trans.addToBackStack(null);
+                trans.commit();
             }
         });
 
