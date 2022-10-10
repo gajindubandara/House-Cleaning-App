@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Temp.setNIC(NIC);
-        Temp.setUserType(userType);
+
 
 
 

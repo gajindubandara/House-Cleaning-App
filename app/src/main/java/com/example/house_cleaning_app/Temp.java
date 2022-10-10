@@ -3,13 +3,13 @@ package com.example.house_cleaning_app;
 
 
 public class Temp {
-    public static String NIC;
-    public static String jobID;
-    public static String viewUserID;
-    public  static  String typeID;
-    public  static  String userType;
-    public  static  String userName;
-//    public
+    private static String NIC;
+    private static String jobID;
+    private static String viewUserID;
+//    private  static  String typeID;
+//    private  static  String userType;
+
+
 
 
     public static String getNIC() {
@@ -36,27 +36,21 @@ public class Temp {
         Temp.viewUserID = viewUserID;
     }
 
-    public static String getTypeID() {
-        return typeID;
-    }
+//    public static String getTypeID() {
+//        return typeID;
+//    }
+//
+//    public static void setTypeID(String typeID) {
+//        Temp.typeID = typeID;
+//    }
 
-    public static void setTypeID(String typeID) {
-        Temp.typeID = typeID;
-    }
+//    public static String getUserType() {
+//        return userType;
+//    }
+//
+//    public static void setUserType(String userType) {
+//        Temp.userType = userType;
+//    }
 
-    public static String getUserType() {
-        return userType;
-    }
 
-    public static void setUserType(String userType) {
-        Temp.userType = userType;
-    }
-
-    public static String getUserName() {
-        return userName;
-    }
-
-    public static void setUserName(String userName) {
-        Temp.userName = userName;
-    }
 }

@@ -125,7 +125,6 @@ public class AddpostFragment extends Fragment {
                     String type =postSnapshot.child("type").getValue(String.class);
                     String typePrice =postSnapshot.child("price").getValue(String.class);
                     typeID =postSnapshot.child("key").getValue(String.class);
-                    Temp.setTypeID(typeID);
                     String value =type+",  (Rs. "+typePrice+".00 per SqFt)";
                     Rft.add(value);
                     Bft.add(value);
