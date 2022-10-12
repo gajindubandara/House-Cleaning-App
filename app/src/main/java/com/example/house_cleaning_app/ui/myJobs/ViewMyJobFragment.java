@@ -182,11 +182,11 @@ public class ViewMyJobFragment extends Fragment {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(btnReviewCus.getContext());
                 ViewGroup viewGroup = view.findViewById(android.R.id.content);
-                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.custom_dialog, viewGroup, false);
+                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.review_dialog, viewGroup, false);
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
 
-                final EditText et = dialogView.findViewById(R.id.editName);
+                final EditText et = dialogView.findViewById(R.id.editDate);
                 Button btnOk = (Button) dialogView.findViewById(R.id.buttonOk);
                 RatingBar rb = (RatingBar) dialogView.findViewById(R.id.simpleRatingBar);
                 btnOk.setOnClickListener(new View.OnClickListener() {

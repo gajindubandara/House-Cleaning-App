@@ -47,16 +47,15 @@ public class ViewMyPostFragment extends Fragment {
     Button btnAccept,btnCancel,btnMsgCon;
     CardView btnCon,btnAddReview;
     ImageButton btnLoc;
-    CardView cdMsg;
     DatabaseReference referance,refReview;
     FirebaseDatabase rootNode;
     int status;
     String viewUserID;
     String review;
     String creatorName ="";
-    Button check;
-    EditText editName;
-    RatingBar rb,rbView;
+    EditText editReview;
+    RatingBar rb;
+
 
 
     public static ViewMyPostFragment newInstance() {
@@ -79,23 +78,16 @@ public class ViewMyPostFragment extends Fragment {
         imgR =view.findViewById(R.id.imgPostR);
         txtMsg =view.findViewById(R.id.txtMsg);
         btnLoc =view.findViewById(R.id.btnPostLocation);
-
         btnAccept =view.findViewById(R.id.btnAccept);
         btnCancel =view.findViewById(R.id.btnCancel);
         btnCon=view.findViewById(R.id.btnViewContractor);
-        cdMsg=view.findViewById(R.id.cardMsg);
         btnAddReview=view.findViewById(R.id.btnAddReview);
         NoR=view.findViewById(R.id.postNoR);
         NoBR=view.findViewById(R.id.postNoBR);
         btnMsgCon=view.findViewById(R.id.btnMsgCon);
-
-        cdMsg.setVisibility(view.GONE);
-
         btnCon.setVisibility(view.GONE);
         btnAddReview.setVisibility(view.GONE);
-
-
-        editName=view.findViewById(R.id.editName);
+        editReview=view.findViewById(R.id.review);
         rb = view.findViewById(R.id.simpleRatingBar);
 
 
@@ -129,7 +121,64 @@ public class ViewMyPostFragment extends Fragment {
                     btnCon.setVisibility(view.VISIBLE);
                     }
                     if(status==2) {
-                        cdMsg.setVisibility(view.VISIBLE);
+
+                        rootNode = FirebaseDatabase.getInstance();
+                        referance = rootNode.getReference("Job");
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        ViewGroup viewGroup = view.findViewById(android.R.id.content);
+                        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.request_msg_dialog, viewGroup, false);
+                        builder.setView(dialogView);
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.setCancelable(false);
+
+                        Button btnAccept = (Button) dialogView.findViewById(R.id.btnAccept);
+                        Button btnCancel = (Button) dialogView.findViewById(R.id.btnCancel);
+                        Button btnMsgCon = (Button) dialogView.findViewById(R.id.btnMsgCon);
+
+
+                        btnAccept.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                referance.child(jobID).child("status").setValue("3");
+                                Toast.makeText(getActivity().getApplicationContext(),"Contractor Accepted!",Toast.LENGTH_LONG).show();
+                                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                                MyPostsFragment fragment = new MyPostsFragment();
+                                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                trans.addToBackStack(null);
+                                trans.commit();
+                                alertDialog.cancel();
+                            }
+                        });
+
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                referance.child(jobID).child("status").setValue("1");
+                                referance.child(jobID).child("contractor").setValue("");
+                                Toast.makeText(getActivity().getApplicationContext(),"Contractor Declined",Toast.LENGTH_LONG).show();
+                                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                                MyPostsFragment fragment = new MyPostsFragment();
+                                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                trans.addToBackStack(null);
+                                trans.commit();
+                                alertDialog.cancel();
+                            }
+                        });
+
+                        btnMsgCon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Temp.setViewUserID(viewUserID);
+                                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
+                                ViewUserFragment fragment = new ViewUserFragment();
+                                trans.replace(R.id.nav_host_fragment_content_main, fragment);
+                                trans.addToBackStack(null);
+                                trans.commit();
+                                alertDialog.cancel();
+                            }
+                        });
+                        alertDialog.show();
                     }
 
                     if(status==4) {
@@ -161,17 +210,6 @@ public class ViewMyPostFragment extends Fragment {
             }
         });
 
-        btnMsgCon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Temp.setViewUserID(viewUserID);
-                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                ViewUserFragment fragment = new ViewUserFragment();
-                trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                trans.addToBackStack(null);
-                trans.commit();
-            }
-        });
 
         btnLoc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,48 +217,6 @@ public class ViewMyPostFragment extends Fragment {
                 ((MainActivity) getActivity()).goToUrl();
             }
         });
-
-
-        rootNode = FirebaseDatabase.getInstance();
-        referance = rootNode.getReference("Job");
-
-        btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnAccept.setVisibility(view.GONE);
-                btnCancel.setVisibility(view.GONE);
-                txtMsg.setVisibility(view.GONE);
-                btnCon.setVisibility(view.GONE);
-                referance.child(jobID).child("status").setValue("3");
-                Toast.makeText(getActivity().getApplicationContext(),"Contractor Accepted!",Toast.LENGTH_LONG).show();
-                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                MyPostsFragment fragment = new MyPostsFragment();
-                trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                trans.addToBackStack(null);
-                trans.commit();
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnAccept.setVisibility(view.GONE);
-                btnCancel.setVisibility(view.GONE);
-                txtMsg.setVisibility(view.GONE);
-                btnCon.setVisibility(view.GONE);
-                referance.child(jobID).child("status").setValue("1");
-                referance.child(jobID).child("contractor").setValue("");
-                Toast.makeText(getActivity().getApplicationContext(),"Contractor Declined",Toast.LENGTH_LONG).show();
-                FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
-                MyPostsFragment fragment = new MyPostsFragment();
-                trans.replace(R.id.nav_host_fragment_content_main, fragment);
-                trans.addToBackStack(null);
-                trans.commit();
-            }
-        });
-
-
-
 
         btnAddReview.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -230,11 +226,11 @@ public class ViewMyPostFragment extends Fragment {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(btnAddReview.getContext());
                 ViewGroup viewGroup = view.findViewById(android.R.id.content);
-                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.custom_dialog, viewGroup, false);
+                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.review_dialog, viewGroup, false);
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
 
-                final EditText et = dialogView.findViewById(R.id.editName);
+                final EditText et = dialogView.findViewById(R.id.editDate);
                 Button btnOk = (Button) dialogView.findViewById(R.id.buttonOk);
                 RatingBar rb = (RatingBar) dialogView.findViewById(R.id.simpleRatingBar);
                 btnOk.setOnClickListener(new View.OnClickListener() {
@@ -297,36 +293,6 @@ public class ViewMyPostFragment extends Fragment {
                     }
                 });
                 alertDialog.show();
-
-//                AlertDialog.Builder builder = new AlertDialog.Builder(btnAddReview.getContext());
-//                builder.setTitle("Review Contractor");
-//                final EditText input = new EditText(getActivity().getApplicationContext());
-//                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-//                builder.setView(input);
-//                builder.setPositiveButton("Add Review", new DialogInterface.OnClickListener() {
-//                    @RequiresApi(api = Build.VERSION_CODES.O)
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        review = input.getText().toString();
-//
-
-//
-//
-//
-//
-//                    }
-//                });
-//                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//                builder.show();
-
-
-
-
 
             }
         });
