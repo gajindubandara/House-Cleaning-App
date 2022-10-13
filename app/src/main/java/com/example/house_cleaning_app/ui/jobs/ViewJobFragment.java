@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,9 +35,8 @@ public class ViewJobFragment extends Fragment {
     TextView jobDate,jobPrice, RSqFt, BSqFt,RFT,BrFT,NoR,NoBR;
     String loc,contractor;
     ImageView imgR,imgBr;
-    Button btnGet;
     ImageButton btnLoc,btnViewUser;
-    CardView btnViewCon;
+    CardView btnViewCon,btnGet;
     DatabaseReference referance;
     FirebaseDatabase rootNode;
     int status;

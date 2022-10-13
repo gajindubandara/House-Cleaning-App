@@ -1,9 +1,7 @@
 package com.example.house_cleaning_app.ui.profile;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.house_cleaning_app.PasswordHash.passwordHash;
 import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
-import com.example.house_cleaning_app.PasswordHash.passwordHash;
 import com.example.house_cleaning_app.model.Review;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +37,7 @@ public class ProfileFragment extends Fragment {
     Button btnUpdate,btnEdit,btnCpw;
     RadioButton rbtnCon, rbtnCus;
     EditText txtNIC,txtName,txtAddress,txtEmail,txtNum;
-    String currentPw,nPw,cPw;
+//    String currentPw,nPw,cPw;
     String passwordFromDB,nameFromDB,emailFromDB,addressFromDB,numberFromDB;
 
 
@@ -206,90 +204,77 @@ public class ProfileFragment extends Fragment {
             @NonNull
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(btnCpw.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(btnCpw.getContext());
+                ViewGroup viewGroup = view.findViewById(android.R.id.content);
+                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.change_pw_dialog, viewGroup, false);
+                builder.setView(dialogView);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.setCancelable(false);
 
-                //old password
-                alert.setTitle("Change Password ");
-                alert.setMessage("Enter Current Password");
+                final EditText currentPw = dialogView.findViewById(R.id.oldPw);
+                final EditText newPw = dialogView.findViewById(R.id.newPw);
+                final EditText conPw = dialogView.findViewById(R.id.conPw);
+                Button btnChange = (Button) dialogView.findViewById(R.id.Change);
+                Button btnCancel = (Button) dialogView.findViewById(R.id.Cancel);
 
-                final EditText inputCurrentPw = new EditText(btnCpw.getContext());
-                inputCurrentPw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                alert.setView(inputCurrentPw);
-                alert.setCancelable(false);
-                alert.setPositiveButton("Next", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        currentPw =passwordHash.getMd5(inputCurrentPw.getText().toString());
+                btnChange.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
 
-                        if(currentPw.equals(passwordFromDB)){
-                            //new password
-                            alert.setTitle("Change Password ");
-                            alert.setMessage("Enter New Password");
-                            alert.setCancelable(false);
-
-                            final EditText inputNPw = new EditText(btnCpw.getContext());
-                            inputNPw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            alert.setView(inputNPw);
-                            alert.setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    nPw = passwordHash.getMd5(inputNPw.getText().toString());
-
-                                    //Confirm pass
-                                    alert.setTitle("Change Password ");
-                                    alert.setMessage("Confirm Password");
-                                    alert.setCancelable(false);
-
-                                    final EditText inputCPw = new EditText(btnCpw.getContext());
-                                    inputCPw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                                    alert.setView(inputCPw);
-                                    alert.setPositiveButton("Change Password", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                           cPw = passwordHash.getMd5(inputCPw.getText().toString());
-                                                if(nPw.equals(cPw)){
-
-                                                    //set password in db
-                                                    reference.child(userNIC).child("password").setValue(cPw);
-                                                    Toast.makeText(getActivity().getApplicationContext(),"Password changed!",Toast.LENGTH_LONG).show();
-
-                                                    //reload frag
-                                                    ProfileFragment fragment =new ProfileFragment();
-                                                    FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
-                                                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-                                                    trans.detach(fragment);
-                                                    trans.attach(fragment);
-                                                    trans.commit();
-                                                }else {
-                                                    Toast.makeText(getActivity().getApplicationContext(),"Passwords does not match",Toast.LENGTH_LONG).show();
-                                                }
-                                        }
-                                    });
-                                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            // Canceled.
-                                        }
-                                    });
-                                    alert.show();
+                        String nPW=newPw.getText().toString();
+                        String cPW=conPw.getText().toString();
+                        String cPw=currentPw.getText().toString();
+                        String hashedCurrentPw = passwordHash.getMd5(currentPw.getText().toString());
+                        if(cPw.equals("")) {
+                            Toast.makeText(getActivity().getApplicationContext(), "Current password cannot be blank", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                                if(nPW.equals("")){
+                                    Toast.makeText(getActivity().getApplicationContext(), "New password cannot be blank", Toast.LENGTH_LONG).show();
                                 }
-                            });
-                            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    // Canceled.
+                                else{
+                                    if(cPW.equals("")){
+                                        Toast.makeText(getActivity().getApplicationContext(), "Confirm password cannot be blank", Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        if(hashedCurrentPw.equals(passwordFromDB)){
+                                            if(nPW.equals(cPW)){
+                                                //set password in db
+                                                String passwordToDB =passwordHash.getMd5(conPw.getText().toString());
+                                                reference.child(userNIC).child("password").setValue(passwordToDB);
+                                                Toast.makeText(getActivity().getApplicationContext(),"Password changed!",Toast.LENGTH_LONG).show();
+
+                                                //reload frag
+                                                ProfileFragment fragment =new ProfileFragment();
+                                                FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
+                                                trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                                                trans.detach(fragment);
+                                                trans.attach(fragment);
+                                                trans.commit();
+                                                alertDialog.cancel();
+                                            }
+                                            else{
+                                                Toast.makeText(getActivity().getApplicationContext(),"Passwords does not match",Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                        else{
+                                            Toast.makeText(getActivity().getApplicationContext(), "Incorrect current password", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
                                 }
-                            });
-                            alert.show();
-                        }else{
-                            Toast.makeText(getActivity().getApplicationContext(),"Incorrect current password",Toast.LENGTH_LONG).show();
                         }
 
+
                     }
                 });
-                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.cancel();
                     }
                 });
-                alert.show();
+                alertDialog.show();
             }
         });
 
