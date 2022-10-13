@@ -167,8 +167,9 @@ public class EditPostFragment extends Fragment {
                     editNoOfR.setText(snapshot.child(jobID).child("noOfRooms").getValue(String.class));
                     rUrl = snapshot.child(jobID).child("imageR").getValue(String.class);
                     brUrl = snapshot.child(jobID).child("imageBr").getValue(String.class);
-                    Picasso.get().load(rUrl).into(imgR);
-                    Picasso.get().load(brUrl).into(imgBR);
+
+                    Picasso.get().load(rUrl).placeholder(R.drawable.progress_animation).error(R.drawable.try_later).into(imgR);
+                    Picasso.get().load(brUrl).placeholder(R.drawable.progress_animation).error(R.drawable.try_later).into(imgBR);
 
                     rfSpinner = snapshot.child(jobID).child("rFloorType").getValue(String.class);
                     for (int i = 0; i < Rft.size(); i++) {

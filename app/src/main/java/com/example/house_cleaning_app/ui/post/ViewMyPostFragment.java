@@ -105,8 +105,9 @@ public class ViewMyPostFragment extends Fragment {
                     loc = snapshot.child(jobID).child("location").getValue(String.class);
                     status =Integer.valueOf(snapshot.child(jobID).child("status").getValue(String.class));
 
-                    Picasso.get().load(rUrl).into(imgR);
-                    Picasso.get().load(brUrl).into(imgBr);
+                    Picasso.get().load(rUrl).placeholder(R.drawable.progress_animation).error(R.drawable.try_later).into(imgR);
+                    Picasso.get().load(brUrl).placeholder(R.drawable.progress_animation).error(R.drawable.try_later).into(imgBr);
+
                     postDate.setText(snapshot.child(jobID).child("date").getValue(String.class));
                     postPrice.setText("Rs. "+snapshot.child(jobID).child("price").getValue(String.class)+".00/-");
                     RSqFt.setText(snapshot.child(jobID).child("rsqFt").getValue(String.class));
