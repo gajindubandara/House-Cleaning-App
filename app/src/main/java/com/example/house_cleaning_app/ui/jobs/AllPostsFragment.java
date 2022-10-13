@@ -13,10 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
-import com.example.house_cleaning_app.model.Job;
 import com.example.house_cleaning_app.Temp;
+import com.example.house_cleaning_app.model.Job;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +49,8 @@ public class AllPostsFragment extends Fragment {
         noData=v.findViewById(R.id.txtNoJobList);
         noData.setVisibility(v.GONE);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
 
         //set recycle view
         RecyclerView recyclerView = v.findViewById(R.id.rcvMyJobs);
@@ -63,6 +66,7 @@ public class AllPostsFragment extends Fragment {
             getOpenPosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    preloader.dismissDialog();
                     if (snapshot.exists()) {
 
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
@@ -121,6 +125,7 @@ public class AllPostsFragment extends Fragment {
             getOpenPosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    preloader.dismissDialog();
                     if (snapshot.exists()) {
 
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {

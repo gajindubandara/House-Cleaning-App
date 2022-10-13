@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.model.FloorType;
 import com.google.firebase.database.DataSnapshot;
@@ -48,8 +49,8 @@ public class FloorPriceFragment extends Fragment {
         price=view.findViewById(R.id.txtFloorPrice);
         add=view.findViewById(R.id.btnAdd);
 
-
-
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
 
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +90,7 @@ public class FloorPriceFragment extends Fragment {
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                preloader.dismissDialog();
                 for(DataSnapshot postSnapshot: snapshot.getChildren()){
 //                    key = snapshot.getKey();
                     FloorType ft =postSnapshot.getValue(FloorType.class);

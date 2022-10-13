@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.MainActivity;
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Review;
@@ -90,6 +91,9 @@ public class ViewMyPostFragment extends Fragment {
         editReview=view.findViewById(R.id.review);
         rb = view.findViewById(R.id.simpleRatingBar);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Job");
         Query checkUser = reference.orderByChild("jobID").equalTo(jobID);
@@ -98,6 +102,7 @@ public class ViewMyPostFragment extends Fragment {
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                preloader.dismissDialog();
                 if(snapshot.exists()){
 
                     String rUrl = snapshot.child(jobID).child("imageR").getValue(String.class);

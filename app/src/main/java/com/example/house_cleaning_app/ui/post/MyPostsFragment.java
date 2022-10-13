@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Job;
@@ -30,7 +31,6 @@ public class MyPostsFragment extends Fragment {
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
     private MyPostsViewModel mViewModel;
     String  userNIC = "";
-    String key;
     TextView noPosts;
 
     public static MyPostsFragment newInstance() {
@@ -46,6 +46,9 @@ public class MyPostsFragment extends Fragment {
         noPosts=v.findViewById(R.id.txtNoPosts);
         noPosts.setVisibility(v.GONE);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
         //set recycle view
         RecyclerView recyclerView = v.findViewById(R.id.rcvMyJobs);
         List<Job> jobList = new ArrayList<>();
@@ -57,6 +60,7 @@ public class MyPostsFragment extends Fragment {
         getPosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                preloader.dismissDialog();
 //                for(DataSnapshot postSnapshot: snapshot.getChildren()){
 //                    Job job = postSnapshot.getValue(Job.class);
 //                    jobList.add(job);

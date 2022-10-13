@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.PasswordHash.passwordHash;
@@ -67,15 +68,14 @@ public class RegisterFragment extends Fragment {
 
        rg = view.findViewById(R.id.rg);
 
+       final PreLoader preloader = new PreLoader(getActivity());
 
 
 
        btnRegister.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-
-
-
+               preloader.startLoadingDialog();
 
                int selectedId = rg.getCheckedRadioButtonId();
                radioButton = view.findViewById(selectedId);
@@ -108,6 +108,7 @@ public class RegisterFragment extends Fragment {
                        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                            @Override
                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                               preloader.dismissDialog();
                                if(snapshot.exists()){
 
                                    Toast.makeText(getActivity().getApplicationContext(),"There is an exiting account for this NIC number",Toast.LENGTH_LONG).show();

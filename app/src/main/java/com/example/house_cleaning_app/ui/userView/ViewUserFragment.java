@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Review;
@@ -50,6 +51,9 @@ public class ViewUserFragment extends Fragment {
         no=view.findViewById(R.id.userNo);
         userRev=view.findViewById(R.id.txtNoRev);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
 
 
 
@@ -59,6 +63,7 @@ public class ViewUserFragment extends Fragment {
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                preloader.dismissDialog();
                 if(snapshot.exists()){
                     name.setText(snapshot.child(viewUserID).child("name").getValue(String.class));
                     address.setText(snapshot.child(viewUserID).child("address").getValue(String.class));

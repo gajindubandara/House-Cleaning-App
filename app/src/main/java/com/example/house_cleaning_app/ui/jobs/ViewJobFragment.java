@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.house_cleaning_app.MainActivity;
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.ui.userView.ViewUserFragment;
@@ -70,6 +71,9 @@ public class ViewJobFragment extends Fragment {
         btnGet.setVisibility(view.GONE);
         btnViewCon.setVisibility(view.GONE);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Job");
@@ -79,6 +83,7 @@ public class ViewJobFragment extends Fragment {
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                preloader.dismissDialog();
                 if(snapshot.exists()){
 
                     String rUrl = snapshot.child(jobID).child("imageR").getValue(String.class);

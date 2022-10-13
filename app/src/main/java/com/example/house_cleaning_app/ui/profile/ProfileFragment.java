@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.PasswordHash.passwordHash;
@@ -70,17 +71,16 @@ public class ProfileFragment extends Fragment {
         btnCpw =view.findViewById(R.id.btnCpw);
         btnUpdate.setVisibility(view.GONE);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
 
         try{
-//            SharedPreference preference=new SharedPreference();
-
-
-
             Query checkUser = reference.orderByChild("userNIC").equalTo(userNIC);
 
             checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    preloader.dismissDialog();
                     if(snapshot.exists()){
 
                         passwordFromDB =snapshot.child(Temp.getNIC()).child("password").getValue(String.class);

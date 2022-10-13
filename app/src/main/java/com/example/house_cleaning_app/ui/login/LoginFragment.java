@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.SharedPreference;
 import com.example.house_cleaning_app.Temp;
@@ -49,10 +50,14 @@ public class LoginFragment extends Fragment {
         txtPw=view.findViewById(R.id.txtLogPw);
         btnLog =view.findViewById(R.id.btnLogin);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+
+
 
         btnLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                preloader.startLoadingDialog();
                 //Validation
                 if (checkValid()){
 
@@ -65,8 +70,8 @@ public class LoginFragment extends Fragment {
                     checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            preloader.dismissDialog();
                             if(snapshot.exists()){
-
                                 String passwordFromDB =snapshot.child(enteredNIC).child("password").getValue(String.class);
                                 String userTypeFromDB =snapshot.child(enteredNIC).child("type").getValue(String.class);
 

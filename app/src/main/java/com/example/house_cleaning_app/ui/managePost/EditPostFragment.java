@@ -32,6 +32,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.house_cleaning_app.PreLoader;
 import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Job;
@@ -113,6 +114,9 @@ public class EditPostFragment extends Fragment {
         bathroomF = view.findViewById(R.id.spinner_bathroomFloor);
         btnUpdate =view.findViewById(R.id.UpdatePost);
 
+        final PreLoader preloader = new PreLoader(getActivity());
+        preloader.startLoadingDialog();
+
 
 
         //set spinners
@@ -147,6 +151,7 @@ public class EditPostFragment extends Fragment {
         getJob.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange (@NonNull DataSnapshot snapshot){
+                preloader.dismissDialog();
                 if (snapshot.exists()) {
                     dateDb=snapshot.child(jobID).child("date").getValue(String.class);
                     locDb=snapshot.child(jobID).child("location").getValue(String.class);
