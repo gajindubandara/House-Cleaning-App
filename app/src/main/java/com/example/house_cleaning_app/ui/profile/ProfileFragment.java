@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,7 +35,7 @@ import java.util.List;
 public class ProfileFragment extends Fragment {
 
     private ProfileViewModel mViewModel;
-    Button btnUpdate,btnEdit,btnCpw;
+    CardView btnUpdate,btnEdit,btnCpw;
     RadioButton rbtnCon, rbtnCus;
     EditText txtNIC,txtName,txtAddress,txtEmail,txtNum;
 //    String currentPw,nPw,cPw;
@@ -131,6 +132,14 @@ public class ProfileFragment extends Fragment {
 
                 if(txtName.getText().toString().equals(nameFromDB) && txtAddress.getText().toString().equals(addressFromDB)
                         && txtEmail.getText().toString().equals(emailFromDB) && txtNum.getText().toString().equals(numberFromDB)){
+
+                    //reload frag
+                    ProfileFragment fragment =new ProfileFragment();
+                    FragmentTransaction trans=getActivity().getSupportFragmentManager().beginTransaction();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                    trans.detach(fragment);
+                    trans.attach(fragment);
+                    trans.commit();
 
                     Toast.makeText(getActivity().getApplicationContext(),"Nothing to update!",Toast.LENGTH_LONG).show();
                 }

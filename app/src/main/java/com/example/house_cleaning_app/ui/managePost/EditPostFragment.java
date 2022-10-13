@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +27,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -64,7 +64,7 @@ public class EditPostFragment extends Fragment {
 
     private EditPostViewModel mViewModel;
     Spinner roomF,bathroomF;
-    Button btnUpdate;
+    CardView btnUpdate;
     ImageView imgR, imgBR;
     EditText editDate, editLoc, editNoOfR, editNoOfBr, editRSqFt, editBrSqFt;
     String dateDb,locDb,NoOfRDb,NoOfBrDb,RSqFtDb,BrSqFtDb,rImgUriDb,bImgUriDb,bfSpinner,rfSpinner;

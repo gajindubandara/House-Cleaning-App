@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +27,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -62,7 +62,7 @@ public class AddpostFragment extends Fragment {
 
     private AddpostViewModel mViewModel;
     Spinner roomF,bathroomF;
-    Button btnCreate;
+    CardView btnCreate;
     ImageView imgR, imgBR;
     EditText editDate, editLoc, editNoOfR, editNoOfBr, editRSqFt, editBrSqFt;
     Calendar calendar = Calendar.getInstance();
@@ -300,7 +300,7 @@ public class AddpostFragment extends Fragment {
         });
 
         //create post
-        btnCreate=view.findViewById(R.id.NewPost);
+        btnCreate=view.findViewById(R.id.btnCreate);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -394,7 +394,7 @@ public class AddpostFragment extends Fragment {
                                     storageReference = FirebaseStorage.getInstance().getReference();
                                     if (imgRoomUri != null && imgBathroomUri != null) {
                                         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                                        progressDialog.setTitle("Positing...");
+                                        progressDialog.setTitle("Creating Post...");
                                         progressDialog.show();
                                         progressDialog.setCancelable(false);
                                         StorageReference rRef = storageReference.child("images/" + key+"/Room");
