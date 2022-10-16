@@ -12,17 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.house_cleaning_app.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.house_cleaning_app.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-    <fragment
         android:id="@+id/nav_register"
         android:name="com.example.house_cleaning_app.ui.register.RegisterFragment"
         android:label="@string/menu_register"
@@ -45,7 +34,7 @@
     <fragment
         android:id="@+id/nav_add"
         android:name="com.example.house_cleaning_app.ui.managePost.AddpostFragment"
-        android:label="@string/menu_addpost"
+        android:label="@string/menu_addPost"
         tools:layout="@layout/fragment_addpost" />
     <fragment
         android:id="@+id/nav_myPosts"
@@ -62,4 +51,8 @@
         android:name="com.example.house_cleaning_app.ui.pricing.FloorPriceFragment"
         android:label="fragment_floor_price"
         tools:layout="@layout/fragment_floor_price" />
+    <fragment
+        android:id="@+id/nav_adminViewUsers"
+        android:name="com.example.house_cleaning_app.ui.adminViewUsers.AdminViewUsersFragment"
+        android:label="AdminViewUsersFragment" />
 </navigation>

@@ -6,53 +6,60 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Home" />
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_main" />
         <item
             android:id="@+id/nav_login"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_login"
             android:title="@string/menu_login" />
         <item
             android:id="@+id/nav_register"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_register"
             android:title="@string/menu_register" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_profile"
             android:title="@string/menu_profile" />
-        <item
-            android:id="@+id/nav_add"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_addpost" />
-        <item
-            android:id="@+id/nav_allPosts"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_myposts" />
+
 
         <item
-            android:id="@+id/nav_exit"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_exit" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_logout" />
-        <item
-            android:id="@+id/nav_unReg"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="un reg" />
+            android:id="@+id/nav_add"
+            android:icon="@drawable/ic_add"
+            android:title="@string/menu_addPost" />
         <item
             android:id="@+id/nav_myPosts"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="My posts" />
+            android:icon="@drawable/ic_my_posts"
+            android:title="@string/menu_myPosts" />
+        <item
+            android:id="@+id/nav_allPosts"
+            android:icon="@drawable/ic_all_posts"
+            android:title="@string/menu_allPosts" />
         <item
             android:id="@+id/nav_myJobs"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="My Jobs" />
+            android:icon="@drawable/ic_my_jobs"
+            android:title="@string/menu_myJobs" />
         <item
             android:id="@+id/nav_floorPrice"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Pricing" />
+            android:icon="@drawable/ic_price"
+            android:title="@string/menu_price" />
+        <item
+            android:id="@+id/nav_adminViewUsers"
+            android:icon="@drawable/ic_users"
+            android:title="@string/menu_viewUsers" />
+
+
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/menu_logout" />
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_close"
+            android:title="@string/menu_exit" />
+
+
+
 
 
     </group>

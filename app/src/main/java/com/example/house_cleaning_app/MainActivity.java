@@ -18,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.house_cleaning_app.databinding.ActivityMainBinding;
+import com.example.house_cleaning_app.ui.adminViewUsers.AdminViewUsersFragment;
 import com.example.house_cleaning_app.ui.home.HomeFragment;
 import com.example.house_cleaning_app.ui.jobs.AllPostsFragment;
 import com.example.house_cleaning_app.ui.login.LoginFragment;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,R.id.nav_login,R.id.nav_register,R.id.nav_allPosts,R.id.nav_profile)
+                R.id.nav_home,R.id.nav_login,R.id.nav_register,R.id.nav_profile)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         Menu menu1 = navigationView.getMenu();
         MenuItem item1=menu1.findItem(R.id.nav_allPosts);
         item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_home);
+        item1.setVisible(false);
         item1=menu1.findItem(R.id.nav_add);
         item1.setVisible(false);
         item1=menu1.findItem(R.id.nav_myPosts);
@@ -96,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         item1.setVisible(false);
         item1=menu1.findItem(R.id.nav_profile);
         item1.setVisible(false);
+        item1=menu1.findItem(R.id.nav_adminViewUsers);
+        item1.setVisible(false);
 
 
         if (register){
@@ -108,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 item.setVisible(true);
                 item1=menu1.findItem(R.id.nav_logout);
                 item1.setVisible(true);
-
+                item1=menu1.findItem(R.id.nav_home);
+                item1.setVisible(true);
 //                String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
 //                String type=preference.GetString(getApplicationContext(),SharedPreference.USER_TYPE);
 
@@ -129,8 +135,10 @@ public class MainActivity extends AppCompatActivity {
 
                 }else if(userType.equals("3")){
                     item=menu.findItem(R.id.nav_floorPrice);
-                    item.setVisible(false);
+                    item.setVisible(true);
                     item=menu.findItem(R.id.nav_allPosts);
+                    item.setVisible(true);
+                    item=menu.findItem(R.id.nav_adminViewUsers);
                     item.setVisible(true);
 
                 }
@@ -211,6 +219,10 @@ public class MainActivity extends AppCompatActivity {
                     FloorPriceFragment fragment =new FloorPriceFragment();
                     trans.replace(R.id.nav_host_fragment_content_main,fragment);
                 }
+                else if(menuID ==R.id.nav_adminViewUsers){
+                    AdminViewUsersFragment fragment =new AdminViewUsersFragment();
+                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
+                }
 
                 else if (menuID==R.id.nav_exit){
                     finish();
@@ -224,16 +236,6 @@ public class MainActivity extends AppCompatActivity {
                     preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
                     preference.SaveString(getApplicationContext(),null,SharedPreference.USER_TYPE);
                     preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
-
-                }
-                else if (menuID==R.id.nav_unReg){
-                    RegisterFragment fragment = new RegisterFragment();
-                    trans.replace(R.id.nav_host_fragment_content_main,fragment);
-                    trans.addToBackStack(null);
-                    preference.SaveBool(getApplicationContext(),false,SharedPreference.REGISTER);
-                    preference.SaveBool(getApplicationContext(),false,SharedPreference.LOGIN_STATUS);
-                    preference.SaveString(getApplicationContext(),"",SharedPreference.USER_TYPE);
-                    preference.SaveString(getApplicationContext(),"",SharedPreference.USER_NIC);
 
                 }
                 trans.addToBackStack(null);

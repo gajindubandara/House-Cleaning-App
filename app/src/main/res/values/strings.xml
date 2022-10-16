@@ -8,13 +8,16 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">House Cleaning</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_main">Home</string>
+    <string name="menu_myPosts">My Posts</string>
+    <string name="menu_myJobs">My Jobs</string>
+    <string name="menu_price">Pricing</string>
+    <string name="menu_viewUsers">View Users</string>
     <string name="menu_login">Login</string>
     <string name="menu_register">Register</string>
     <string name="menu_profile">My profile</string>
-    <string name="menu_myposts">All posts</string>
-    <string name="menu_addpost">New Post</string>
+    <string name="menu_allPosts">All posts</string>
+    <string name="menu_addPost">New Post</string>
     <string name="menu_exit">Exit</string>
     <string name="menu_logout">Logout</string>
     <string name="api_key"></string>
@@ -28,8 +31,4 @@
     </string-array>
     <string name="title_activity_maps">MapsActivity</string>
 
-    <!--    <resources>-->
-    <!--        <string name="app">dropDownMenuExample</string>-->
-
-    <!--    </resources>-->
 </resources>
