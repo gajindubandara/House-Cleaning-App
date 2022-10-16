@@ -190,7 +190,7 @@ public class ViewMyJobFragment extends Fragment {
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
 
-                final EditText et = dialogView.findViewById(R.id.editDate);
+                final EditText et = dialogView.findViewById(R.id.typeReview);
                 Button btnOk = (Button) dialogView.findViewById(R.id.buttonOk);
                 RatingBar rb = (RatingBar) dialogView.findViewById(R.id.simpleRatingBar);
                 btnOk.setOnClickListener(new View.OnClickListener() {

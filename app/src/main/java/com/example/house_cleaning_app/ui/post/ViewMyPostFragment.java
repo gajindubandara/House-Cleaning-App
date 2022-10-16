@@ -48,11 +48,11 @@ public class ViewMyPostFragment extends Fragment {
     Button btnAccept,btnCancel,btnMsgCon;
     CardView btnCon,btnAddReview;
     ImageButton btnLoc;
-    DatabaseReference referance,refReview;
+    DatabaseReference referance;
     FirebaseDatabase rootNode;
     int status;
     String viewUserID;
-    String review;
+    String review="";
     String creatorName ="";
     EditText editReview;
     RatingBar rb;
@@ -88,7 +88,6 @@ public class ViewMyPostFragment extends Fragment {
         btnMsgCon=view.findViewById(R.id.btnMsgCon);
         btnCon.setVisibility(view.GONE);
         btnAddReview.setVisibility(view.GONE);
-        editReview=view.findViewById(R.id.review);
         rb = view.findViewById(R.id.simpleRatingBar);
 
         final PreLoader preloader = new PreLoader(getActivity());
@@ -236,7 +235,7 @@ public class ViewMyPostFragment extends Fragment {
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
 
-                final EditText et = dialogView.findViewById(R.id.editDate);
+                final EditText et = dialogView.findViewById(R.id.typeReview);
                 Button btnOk = (Button) dialogView.findViewById(R.id.buttonOk);
                 RatingBar rb = (RatingBar) dialogView.findViewById(R.id.simpleRatingBar);
                 btnOk.setOnClickListener(new View.OnClickListener() {
@@ -272,10 +271,10 @@ public class ViewMyPostFragment extends Fragment {
                                         creatorName = snapshot.child(creatorID).child("name").getValue(String.class);
 
                                         //setReview
-                                        refReview = rootNode.getReference("Reviews");
-                                        String key = refReview.push().getKey();
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Reviews");
+                                        String key = ref.push().getKey();
                                         Review re = new Review(creatorName, viewUserID, date, review, key, rating);
-                                        refReview.child(key).setValue(re);
+                                        ref.child(key).setValue(re);
                                         Toast.makeText(getActivity().getApplicationContext(), "Review Added!", Toast.LENGTH_LONG).show();
 
                                         //change frag
