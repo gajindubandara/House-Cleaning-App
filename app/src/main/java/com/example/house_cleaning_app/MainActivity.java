@@ -231,6 +231,28 @@ public class MainActivity extends AppCompatActivity {
                     preference.SaveString(getApplicationContext(),null,SharedPreference.USER_TYPE);
                     preference.SaveString(getApplicationContext(),null,SharedPreference.USER_NIC);
 
+                    Menu menu1 = navigationView.getMenu();
+                    MenuItem item1=menu1.findItem(R.id.nav_allPosts);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_home);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_add);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_myPosts);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_myJobs);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_logout);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_register);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_floorPrice);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_profile);
+                    item1.setVisible(false);
+                    item1=menu1.findItem(R.id.nav_adminViewUsers);
+                    item1.setVisible(false);
+
                 }
                 trans.addToBackStack(null);
                 trans.commit();
