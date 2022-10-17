@@ -82,8 +82,6 @@ public class AdminUserAdapter extends RecyclerView.Adapter<com.example.house_cle
             userNo=itemView.findViewById(R.id.userNo);
             btnView=itemView.findViewById(R.id.viewUser);
 
-//            txtDate =itemView.findViewById(R.id.txtRevDate);
-//            txtRev=itemView.findViewById(R.id.txtRev);
         }
     }
 }

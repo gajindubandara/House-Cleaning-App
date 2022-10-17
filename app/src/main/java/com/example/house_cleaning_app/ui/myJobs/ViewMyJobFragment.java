@@ -255,9 +255,6 @@ public class ViewMyJobFragment extends Fragment {
                 alertDialog.show();
             }
         });
-
-
-
         return view;
     }
 

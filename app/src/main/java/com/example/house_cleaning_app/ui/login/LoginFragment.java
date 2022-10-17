@@ -52,8 +52,6 @@ public class LoginFragment extends Fragment {
 
         final PreLoader preloader = new PreLoader(getActivity());
 
-
-
         btnLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

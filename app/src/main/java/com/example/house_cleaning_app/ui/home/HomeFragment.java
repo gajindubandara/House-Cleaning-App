@@ -39,10 +39,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
-
-
-
         newPost =root.findViewById(R.id.homeNewPost);
         allPosts =root.findViewById(R.id.homeAllPosts);
         myPosts =root.findViewById(R.id.homeMyPosts);
@@ -53,9 +49,6 @@ public class HomeFragment extends Fragment {
         users =root.findViewById(R.id.homeusers);
         exit =root.findViewById(R.id.Exit);
         name=root.findViewById(R.id.txtUserName);
-
-
-
 
         SharedPreference preference= new SharedPreference();
         String  type=preference.GetString(getActivity().getApplicationContext(), SharedPreference.USER_TYPE);
@@ -70,7 +63,6 @@ public class HomeFragment extends Fragment {
         newPost.setVisibility(root.GONE);
         myPosts.setVisibility(root.GONE);
         users.setVisibility(root.GONE);
-
 
         if(status){
             if (type.equals("1")){
@@ -97,9 +89,6 @@ public class HomeFragment extends Fragment {
             trans.addToBackStack(null);
             trans.commit();
         }
-
-
-
 
         newPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,15 +117,6 @@ public class HomeFragment extends Fragment {
         allPosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                PreLoader preloader = new PreLoader(getActivity());
-//                preloader.startLoadingDialog();
-//                Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        preloader.dismissDialog();
-//                    }
-//                },3000);
                 FragmentTransaction trans =getActivity().getSupportFragmentManager().beginTransaction();
                 AllPostsFragment fragment = new AllPostsFragment();
                 trans.replace(R.id.nav_host_fragment_content_main, fragment);
@@ -213,7 +193,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
 
         return root;
     }

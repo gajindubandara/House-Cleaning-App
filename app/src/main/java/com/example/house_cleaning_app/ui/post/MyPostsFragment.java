@@ -61,11 +61,6 @@ public class MyPostsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 preloader.dismissDialog();
-//                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-//                    Job job = postSnapshot.getValue(Job.class);
-//                    jobList.add(job);
-//
-//                }
                 if (snapshot.exists()) {
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         Job job = postSnapshot.getValue(Job.class);

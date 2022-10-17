@@ -149,9 +149,6 @@ public class RegisterFragment extends Fragment {
 
                            }
                        });
-
-
-
                    }
                    else{
                        Toast.makeText(getActivity().getApplicationContext(),"Passwords dose not match",Toast.LENGTH_LONG).show();

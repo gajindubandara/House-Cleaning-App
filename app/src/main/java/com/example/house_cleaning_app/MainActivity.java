@@ -33,12 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    NavigationView navigationView;
     boolean status= false;
     boolean register= false;
     String userType;
     String NIC;
-    int userTypeFromDB;
 
 
     @Override
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
+        //NavigationUI.setupWithNavController(navigationView, navController);
 
        //adding the navigation manually
         getSupportFragmentManager().popBackStack();
@@ -74,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         Temp.setNIC(NIC);
-
-
-
 
 
         Menu menu1 = navigationView.getMenu();
@@ -102,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         item1.setVisible(false);
 
 
+        //check register
         if (register){
             Menu menu = navigationView.getMenu();
             MenuItem item;
@@ -115,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 item1=menu1.findItem(R.id.nav_home);
                 item1.setVisible(true);
 
-
                 //check user type
                 if (userType.equals("1")){
                     item=menu.findItem(R.id.nav_add);
@@ -123,14 +118,16 @@ public class MainActivity extends AppCompatActivity {
                     item=menu.findItem(R.id.nav_myPosts);
                     item.setVisible(true);
 
-                }else if (userType.equals("2")){
+                }
+                else if (userType.equals("2")){
 
                     item=menu.findItem(R.id.nav_allPosts);
                     item.setVisible(true);
                     item=menu.findItem(R.id.nav_myJobs);
                     item.setVisible(true);
 
-                }else if(userType.equals("3")){
+                }
+                else if(userType.equals("3")){
                     item=menu.findItem(R.id.nav_floorPrice);
                     item.setVisible(true);
                     item=menu.findItem(R.id.nav_allPosts);
@@ -259,11 +256,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void  goToUrl(String url){
         try{
-        Uri uri = Uri.parse(url); // missing 'http://' will cause crashed
+        Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         startActivity(intent);
-//            Toast.makeText(getApplicationContext(), "Colicked" , Toast.LENGTH_LONG).show();
         }
         catch(Exception ex){throw ex;}
     }

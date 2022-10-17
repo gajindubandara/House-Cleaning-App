@@ -1,15 +1,9 @@
 package com.example.house_cleaning_app;
 
-
-
 public class Temp {
     private static String NIC;
     private static String jobID;
     private static String viewUserID;
-//    private  static  String typeID;
-//    private  static  String userType;
-
-
 
 
     public static String getNIC() {
@@ -35,22 +29,5 @@ public class Temp {
     public static void setViewUserID(String viewUserID) {
         Temp.viewUserID = viewUserID;
     }
-
-//    public static String getTypeID() {
-//        return typeID;
-//    }
-//
-//    public static void setTypeID(String typeID) {
-//        Temp.typeID = typeID;
-//    }
-
-//    public static String getUserType() {
-//        return userType;
-//    }
-//
-//    public static void setUserType(String userType) {
-//        Temp.userType = userType;
-//    }
-
 
 }

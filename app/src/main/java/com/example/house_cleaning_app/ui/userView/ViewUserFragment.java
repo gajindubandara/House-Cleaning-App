@@ -54,9 +54,6 @@ public class ViewUserFragment extends Fragment {
         final PreLoader preloader = new PreLoader(getActivity());
         preloader.startLoadingDialog();
 
-
-
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         Query checkUser = reference.orderByChild("userNIC").equalTo(viewUserID);
 
@@ -109,9 +106,6 @@ public class ViewUserFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
-
-
         return view;
     }
 

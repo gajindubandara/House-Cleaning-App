@@ -25,7 +25,6 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     FirebaseDatabase fdb;
     List<Job> jobList;
-    TextView text;
     private Context context;
 
 
@@ -71,10 +70,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.txtStatus.setText("Finished");
         }
 
-
-
-
-
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,8 +81,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 ft.commit();
             }
         });
-
-
     }
 
     @Override
@@ -106,15 +99,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             txtStatus =itemView.findViewById(R.id.txtStatus);
             viewBtn =itemView.findViewById(R.id.btnViewJob);
             imgDot = itemView.findViewById(R.id.imgDot);
-;
-
-
-
         }
     }
-
-
-
-
-
 }

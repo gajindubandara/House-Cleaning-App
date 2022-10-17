@@ -38,7 +38,6 @@ public class ProfileFragment extends Fragment {
     CardView btnUpdate,btnEdit,btnCpw;
     RadioButton rbtnCon, rbtnCus;
     EditText txtNIC,txtName,txtAddress,txtEmail,txtNum;
-//    String currentPw,nPw,cPw;
     String passwordFromDB,nameFromDB,emailFromDB,addressFromDB,numberFromDB;
 
 
@@ -53,8 +52,6 @@ public class ProfileFragment extends Fragment {
 
        String  userNIC =  Temp.getNIC();
        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
-
-
 
         rbtnCon= view.findViewById(R.id.rbtnCon);
         rbtnCus= view.findViewById(R.id.rbtnCus);
@@ -179,9 +176,6 @@ public class ProfileFragment extends Fragment {
                     reference.child(userNIC).child("email").setValue(txtEmail.getText().toString());
                     reference.child(userNIC).child("address").setValue(txtAddress.getText().toString());
                     reference.child(userNIC).child("number").setValue(txtNum.getText().toString());
-
-
-
 
                     //reload frag
                     ProfileFragment fragment =new ProfileFragment();

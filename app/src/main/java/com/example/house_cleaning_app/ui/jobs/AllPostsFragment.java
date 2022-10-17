@@ -211,13 +211,6 @@ public class AllPostsFragment extends Fragment {
                 }
             });
         }
-
-
-
-
-
-
-
         return v;
     }
 

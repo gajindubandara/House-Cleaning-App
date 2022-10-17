@@ -54,7 +54,6 @@ public class ViewMyPostFragment extends Fragment {
     String viewUserID;
     String review="";
     String creatorName ="";
-    EditText editReview;
     RatingBar rb;
 
 

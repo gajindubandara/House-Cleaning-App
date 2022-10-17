@@ -77,7 +77,6 @@ public class EditPostFragment extends Fragment {
     private Uri imgRoomUri;
     private Uri imgBathroomUri;
     private StorageTask uploadTask;
-    String key;
     StorageReference storageReference;
     String imageRefR =" ";
     String imageRefBr =" ";
@@ -101,7 +100,6 @@ public class EditPostFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_post, container, false);
 
-
         imgBR = view.findViewById(R.id.imgBR);
         imgR = view.findViewById(R.id.imgR);
         editDate = view.findViewById(R.id.editDate);
@@ -116,8 +114,6 @@ public class EditPostFragment extends Fragment {
 
         final PreLoader preloader = new PreLoader(getActivity());
         preloader.startLoadingDialog();
-
-
 
         //set spinners
         ArrayList<String> Rft = new ArrayList<>();
@@ -182,7 +178,6 @@ public class EditPostFragment extends Fragment {
                         String[] splitRF = temp.split("[,]", 0);
                         String roomFloor = splitRF[0];
                         if(roomFloor.equals(rfSpinner)){
-//                            System.out.println("found! "+Rft.get(i));
                             roomF.setSelection(i);
                             break;
                         }
@@ -195,7 +190,6 @@ public class EditPostFragment extends Fragment {
                         String[] splitRF = temp.split("[,]", 0);
                         String roomFloor = splitRF[0];
                         if(roomFloor.equals(bfSpinner)){
-//                            System.out.println("found! "+Bft.get(i));
                             bathroomF.setSelection(i);
                             break;
                         }

@@ -72,8 +72,6 @@ public class AdminViewUsersFragment extends Fragment {
                             for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                 User u = postSnapshot.getValue(User.class);
                                 userList.add(u);
-
-
                             }
                         }
                         else{
@@ -112,8 +110,6 @@ public class AdminViewUsersFragment extends Fragment {
                             for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                 User u = postSnapshot.getValue(User.class);
                                 userList.add(u);
-
-
                             }
                         }
                         else {
@@ -129,12 +125,8 @@ public class AdminViewUsersFragment extends Fragment {
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
-
-
             }
         });
-
-
         return view;
     }
 

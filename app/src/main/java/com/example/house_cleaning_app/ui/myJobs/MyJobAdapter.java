@@ -74,10 +74,6 @@ public class MyJobAdapter extends RecyclerView.Adapter<MyJobAdapter.ViewHolder> 
 
         }
 
-
-
-
-
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,15 +105,6 @@ public class MyJobAdapter extends RecyclerView.Adapter<MyJobAdapter.ViewHolder> 
             txtStatus =itemView.findViewById(R.id.txtStatus);
             viewBtn =itemView.findViewById(R.id.btnViewJob);
             imgDot = itemView.findViewById(R.id.imgDot);
-
-
-
-
         }
     }
-
-
-
-
-
 }

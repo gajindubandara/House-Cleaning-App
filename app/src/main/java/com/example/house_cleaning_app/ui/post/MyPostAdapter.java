@@ -86,10 +86,6 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.ViewHolder
             holder.btnDel.setVisibility(View.GONE);
         }
 
-
-
-
-
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +132,7 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.ViewHolder
                         storageReference.child(imgB).delete();
                         storageReference.child(imgR).delete();
 
-//                        referance.child(job.getJobID()).child("status").setValue("5");
+
                         Toast.makeText((MainActivity)v.getContext(),"Post Removed!",Toast.LENGTH_LONG).show();
                         FragmentTransaction trans =((MainActivity)v.getContext()).getSupportFragmentManager().beginTransaction();
                         MyPostsFragment fragment = new MyPostsFragment();
@@ -168,7 +164,6 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.ViewHolder
         TextView txtDate, txtPrice, txtStatus;
         ImageView imgDot;
         ImageButton btnDel,viewBtn,editBtn;
-//        Button viewBtn,editBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtDate =itemView.findViewById(R.id.txtDate);
@@ -178,14 +173,6 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.ViewHolder
             imgDot = itemView.findViewById(R.id.imgDot);
             editBtn =itemView.findViewById(R.id.btnEditMyPost);
             btnDel =itemView.findViewById(R.id.imgBtnDel);
-
-
-
         }
     }
-
-
-
-
-
 }

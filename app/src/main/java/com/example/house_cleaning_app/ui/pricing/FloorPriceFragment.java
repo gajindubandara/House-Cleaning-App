@@ -92,11 +92,8 @@ public class FloorPriceFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 preloader.dismissDialog();
                 for(DataSnapshot postSnapshot: snapshot.getChildren()){
-//                    key = snapshot.getKey();
                     FloorType ft =postSnapshot.getValue(FloorType.class);
-//                    Job job = postSnapshot.getValue(Job.class);
                     ftList.add(ft);
-
                 }
 
                 FloorAdapter adapter= new FloorAdapter(ftList,fdb);

@@ -109,8 +109,6 @@ public class ViewJobFragment extends Fragment {
                     }else{
                         btnViewCon.setVisibility(view.VISIBLE);
                     }
-
-
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(),"no data",Toast.LENGTH_LONG).show();
@@ -142,7 +140,6 @@ public class ViewJobFragment extends Fragment {
             }
         });
 
-
         btnViewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,8 +152,6 @@ public class ViewJobFragment extends Fragment {
             }
         });
 
-
-
         btnGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,9 +163,6 @@ public class ViewJobFragment extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(),"Request Sent!",Toast.LENGTH_LONG).show();
             }
         });
-
-
-
         return view;
     }
 

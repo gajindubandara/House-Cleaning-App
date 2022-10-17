@@ -86,9 +86,6 @@ public class AddpostFragment extends Fragment {
     int bathroomPrice=0;
 
 
-
-
-
     public static AddpostFragment newInstance() {
         return new AddpostFragment();
     }
@@ -106,10 +103,6 @@ public class AddpostFragment extends Fragment {
         editNoOfR =view.findViewById(R.id.NoR);
         editRSqFt =view.findViewById(R.id.RSqFt);
         editBrSqFt =view.findViewById(R.id.BrSqFt);
-
-
-
-
 
         //set spinners
         ArrayList<String> Rft = new ArrayList<>();
@@ -134,7 +127,6 @@ public class AddpostFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
 
         roomF  = view.findViewById(R.id.spinner_roomFloor);
         ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Rft);
@@ -433,9 +425,6 @@ public class AddpostFragment extends Fragment {
                                                         trans.detach(fragment);
                                                         trans.attach(fragment);
                                                         trans.commit();
-
-
-
                                                     }
                                                 });
                                             }
