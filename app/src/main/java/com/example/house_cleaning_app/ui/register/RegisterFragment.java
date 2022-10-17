@@ -91,7 +91,7 @@ public class RegisterFragment extends Fragment {
                        String hashPW = passwordHash.getMd5(txtPw.getText().toString());
 
                        String type;
-                       if(radioButton.getText().toString()=="Customer"){
+                       if(radioButton.getText().toString().equals("Customer")){
                            type ="1";
                        }
                        else {
@@ -153,6 +153,9 @@ public class RegisterFragment extends Fragment {
                    else{
                        Toast.makeText(getActivity().getApplicationContext(),"Passwords dose not match",Toast.LENGTH_LONG).show();
                    }
+               }
+               else{
+                   preloader.dismissDialog();
                }
            }
        });

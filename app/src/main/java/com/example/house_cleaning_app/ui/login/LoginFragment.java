@@ -110,6 +110,9 @@ public class LoginFragment extends Fragment {
                         }
                     });
                 }
+                else{
+                    preloader.dismissDialog();
+                }
             }
         });
 
