@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -115,11 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 item1.setVisible(true);
                 item1=menu1.findItem(R.id.nav_home);
                 item1.setVisible(true);
-//                String nic =preference.GetString(getApplicationContext(),SharedPreference.USER_NIC);
-//                String type=preference.GetString(getApplicationContext(),SharedPreference.USER_TYPE);
 
 
-
+                //check user type
                 if (userType.equals("1")){
                     item=menu.findItem(R.id.nav_add);
                     item.setVisible(true);
@@ -246,60 +243,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    public  void CustomerMenu(boolean a){
-        Menu menu = navigationView.getMenu();
-        MenuItem item;
-        item=menu.findItem(R.id.nav_add);
-        item.setVisible(true);
-        item=menu.findItem(R.id.nav_myPosts);
-        item.setVisible(true);
-    }
-    public void EnableAfterLoginMenu()
-    {
-
-    }
-//    //function to set menu item visibility
-//    public void EnableMenu(Boolean status){
-//        Menu menu = navigationView.getMenu();
-//        MenuItem item=menu.findItem(R.id.nav_myPosts);
-//        item.setVisible(status);
-//        item=menu.findItem(R.id.nav_add);
-//        item.setVisible(status);
-//        item=menu.findItem(R.id.nav_home);
-//        item.setVisible(status);
-//        item=menu.findItem(R.id.nav_profile);
-//        item.setVisible(status);
-//
-//    }
-
-     public  void EnableOnLogin(Boolean status)
-     {
-         Menu menu = navigationView.getMenu();
-        MenuItem item=menu.findItem(R.id.nav_login);
-             item.setVisible(status);
-//         try {
-
-//             Toast.makeText(getApplicationContext(), "Colicked" , Toast.LENGTH_LONG).show();
-//         }catch(Exception ex){
-//             throw ex;
-//
-//     }
-     }
-
-    public  void EnableLoginMenu()
-    {
-        try {
-            Toast.makeText(getApplicationContext(), "Colicked" , Toast.LENGTH_LONG).show();
-            Menu menu = navigationView.getMenu();
-            MenuItem item=menu.findItem(R.id.nav_allPosts);
-            item.setVisible(false);
-        }catch(Exception ex){
-            throw ex;
-
-        }
-    }
-
      @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -314,9 +257,9 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void  goToUrl(){
+    public void  goToUrl(String url){
         try{
-        Uri uri = Uri.parse("http://www.google.com/maps/place/7.296288087554101,80.63245207071304"); // missing 'http://' will cause crashed
+        Uri uri = Uri.parse(url); // missing 'http://' will cause crashed
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         startActivity(intent);

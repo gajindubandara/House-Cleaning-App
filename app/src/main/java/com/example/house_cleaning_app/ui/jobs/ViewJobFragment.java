@@ -126,7 +126,7 @@ public class ViewJobFragment extends Fragment {
         btnLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).goToUrl();
+                ((MainActivity) getActivity()).goToUrl(loc);
             }
         });
 
