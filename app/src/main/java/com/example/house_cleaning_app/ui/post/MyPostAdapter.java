@@ -2,6 +2,7 @@ package com.example.house_cleaning_app.ui.post;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.example.house_cleaning_app.R;
 import com.example.house_cleaning_app.Temp;
 import com.example.house_cleaning_app.model.Job;
 import com.example.house_cleaning_app.ui.managePost.EditPostFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -114,12 +117,16 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.ViewHolder
         holder.btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                final ProgressDialog progressDialog = new ProgressDialog(holder.btnDel.getContext());
+                progressDialog.setTitle("Removing Post...");
+                progressDialog.setCancelable(false);
 
                 AlertDialog.Builder builder =new AlertDialog.Builder(holder.btnDel.getContext());
                 builder.setMessage("Are you sure,You want to remove the post").setTitle("Confirm Delete").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        progressDialog.show();
                         rootNode = FirebaseDatabase.getInstance();
                         referance = rootNode.getReference("Job");
 
@@ -130,7 +137,12 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.ViewHolder
                         String   imgR = "images/"+job.getJobID()+"/Room";
                         String   imgB = "images/"+job.getJobID()+"/Bathroom";
                         storageReference.child(imgB).delete();
-                        storageReference.child(imgR).delete();
+                        storageReference.child(imgR).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                progressDialog.dismiss();
+                            }
+                        });
 
 
                         Toast.makeText((MainActivity)v.getContext(),"Post Removed!",Toast.LENGTH_LONG).show();
